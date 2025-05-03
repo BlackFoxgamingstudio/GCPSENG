@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neo AI Writers' Room | BANT Analysis</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --gcp-blue: #4285F4;
+      --gcp-red: #DB4437;
+      --gcp-yellow: #F4B400;
+      --gcp-green: #0F9D58;
+      --gcp-purple: #A142F4;
+      --dark-text: #202124;
+      --light-text: #5f6368;
+      --bg-light: #f8f9fa;
+      --border-light: #dadce0;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      color: var(--dark-text);
+      background-color: white;
+      overflow-x: hidden;
+      padding: 20px;
+    }
+    
+    .slide-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .slide-header {
+      text-align: center;
+      margin-bottom: 30px;
+      position: relative;
+    }
+    
+    .slide-title {
+      color: var(--gcp-blue);
+      font-size: 2.8rem;
+      font-weight: 500;
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+    
+    .slide-subtitle {
+      color: var(--light-text);
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-bottom: 20px;
+    }
+    
+    .bant-overview {
+      background-color: var(--bg-light);
+      border-radius: 10px;
+      padding: 25px;
+      margin-bottom: 40px;
+      text-align: center;
+    }
+    
+    .overview-title {
+      font-size: 1.4rem;
+      color: var(--gcp-blue);
+      margin-bottom: 15px;
+      font-weight: 500;
+    }
+    
+    .overview-desc {
+      font-size: 1rem;
+      color: var(--light-text);
+      max-width: 800px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+    
+    .ae-info {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 25px 0 5px;
+    }
+    
+    .ae-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: var(--gcp-blue);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      margin-right: 15px;
+    }
+    
+    .ae-details {
+      text-align: left;
+    }
+    
+    .ae-name {
+      font-weight: 500;
+      font-size: 1.1rem;
+    }
+    
+    .ae-position {
+      color: var(--light-text);
+      font-size: 0.9rem;
+    }
+    
+    .relationship-duration {
+      display: inline-block;
+      padding: 5px 12px;
+      background-color: rgba(66, 133, 244, 0.1);
+      color: var(--gcp-blue);
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-top: 10px;
+    }
+    
+    .bant-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 25px;
+      margin-bottom: 40px;
+    }
+    
+    .bant-card {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.2s ease;
+    }
+    
+    .bant-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .card-header {
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      color: white;
+    }
+    
+    .card-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 15px;
+      font-size: 1.2rem;
+    }
+    
+    .card-title {
+      font-weight: 500;
+      font-size: 1.3rem;
+    }
+    
+    .budget .card-header {
+      background-color: var(--gcp-blue);
+    }
+    
+    .authority .card-header {
+      background-color: var(--gcp-red);
+    }
+    
+    .needs .card-header {
+      background-color: var(--gcp-green);
+    }
+    
+    .timeline .card-header {
+      background-color: var(--gcp-yellow);
+    }
+    
+    .card-content {
+      padding: 20px;
+    }
+    
+    .key-finding {
+      font-size: 1.1rem;
+      font-weight: 500;
+      margin-bottom: 15px;
+      color: var(--dark-text);
+      line-height: 1.4;
+    }
+    
+    .finding-details {
+      margin-bottom: 20px;
+    }
+    
+    .detail-item {
+      display: flex;
+      margin-bottom: 10px;
+    }
+    
+    .detail-icon {
+      color: var(--gcp-blue);
+      margin-right: 10px;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+    
+    .authority .detail-icon {
+      color: var(--gcp-red);
+    }
+    
+    .needs .detail-icon {
+      color: var(--gcp-green);
+    }
+    
+    .timeline .detail-icon {
+      color: var(--gcp-yellow);
+    }
+    
+    .detail-text {
+      font-size: 0.95rem;
+      color: var(--light-text);
+      line-height: 1.5;
+    }
+    
+    .highlight {
+      color: var(--dark-text);
+      font-weight: 500;
+    }
+    
+    .note-box {
+      background-color: var(--bg-light);
+      border-left: 3px solid var(--gcp-blue);
+      padding: 15px;
+      margin-top: 15px;
+      font-size: 0.9rem;
+      color: var(--light-text);
+      line-height: 1.5;
+    }
+    
+    .authority .note-box {
+      border-left-color: var(--gcp-red);
+    }
+    
+    .needs .note-box {
+      border-left-color: var(--gcp-green);
+    }
+    
+    .timeline .note-box {
+      border-left-color: var(--gcp-yellow);
+    }
+    
+    .note-title {
+      font-weight: 500;
+      color: var(--dark-text);
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .note-icon {
+      margin-right: 8px;
+    }
+    
+    .progress-container {
+      margin-top: 15px;
+    }
+    
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      margin-bottom: 5px;
+    }
+    
+    .progress-bar {
+      height: 8px;
+      background-color: var(--border-light);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      border-radius: 4px;
+      background-color: var(--gcp-blue);
+    }
+    
+    .authority .progress-fill {
+      background-color: var(--gcp-red);
+    }
+    
+    .needs .progress-fill {
+      background-color: var(--gcp-green);
+    }
+    
+    .timeline .progress-fill {
+      background-color: var(--gcp-yellow);
+    }
+    
+    .opportunity-assessment {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      padding: 25px;
+      margin-bottom: 40px;
+    }
+    
+    .assessment-title {
+      text-align: center;
+      font-size: 1.4rem;
+      color: var(--gcp-purple);
+      margin-bottom: 20px;
+      font-weight: 500;
+    }
+    
+    .assessment-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    
+    .assessment-card {
+      background-color: var(--bg-light);
+      border-radius: 8px;
+      padding: 15px;
+      text-align: center;
+    }
+    
+    .assessment-score {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+    
+    .score-high {
+      color: var(--gcp-green);
+    }
+    
+    .score-medium {
+      color: var(--gcp-yellow);
+    }
+    
+    .score-low {
+      color: var(--gcp-red);
+    }
+    
+    .assessment-label {
+      font-size: 0.95rem;
+      color: var(--light-text);
+      margin-bottom: 10px;
+    }
+    
+    .assessment-desc {
+      font-size: 0.85rem;
+      color: var(--light-text);
+      line-height: 1.4;
+    }
+    
+    .next-steps {
+      margin-top: 30px;
+    }
+    
+    .next-steps-title {
+      font-size: 1.1rem;
+      font-weight: 500;
+      margin-bottom: 15px;
+      color: var(--dark-text);
+    }
+    
+    .steps-list {
+      display: flex;
+      gap: 15px;
+    }
+    
+    .step-item {
+      background-color: white;
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      padding: 12px;
+      flex: 1;
+      text-align: center;
+    }
+    
+    .step-number {
+      display: inline-block;
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      background-color: var(--gcp-purple);
+      color: white;
+      font-size: 0.9rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 10px;
+    }
+    
+    .step-text {
+      font-size: 0.9rem;
+      color: var(--dark-text);
+      line-height: 1.4;
+    }
+    
+    .cta-container {
+      text-align: center;
+      margin-top: 40px;
+    }
+    
+    .cta-btns {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+    
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      background-color: var(--gcp-blue);
+      color: white;
+      font-size: 1rem;
+      font-weight: 500;
+      padding: 10px 25px;
+      border-radius: 25px;
+      text-decoration: none;
+      box-shadow: 0 4px 8px rgba(66, 133, 244, 0.3);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(66, 133, 244, 0.4);
+    }
+    
+    .cta-icon {
+      margin-right: 8px;
+    }
+    
+    .cta-secondary {
+      background-color: white;
+      color: var(--gcp-blue);
+      border: 1px solid var(--gcp-blue);
+      box-shadow: none;
+    }
+    
+    .cta-secondary:hover {
+      background-color: rgba(66, 133, 244, 0.05);
+      box-shadow: none;
+    }
+  </style>
+<style>
+  /* Custom chatbot positioning for this page */
+  #chatbot-toggle {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1000 !important;
+  }
+  
+  #chatbot-container {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1001 !important;
+    width: 350px !important;
+    max-height: 500px !important;
+  }
+</style>
+<link rel="stylesheet" href="../chatbot.css">
+<link rel="stylesheet" href="../navbar.css">
+</head>
+<body>
+  <div class="slide-container">
+    <div class="slide-header">
+      <h1 class="slide-title">BANT Analysis</h1>
+      <h2 class="slide-subtitle">Neo AI Writers' Room for Global Media Inc.</h2>
+    </div>
+    
+    <div class="bant-overview">
+      <h3 class="overview-title">Account Executive Findings</h3>
+      <p class="overview-desc">
+        This BANT analysis synthesizes key insights gathered over 6 months of engagement with Global Media Inc., a major entertainment conglomerate seeking to enhance their content production capabilities through AI-powered solutions.
+      </p>
+      
+      <div class="ae-info">
+        <div class="ae-avatar">
+          <i class="fas fa-user"></i>
+        </div>
+        <div class="ae-details">
+          <div class="ae-name">Sarah Chen</div>
+          <div class="ae-position">Senior Account Executive, Google Cloud</div>
+          <div class="relationship-duration">
+            <i class="fas fa-handshake"></i> 6+ Month Relationship
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="bant-grid">
+      <div class="bant-card budget">
+        <div class="card-header">
+          <div class="card-icon">
+            <i class="fas fa-dollar-sign"></i>
+          </div>
+          <div class="card-title">Budget</div>
+        </div>
+        
+        <div class="card-content">
+          <div class="key-finding">
+            $1.2M allocated for content intelligence solutions in FY2024
+          </div>
+          
+          <div class="finding-details">
+            <div class="detail-item">
+              <div class="detail-icon"><i class="fas fa-check-circle"></i></div>
+              <div class="detail-text">
+                <span class="highlight">$800K dedicated to cloud infrastructure</span> and AI processing capabilities, with remaining $400K for implementation services and training
+              </div>
+            </div>
+            
+            <div class="detail-item">
+              <div class="detail-icon"><i class="fas fa-check-circle"></i></div>
+              <div class="detail-text">
+                Budget approved by <span class="highlight">CFO and CTO jointly</span>, with quarterly review milestones based on achieved efficiency metrics
+              </div>
+            </div>
+            
+            <div class="detail-item">
+              <div class="detail-icon"><i class="fas fa-check-circle"></i></div>
+              <div class="detail-text">
+                Expected <span class="highlight">ROI of 3.5x within 18 months</span> based on content production efficiency improvements and talent optimization
+              </div>
+            </div>
+          </div>
+          
+          <div class="progress-container">
+            <div class="progress-label">
+              <div>Budget Certainty</div>
+              <div>85%</div>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 85%;"></div>
+            </div>
+          </div>
+          
+          <div class="note-box">
+            <div class="note-title">
+              <i class="fas fa-lightbulb note-icon"></i> AE Note
+            </div>
+            Client has additional $350K in innovation funds that could be allocated if initial deployment meets KPIs. They are actively seeking Google Cloud credits to maximize investment.
+          </div>
+        </div>
+      </div>
+      
+      <div class="bant-card authority">
+        <div class="card-header">
+          <div class="card-icon">
+            <i class="fas fa-user-tie"></i>
+          </div>
+          <div class="card-title">Authority</div>
+        </div>
+        
+        <div class="card-content">
+          <div class="key-finding">
+            Direct engagement with VP of Content Technology as primary decision maker
+          </div>
+          
+          <div class="finding-details">
+            <div class="detail-item">
+              <div class="detail-icon"><i class="fas fa-check-circle"></i></div>
+              <div class="detail-text">
+                <span class="highlight">James Wilson, VP of Content Technology</span> has explicit authority for solution selection with 15-year background in media tech
+              </div>
+            </div>
+            
+            <div class="detail-item">
+              <div class="detail-icon"><i class="fas fa-check-circle"></i></div>
+              <div class="detail-text">
+                Executive sponsorship from <span class="highlight">Maria Garcia, Chief Content Officer</span>, who is driving strategic vision for AI-enhanced content creation
+              </div>
+            </div>
+            
+            <div class="detail-item">
+              <div class="detail-icon"><i class="fas fa-check-circle"></i></div>
+              <div class="detail-text">
+                <span class="highlight">Technical evaluation team</span> assembled with representatives from editorial, production, and IT infrastructure departments
+              </div>
+            </div>
+          </div>
+          
+          <div class="progress-container">
+            <div class="progress-label">
+              <div>Decision Authority Access</div>
+              <div>95%</div>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 95%;"></div>
+            </div>
+          </div>
+          
+          <div class="note-box">
+            <div class="note-title">
+              <i class="fas fa-lightbulb note-icon"></i> AE Note
+            </div>
+            James has previously implemented GCP solutions at his former company and has strong preference for our platform. He's positioned this as strategic rather than just tactical.
+          </div>
+        </div>
+      </div>
+      
+      <div class="bant-card needs">
+        <div class="card-header">
+          <div class="card-icon">
+            <i class="fas fa-search"></i>
+          </div>
+          <div class="card-title">Needs</div>
+        </div>
+        
+        <div class="card-content">
+          <div class="key-finding">
+            Critical pain points in content analysis speed and production costs
+          </div>
+          
+          <div class="finding-details">
+            <div class="detail-item">
+              <div class="detail-icon"><i class="fas fa-check-circle"></i></div>
+              <div class="detail-text">
+                Currently processing <span class="highlight">2,500+ hours of content monthly</span> with manual workflows requiring extensive editorial resources
+              </div>
+            </div>
+            
+            <div class="detail-item">
+              <div class="detail-icon"><i class="fas fa-check-circle"></i></div>
+              <div class="detail-text">
+                <span class="highlight">48-72 hour turnaround time</span> for complete content analysis is causing production bottlenecks and missed publishing windows
+              </div>
+            </div>
+            
+            <div class="detail-item">
+              <div class="detail-icon"><i class="fas fa-check-circle"></i></div>
+              <div class="detail-text">
+                <span class="highlight">Expanding into 3 new international markets</span> requiring rapid content localization and cultural context adaptation
+              </div>
+            </div>
+          </div>
+          
+          <div class="progress-container">
+            <div class="progress-label">
+              <div>Need Urgency</div>
+              <div>90%</div>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 90%;"></div>
+            </div>
+          </div>
+          
+          <div class="note-box">
+            <div class="note-title">
+              <i class="fas fa-lightbulb note-icon"></i> AE Note
+            </div>
+            Recent acquisition of a digital studio has intensified the need for a scalable solution. Our multimodal analysis capabilities are seen as a key differentiator versus competitors.
+          </div>
+        </div>
+      </div>
+      
+      <div class="bant-card timeline">
+        <div class="card-header">
+          <div class="card-icon">
+            <i class="fas fa-clock"></i>
+          </div>
+          <div class="card-title">Timeline</div>
+        </div>
+        
+        <div class="card-content">
+          <div class="key-finding">
+            90-day implementation timeline with phased production rollout
+          </div>
+          
+          <div class="finding-details">
+            <div class="detail-item">
+              <div class="detail-icon"><i class="fas fa-check-circle"></i></div>
+              <div class="detail-text">
+                <span class="highlight">Decision deadline: End of Q2</span> to align with annual technology refresh cycle and budget allocation procedures
+              </div>
+            </div>
+            
+            <div class="detail-item">
+              <div class="detail-icon"><i class="fas fa-check-circle"></i></div>
+              <div class="detail-text">
+                <span class="highlight">Implementation start: Beginning of Q3</span> with initial production usage targeted for key fall programming lineup
+              </div>
+            </div>
+            
+            <div class="detail-item">
+              <div class="detail-icon"><i class="fas fa-check-circle"></i></div>
+              <div class="detail-text">
+                <span class="highlight">Full deployment by end of Q3</span> to support international expansion initiatives and new content formats
+              </div>
+            </div>
+          </div>
+          
+          <div class="progress-container">
+            <div class="progress-label">
+              <div>Timeline Clarity</div>
+              <div>80%</div>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 80%;"></div>
+            </div>
+          </div>
+          
+          <div class="note-box">
+            <div class="note-title">
+              <i class="fas fa-lightbulb note-icon"></i> AE Note
+            </div>
+            The client has a critical business event in Q4 with major content releases that's driving timeline. Our 90-day implementation plan aligns perfectly with their needs.
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="opportunity-assessment">
+      <h3 class="assessment-title">Opportunity Assessment</h3>
+      
+      <div class="assessment-grid">
+        <div class="assessment-card">
+          <div class="assessment-score score-high">9.2</div>
+          <div class="assessment-label">BANT Qualification</div>
+          <div class="assessment-desc">
+            Strong qualification across all BANT criteria with clear budget, decision authority, urgent needs, and defined timeline.
+          </div>
+        </div>
+        
+        <div class="assessment-card">
+          <div class="assessment-score score-medium">7.5</div>
+          <div class="assessment-label">Competitive Position</div>
+          <div class="assessment-desc">
+            Strong technical advantage but facing competition from established media solutions. GCP AI capabilities are our differentiator.
+          </div>
+        </div>
+        
+        <div class="assessment-card">
+          <div class="assessment-score score-high">8.8</div>
+          <div class="assessment-label">Win Probability</div>
+          <div class="assessment-desc">
+            High likelihood of closing based on executive relationships, technical alignment, and our ability to meet the implementation timeline.
+          </div>
+        </div>
+      </div>
+      
+      <div class="next-steps">
+        <h4 class="next-steps-title">Recommended Next Steps</h4>
+        
+        <div class="steps-list">
+          <div class="step-item">
+            <div class="step-number">1</div>
+            <div class="step-text">Schedule technical deep dive with VP of Content Technology and IT team</div>
+          </div>
+          
+          <div class="step-item">
+            <div class="step-number">2</div>
+            <div class="step-text">Prepare tailored ROI analysis based on current content production costs</div>
+          </div>
+          
+          <div class="step-item">
+            <div class="step-number">3</div>
+            <div class="step-text">Initiate GCP credits application process to maximize available budget</div>
+          </div>
+          
+          <div class="step-item">
+            <div class="step-number">4</div>
+            <div class="step-text">Develop 90-day implementation plan with clearly defined milestones</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="cta-container">
+      <div class="cta-btns">
+        <a href="12_Business_Model_Framework.html" class="cta-btn">
+          <i class="fas fa-project-diagram cta-icon"></i>
+          View Business Model Canvas
+        </a>
+        <a href="10_Customer_Journey.html" class="cta-btn cta-secondary">
+          <i class="fas fa-road cta-icon"></i>
+          View GCP Cloud Journey
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Navigation CSS -->
+  
+  <!-- Option Buttons -->
+  <div class="option-buttons">
+    <button class="option-button" id="bmcButton">
+      <i class="fas fa-table"></i> Business Model Canvas
+    </button>
+    <button class="option-button" id="journeyButton">
+      <i class="fas fa-map"></i> Customer Journey
+    </button>
+  </div>
+  
+  
+
+
+<script src="../chatbot_commands.js"></script>
+<script src="0
+<script src="../global_nav.js"></script>
+<script src="../navbar.js"></script>
+  <!-- Chatbot Container -->
+  <!-- Chatbot is dynamically created by chatbot scripts -->    <i class="fas fa-comment"></i>
+  </button>
+</body>
+</html> 

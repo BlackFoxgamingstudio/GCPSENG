@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neo AI Writers' Room | Slide 3</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --gcp-blue: #4285F4;
+      --gcp-red: #DB4437;
+      --gcp-yellow: #F4B400;
+      --gcp-green: #0F9D58;
+      --gcp-purple: #A142F4;
+      --dark-text: #202124;
+      --light-text: #5f6368;
+      --bg-light: #f8f9fa;
+      
+      --speech-color: #aad4fa;
+      --visual-color: #c9e6c9;
+      --content-color: #fde293;
+      --multimodal-color: #fcc2bd;
+      --verification-color: #d9c7ff;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      color: var(--dark-text);
+      background-color: white;
+      overflow-x: hidden;
+      padding: 20px;
+    }
+    
+    .slide-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .slide-header {
+      text-align: center;
+      margin-bottom: 30px;
+      position: relative;
+    }
+    
+    .expandable-tag {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background-color: var(--gcp-yellow);
+      color: white;
+      font-size: 0.8rem;
+      padding: 5px 12px;
+      border-radius: 20px;
+    }
+    
+    .slide-title {
+      color: var(--gcp-blue);
+      font-size: 2.5rem;
+      font-weight: 500;
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+    
+    .slide-subtitle {
+      color: var(--gcp-blue);
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-bottom: 20px;
+    }
+    
+    .dashboard-container {
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      overflow: hidden;
+      margin-bottom: 30px;
+      position: relative;
+    }
+    
+    .dashboard-header {
+      background-color: var(--gcp-blue);
+      color: white;
+      padding: 12px 20px;
+      font-size: 1.1rem;
+      font-weight: 500;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .content-preview {
+      width: 100%;
+      height: 120px;
+      background-color: #f8f9fa;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+      position: relative;
+    }
+    
+    .video-thumbnail {
+      width: 160px;
+      height: 90px;
+      background-color: #333;
+      border-radius: 4px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .play-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: rgba(255,255,255,0.8);
+      font-size: 2rem;
+    }
+    
+    .audio-waveform {
+      flex: 1;
+      height: 60px;
+      margin: 0 20px;
+      background: linear-gradient(90deg, 
+        var(--gcp-blue) 10%, transparent 10%, transparent 12%,
+        var(--gcp-blue) 12%, var(--gcp-blue) 15%, transparent 15%, transparent 20%,
+        var(--gcp-blue) 20%, var(--gcp-blue) 23%, transparent 23%, transparent 30%,
+        var(--gcp-blue) 30%, var(--gcp-blue) 35%, transparent 35%, transparent 40%,
+        var(--gcp-blue) 40%, var(--gcp-blue) 45%, transparent 45%, transparent 50%,
+        var(--gcp-blue) 50%, var(--gcp-blue) 55%, transparent 55%, transparent 60%,
+        var(--gcp-blue) 60%, var(--gcp-blue) 70%, transparent 70%, transparent 80%,
+        var(--gcp-blue) 80%, var(--gcp-blue) 85%, transparent 85%, transparent 90%,
+        var(--gcp-blue) 90%, var(--gcp-blue) 100%);
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      opacity: 0.6;
+    }
+    
+    .transcript-preview {
+      width: 300px;
+      height: 80px;
+      background-color: white;
+      border-radius: 4px;
+      border: 1px solid rgba(0,0,0,0.1);
+      padding: 10px;
+      font-size: 0.8rem;
+      color: var(--dark-text);
+      overflow: hidden;
+    }
+    
+    .timeline-container {
+      padding: 20px;
+      background-color: white;
+    }
+    
+    .timeline-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+    }
+    
+    .time-markers {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      color: var(--light-text);
+      font-size: 0.8rem;
+    }
+    
+    .category-title {
+      font-weight: 500;
+      margin-bottom: 5px;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+    }
+    
+    .category-icon {
+      margin-right: 8px;
+      color: var(--gcp-blue);
+    }
+    
+    .variable-container {
+      margin-bottom: 25px;
+    }
+    
+    .variable-group {
+      margin-bottom: 15px;
+    }
+    
+    .variable-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    
+    .variable-label {
+      width: 120px;
+      font-size: 0.8rem;
+      color: var(--dark-text);
+      display: flex;
+      align-items: center;
+    }
+    
+    .variable-label i {
+      margin-right: 5px;
+      font-size: 0.9rem;
+    }
+    
+    .timeline {
+      flex: 1;
+      height: 30px;
+      background-color: var(--bg-light);
+      border-radius: 4px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .timeline.speech {
+      background-color: rgba(170, 212, 250, 0.3);
+    }
+    
+    .timeline.visual {
+      background-color: rgba(201, 230, 201, 0.3);
+    }
+    
+    .timeline.content {
+      background-color: rgba(253, 226, 147, 0.3);
+    }
+    
+    .timeline.multimodal {
+      background-color: rgba(252, 194, 189, 0.3);
+    }
+    
+    .timeline.verification {
+      background-color: rgba(217, 199, 255, 0.3);
+    }
+    
+    .metric {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(66, 133, 244, 0.7));
+      z-index: 1;
+    }
+    
+    .marker {
+      position: absolute;
+      top: 0;
+      width: 2px;
+      height: 100%;
+      background-color: var(--gcp-red);
+      z-index: 2;
+    }
+    
+    .highlight-region {
+      position: absolute;
+      height: 100%;
+      background-color: rgba(15, 157, 88, 0.2);
+      border-left: 2px solid var(--gcp-green);
+      border-right: 2px solid var(--gcp-green);
+      z-index: 1;
+    }
+    
+    .insight-callout {
+      position: absolute;
+      width: 200px;
+      background-color: white;
+      border: 1px solid var(--gcp-green);
+      border-radius: 6px;
+      padding: 8px;
+      font-size: 0.75rem;
+      top: -40px;
+      transform: translateX(-50%);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      z-index: 10;
+    }
+    
+    .insight-callout::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 8px solid var(--gcp-green);
+    }
+    
+    .insight-title {
+      font-weight: 500;
+      color: var(--gcp-green);
+      margin-bottom: 3px;
+    }
+    
+    .variable-detail {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
+      padding: 15px;
+      background-color: var(--bg-light);
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    
+    .detail-column {
+      width: 48%;
+    }
+    
+    .detail-title {
+      font-weight: 500;
+      margin-bottom: 10px;
+      color: var(--gcp-blue);
+      font-size: 0.9rem;
+    }
+    
+    .detail-content {
+      font-size: 0.8rem;
+      line-height: 1.4;
+    }
+    
+    .detail-metric {
+      display: flex;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+    
+    .detail-label {
+      width: 120px;
+      font-size: 0.75rem;
+      color: var(--light-text);
+    }
+    
+    .detail-value {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--dark-text);
+    }
+    
+    .technical-footer {
+      background-color: var(--bg-light);
+      padding: 10px 20px;
+      font-size: 0.75rem;
+      color: var(--light-text);
+      text-align: center;
+      border-radius: 4px;
+      margin-top: 20px;
+    }
+    
+    .technical-footer .highlight {
+      color: var(--gcp-blue);
+      font-weight: 500;
+    }
+    
+    /* Animation classes */
+    @keyframes pulse {
+      0% { opacity: 0.5; }
+      50% { opacity: 1; }
+      100% { opacity: 0.5; }
+    }
+    
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes growWidth {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+    
+    .animate-width {
+      animation: growWidth 1s forwards;
+    }
+  </style>
+<style>
+  /* Custom chatbot positioning for this page */
+  #chatbot-toggle {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1000 !important;
+  }
+  
+  #chatbot-container {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1001 !important;
+    width: 350px !important;
+    max-height: 500px !important;
+  }
+</style>
+<link rel="stylesheet" href="../chatbot.css">
+<link rel="stylesheet" href="../navbar.css">
+</head>
+<body>
+  <div class="slide-container">
+    <div class="slide-header">
+      <div class="expandable-tag">Expandable to 100+ variables</div>
+      <h1 class="slide-title">10 Immediate Insights from Every Recording</h1>
+      <h2 class="slide-subtitle">From Basic Metrics to AI-Powered Analysis</h2>
+    </div>
+    
+    <div class="dashboard-container">
+      <div class="dashboard-header">
+        <span>Content Intelligence Dashboard</span>
+        <span>Recording ID: NEO-2024-0501-A</span>
+      </div>
+      
+      <div class="content-preview">
+        <div class="video-thumbnail">
+          <i class="fas fa-play-circle play-button"></i>
+        </div>
+        <div class="audio-waveform"></div>
+        <div class="transcript-preview">
+          "...and when we look at the battery performance during extended usage, we see a significant improvement over the previous model. This allows users to work for longer periods without worrying about charging..."
+        </div>
+      </div>
+      
+      <div class="timeline-container">
+        <div class="timeline-header">
+          <span style="font-weight: 500;">Content Timeline (10:45)</span>
+          <span style="font-size: 0.8rem; color: var(--gcp-blue);"><i class="fas fa-expand-alt"></i> Expand View</span>
+        </div>
+        
+        <div class="time-markers">
+          <span>00:00</span>
+          <span>01:00</span>
+          <span>02:00</span>
+          <span>03:00</span>
+          <span>04:00</span>
+          <span>05:00</span>
+          <span>06:00</span>
+          <span>07:00</span>
+          <span>08:00</span>
+          <span>09:00</span>
+          <span>10:00</span>
+        </div>
+        
+        <div class="variable-container">
+          <!-- Speech Analysis Variables -->
+          <div class="variable-group">
+            <div class="category-title">
+              <i class="fas fa-comments category-icon"></i>
+              Speech Analysis Variables
+            </div>
+            
+            <div class="variable-row">
+              <div class="variable-label">
+                <i class="fas fa-tachometer-alt" style="color: var(--speech-color);"></i>
+                Speaking Rate
+              </div>
+              <div class="timeline speech">
+                <div class="metric" style="width: 100%; background: linear-gradient(90deg, 
+                  rgba(66,133,244,0.3) 0%, 
+                  rgba(66,133,244,0.4) 20%, 
+                  rgba(66,133,244,0.7) 40%, 
+                  rgba(66,133,244,0.5) 60%,
+                  rgba(66,133,244,0.8) 80%,
+                  rgba(66,133,244,0.4) 100%);"></div>
+                <div class="marker" style="left: 65%;"></div>
+                <div class="highlight-region" style="left: 75%; width: 10%;"></div>
+                <div class="insight-callout" style="left: 80%;">
+                  <div class="insight-title">Speed Increase</div>
+                  <div>Speaking rate jumped to 180 WPM during product feature discussion</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="variable-row">
+              <div class="variable-label">
+                <i class="fas fa-exclamation" style="color: var(--speech-color);"></i>
+                Filler Words
+              </div>
+              <div class="timeline speech">
+                <div class="metric" style="width: 100%; background: linear-gradient(90deg, 
+                  rgba(66,133,244,0.1) 0%, 
+                  rgba(66,133,244,0.2) 20%, 
+                  rgba(66,133,244,0.1) 40%, 
+                  rgba(66,133,244,0.8) 70%,
+                  rgba(66,133,244,0.3) 90%,
+                  rgba(66,133,244,0.1) 100%);"></div>
+                <div class="marker" style="left: 75%;"></div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Visual Analysis Variables -->
+          <div class="variable-group">
+            <div class="category-title">
+              <i class="fas fa-camera category-icon"></i>
+              Visual Analysis Variables
+            </div>
+            
+            <div class="variable-row">
+              <div class="variable-label">
+                <i class="fas fa-cubes" style="color: var(--visual-color);"></i>
+                Object Frequency
+              </div>
+              <div class="timeline visual">
+                <div class="metric" style="width: 100%; background: linear-gradient(90deg, 
+                  rgba(15,157,88,0.2) 0%, 
+                  rgba(15,157,88,0.6) 15%, 
+                  rgba(15,157,88,0.2) 30%, 
+                  rgba(15,157,88,0.3) 50%,
+                  rgba(15,157,88,0.7) 75%,
+                  rgba(15,157,88,0.2) 100%);"></div>
+                <div class="marker" style="left: 75%;"></div>
+              </div>
+            </div>
+            
+            <div class="variable-row">
+              <div class="variable-label">
+                <i class="fas fa-running" style="color: var(--visual-color);"></i>
+                Visual Motion
+              </div>
+              <div class="timeline visual">
+                <div class="metric" style="width: 100%; background: linear-gradient(90deg, 
+                  rgba(15,157,88,0.3) 0%, 
+                  rgba(15,157,88,0.5) 20%, 
+                  rgba(15,157,88,0.3) 40%, 
+                  rgba(15,157,88,0.2) 60%,
+                  rgba(15,157,88,0.7) 80%,
+                  rgba(15,157,88,0.3) 100%);"></div>
+                <div class="marker" style="left: 80%;"></div>
+              </div>
+            </div>
+            
+            <div class="variable-row">
+              <div class="variable-label">
+                <i class="fas fa-lightbulb" style="color: var(--visual-color);"></i>
+                Lighting Quality
+              </div>
+              <div class="timeline visual">
+                <div class="metric" style="width: 100%; background: linear-gradient(90deg, 
+                  rgba(15,157,88,0.7) 0%, 
+                  rgba(15,157,88,0.6) 20%, 
+                  rgba(15,157,88,0.7) 40%, 
+                  rgba(15,157,88,0.6) 60%,
+                  rgba(15,157,88,0.7) 80%,
+                  rgba(15,157,88,0.6) 100%);"></div>
+                <div class="marker" style="left: 75%;"></div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Content Analysis Variables -->
+          <div class="variable-group">
+            <div class="category-title">
+              <i class="fas fa-file-alt category-icon"></i>
+              Content Analysis Variables
+            </div>
+            
+            <div class="variable-row">
+              <div class="variable-label">
+                <i class="fas fa-heart" style="color: var(--content-color);"></i>
+                Sentiment
+              </div>
+              <div class="timeline content">
+                <div class="metric" style="width: 100%; background: linear-gradient(90deg, 
+                  rgba(244,180,0,0.6) 0%, 
+                  rgba(244,180,0,0.7) 30%, 
+                  rgba(244,180,0,0.6) 50%, 
+                  rgba(244,180,0,0.2) 70%,
+                  rgba(244,180,0,0.5) 90%,
+                  rgba(244,180,0,0.6) 100%);"></div>
+                <div class="marker" style="left: 75%;"></div>
+                <div class="highlight-region" style="left: 65%; width: 15%;"></div>
+              </div>
+            </div>
+            
+            <div class="variable-row">
+              <div class="variable-label">
+                <i class="fas fa-sitemap" style="color: var(--content-color);"></i>
+                Topic Entropy
+              </div>
+              <div class="timeline content">
+                <div class="metric" style="width: 100%; background: linear-gradient(90deg, 
+                  rgba(244,180,0,0.3) 0%, 
+                  rgba(244,180,0,0.4) 20%, 
+                  rgba(244,180,0,0.7) 40%, 
+                  rgba(244,180,0,0.5) 60%,
+                  rgba(244,180,0,0.3) 80%,
+                  rgba(244,180,0,0.5) 100%);"></div>
+                <div class="marker" style="left: 75%;"></div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Multi-Modal Analysis Variables -->
+          <div class="variable-group">
+            <div class="category-title">
+              <i class="fas fa-layer-group category-icon"></i>
+              Multi-Modal Analysis
+            </div>
+            
+            <div class="variable-row">
+              <div class="variable-label">
+                <i class="fas fa-link" style="color: var(--multimodal-color);"></i>
+                Word-Object Co-occurrence
+              </div>
+              <div class="timeline multimodal">
+                <div class="metric" style="width: 100%; background: linear-gradient(90deg, 
+                  rgba(219,68,55,0.7) 0%, 
+                  rgba(219,68,55,0.6) 20%, 
+                  rgba(219,68,55,0.7) 40%, 
+                  rgba(219,68,55,0.3) 70%,
+                  rgba(219,68,55,0.2) 80%,
+                  rgba(219,68,55,0.4) 100%);"></div>
+                <div class="marker" style="left: 75%;"></div>
+              </div>
+            </div>
+            
+            <div class="variable-row">
+              <div class="variable-label">
+                <i class="fas fa-smile" style="color: var(--multimodal-color);"></i>
+                Speaker Emotion
+              </div>
+              <div class="timeline multimodal">
+                <div class="metric" style="width: 100%; background: linear-gradient(90deg, 
+                  rgba(219,68,55,0.5) 0%, 
+                  rgba(219,68,55,0.7) 30%, 
+                  rgba(219,68,55,0.6) 50%, 
+                  rgba(219,68,55,0.2) 70%,
+                  rgba(219,68,55,0.3) 90%,
+                  rgba(219,68,55,0.5) 100%);"></div>
+                <div class="marker" style="left: 75%;"></div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Verification Variables -->
+          <div class="variable-group">
+            <div class="category-title">
+              <i class="fas fa-check-circle category-icon"></i>
+              Verification Analysis
+            </div>
+            
+            <div class="variable-row">
+              <div class="variable-label">
+                <i class="fas fa-balance-scale" style="color: var(--verification-color);"></i>
+                Fact-check Confidence
+              </div>
+              <div class="timeline verification">
+                <div class="metric" style="width: 100%; background: linear-gradient(90deg, 
+                  rgba(161,66,244,0.7) 0%, 
+                  rgba(161,66,244,0.6) 20%, 
+                  rgba(161,66,244,0.7) 40%, 
+                  rgba(161,66,244,0.5) 60%,
+                  rgba(161,66,244,0.3) 80%,
+                  rgba(161,66,244,0.5) 100%);"></div>
+                <div class="marker" style="left: 75%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Variable Detail Section -->
+        <div class="variable-detail">
+          <div class="detail-column">
+            <div class="detail-title">
+              <i class="fas fa-chart-line"></i> Key Insight: Product Feature Discussion
+            </div>
+            <div class="detail-content">
+              At time 03:45, multiple variables detected a potentially problematic pattern during your product feature discussion:
+              <ul style="margin-top: 10px; margin-left: 20px;">
+                <li>Speaking rate increased to 180 WPM (30% above baseline)</li>
+                <li>Filler word frequency increased by 250%</li>
+                <li>Sentiment dropped from +0.6 to +0.1</li>
+                <li>Word-object co-occurrence decreased to 40%</li>
+              </ul>
+              <p style="margin-top: 10px;">This combination suggests potential audience confusion during a critical product moment.</p>
+            </div>
+          </div>
+          
+          <div class="detail-column">
+            <div class="detail-title">
+              <i class="fas fa-magic"></i> Variable Performance Metrics
+            </div>
+            <div class="detail-content">
+              <div class="detail-metric">
+                <div class="detail-label">Real-time Variables:</div>
+                <div class="detail-value">6 available with &lt;500ms latency</div>
+              </div>
+              <div class="detail-metric">
+                <div class="detail-label">Enrichment Variables:</div>
+                <div class="detail-value">4 available within 1-3 minutes</div>
+              </div>
+              <div class="detail-metric">
+                <div class="detail-label">Variable Accuracy:</div>
+                <div class="detail-value">85-95% agreement with human analysis</div>
+              </div>
+              <div class="detail-metric">
+                <div class="detail-label">Processing Speed:</div>
+                <div class="detail-value">4K video at 30fps with real-time analysis</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="technical-footer">
+      Variables computed via <span class="highlight">Cloud Run</span> microservices | ML-powered insights via <span class="highlight">Vertex AI</span> | Real-time dashboard via <span class="highlight">Firebase</span> + <span class="highlight">MongoDB Atlas</span>
+    </div>
+  </div>
+
+  <script>
+    // Add animation effects to metrics
+    document.querySelectorAll('.metric').forEach(metric => {
+      metric.classList.add('animate-width');
+    });
+    
+    // Add pulse effect to markers
+    document.querySelectorAll('.marker').forEach(marker => {
+      marker.classList.add('pulse');
+    });
+    
+    // Make timeline rows interactive
+    document.querySelectorAll('.variable-row').forEach(row => {
+      row.addEventListener('mouseover', function() {
+        this.style.backgroundColor = 'rgba(0,0,0,0.03)';
+        const timeline = this.querySelector('.timeline');
+        if (timeline) {
+          timeline.style.boxShadow = '0 0 5px rgba(66,133,244,0.5)';
+        }
+      });
+      
+      row.addEventListener('mouseout', function() {
+        this.style.backgroundColor = 'transparent';
+        const timeline = this.querySelector('.timeline');
+        if (timeline) {
+          timeline.style.boxShadow = 'none';
+        }
+      });
+      
+      row.addEventListener('click', function() {
+        // Simulate selecting this variable
+        document.querySelectorAll('.variable-row').forEach(r => {
+          r.style.borderLeft = 'none';
+        });
+        this.style.borderLeft = '3px solid var(--gcp-blue)';
+      });
+    });
+  </script>
+  
+  <!-- Navigation CSS -->
+  
+  
+
+
+<script src="../chatbot_commands.js"></script>
+<script src="0
+<script src="../global_nav.js"></script>
+<script src="../navbar.js"></script>
+  <!-- Chatbot Container -->
+  <!-- Chatbot is dynamically created by chatbot scripts -->    <i class="fas fa-comment"></i>
+  </button>
+</body>
+</html> 

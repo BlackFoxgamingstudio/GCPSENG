@@ -1,0 +1,3532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Black Armor AI | Value Metrics Handbook</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <!-- Mermaid.js -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  
+  <style>
+    :root {
+      --gcp-blue: #4285F4;
+      --gcp-red: #DB4437;
+      --gcp-yellow: #F4B400;
+      --gcp-green: #0F9D58;
+      --gcp-purple: #A142F4;
+      --dark-text: #202124;
+      --light-text: #5f6368;
+      --bg-light: #f8f9fa;
+      --border-light: #dadce0;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      color: var(--dark-text);
+      background-color: white;
+      overflow-x: hidden;
+      padding: 20px;
+    }
+    
+    .page-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .page-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    .page-title {
+      color: var(--gcp-blue);
+      font-size: 2.5rem;
+      font-weight: 500;
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+    
+    .page-subtitle {
+      color: var(--light-text);
+      font-size: 1.4rem;
+      font-weight: 400;
+      margin-bottom: 20px;
+    }
+
+    .tool-overview {
+      text-align: center;
+      max-width: 820px;
+      margin: 0 auto 40px;
+      background-color: var(--bg-light);
+      padding: 25px;
+      border-radius: 14px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    }
+    
+    .overview-desc {
+      font-size: 1.15rem;
+      color: var(--light-text);
+      line-height: 1.7;
+    }
+    
+    /* Handbook Styles */
+    .handbook-container {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      margin-bottom: 40px;
+      overflow: hidden;
+      padding: 30px;
+    }
+    
+    .handbook-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+    
+    .handbook-title {
+      font-size: 1.4rem;
+      font-weight: 500;
+      color: var(--dark-text);
+      display: flex;
+      align-items: center;
+    }
+    
+    .handbook-title i {
+      margin-right: 10px;
+      color: var(--gcp-blue);
+    }
+    
+    .handbook-tabs {
+      display: flex;
+      margin-bottom: 30px;
+      border-bottom: 1px solid var(--border-light);
+    }
+    
+    .handbook-tab {
+      padding: 15px 25px;
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--light-text);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border-bottom: 3px solid transparent;
+    }
+    
+    .handbook-tab.active {
+      color: var(--gcp-blue);
+      border-bottom-color: var(--gcp-blue);
+    }
+    
+    .handbook-tab:hover:not(.active) {
+      color: var(--dark-text);
+      background-color: rgba(0,0,0,0.02);
+    }
+    
+    .tab-content {
+      padding: 20px 0;
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    /* Metric Categories */
+    .metrics-section {
+      margin-bottom: 40px;
+    }
+    
+    .metrics-section-header {
+      margin-bottom: 20px;
+    }
+    
+    .metrics-section-title {
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: var(--dark-text);
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    
+    .metrics-section-title i {
+      margin-right: 10px;
+    }
+    
+    .metrics-section-subtitle {
+      color: var(--light-text);
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+    
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 20px;
+    }
+    
+    .metric-card {
+      background-color: var(--bg-light);
+      border-radius: 10px;
+      padding: 20px;
+      transition: all 0.3s ease;
+      border-left: 4px solid var(--gcp-blue);
+    }
+    
+    .metric-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+    }
+    
+    .metric-card.security {
+      border-left-color: var(--gcp-red);
+    }
+    
+    .metric-card.operational {
+      border-left-color: var(--gcp-yellow);
+    }
+    
+    .metric-card.financial {
+      border-left-color: var(--gcp-green);
+    }
+    
+    .metric-card.compliance {
+      border-left-color: var(--gcp-purple);
+    }
+    
+    .metric-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 15px;
+    }
+    
+    .metric-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      margin-right: 15px;
+      color: white;
+    }
+    
+    .metric-card.security .metric-icon {
+      background-color: var(--gcp-red);
+    }
+    
+    .metric-card.operational .metric-icon {
+      background-color: var(--gcp-yellow);
+    }
+    
+    .metric-card.financial .metric-icon {
+      background-color: var(--gcp-green);
+    }
+    
+    .metric-card.compliance .metric-icon {
+      background-color: var(--gcp-purple);
+    }
+    
+    .metric-name {
+      font-size: 1.1rem;
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+    
+    .metric-category {
+      font-size: 0.85rem;
+      color: var(--light-text);
+    }
+    
+    .metric-description {
+      color: var(--light-text);
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin-bottom: 15px;
+    }
+    
+    .metric-formula {
+      background-color: white;
+      border-radius: 8px;
+      padding: 12px 15px;
+      margin-bottom: 15px;
+      font-family: monospace;
+      font-size: 0.9rem;
+      color: var(--dark-text);
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+    
+    .metric-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    
+    .metric-tag {
+      font-size: 0.8rem;
+      color: var(--light-text);
+      background-color: white;
+      padding: 4px 10px;
+      border-radius: 20px;
+      border: 1px solid var(--border-light);
+    }
+    
+    /* Best Practices Section */
+    .best-practices {
+      background-color: rgba(244, 180, 0, 0.05);
+      border-radius: 10px;
+      padding: 25px;
+      margin-bottom: 30px;
+      border-left: 4px solid var(--gcp-yellow);
+    }
+    
+    .best-practices-title {
+      display: flex;
+      align-items: center;
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: var(--dark-text);
+      margin-bottom: 15px;
+    }
+    
+    .best-practices-title i {
+      margin-right: 10px;
+      color: var(--gcp-yellow);
+    }
+    
+    .practices-list {
+      list-style: none;
+    }
+    
+    .practice-item {
+      display: flex;
+      margin-bottom: 12px;
+      align-items: flex-start;
+      line-height: 1.6;
+    }
+    
+    .practice-item:before {
+      content: "•";
+      color: var(--gcp-yellow);
+      font-weight: bold;
+      margin-right: 10px;
+    }
+    
+    /* Implementation Guide */
+    .implementation-guide {
+      background-color: var(--bg-light);
+      border-radius: 10px;
+      padding: 25px;
+      margin-bottom: 30px;
+    }
+    
+    .guide-title {
+      font-size: 1.2rem;
+      font-weight: 500;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .guide-title i {
+      margin-right: 10px;
+      color: var(--gcp-blue);
+    }
+    
+    .guide-steps {
+      list-style: none;
+      counter-reset: steps;
+    }
+    
+    .guide-step {
+      display: flex;
+      margin-bottom: 20px;
+      align-items: flex-start;
+      padding-left: 40px;
+      position: relative;
+    }
+    
+    .guide-step:before {
+      counter-increment: steps;
+      content: counter(steps);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 30px;
+      height: 30px;
+      background-color: var(--gcp-blue);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 500;
+    }
+    
+    .guide-step-content {
+      flex: 1;
+    }
+    
+    .guide-step-title {
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+    
+    .guide-step-desc {
+      color: var(--light-text);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+    
+    /* Navigation Buttons */
+    .nav-buttons {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 100;
+    }
+    
+    .nav-button {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: white;
+      color: var(--gcp-blue);
+      border: none;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    
+    .home-button {
+      background-color: var(--gcp-blue);
+      color: white;
+    }
+    
+    .btn {
+      padding: 12px 25px;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      border: none;
+    }
+    
+    .btn i {
+      margin-right: 8px;
+    }
+    
+    .btn-primary {
+      background-color: var(--gcp-blue);
+      color: white;
+      box-shadow: 0 4px 10px rgba(66, 133, 244, 0.3);
+    }
+    
+    .btn-primary:hover {
+      background-color: #3367d6;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(66, 133, 244, 0.4);
+    }
+    
+    .btn-secondary {
+      background-color: white;
+      color: var(--dark-text);
+      border: 1px solid var(--border-light);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    
+    .btn-secondary:hover {
+      background-color: var(--bg-light);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    .btn-container {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      margin-top: 30px;
+    }
+    
+    /* Calculator Modal Styles */
+    .calculator-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(5px);
+    }
+    
+    .calculator-content {
+      background-color: white;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 900px;
+      max-height: 90vh;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .calculator-header {
+      background: linear-gradient(45deg, var(--gcp-blue), #3367d6);
+      color: white;
+      padding: 18px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .calculator-header h3 {
+      margin: 0;
+      font-size: 1.4rem;
+      font-weight: 500;
+    }
+    
+    .calculator-close {
+      font-size: 1.8rem;
+      cursor: pointer;
+      line-height: 1;
+      transition: all 0.2s;
+    }
+    
+    .calculator-close:hover {
+      transform: rotate(90deg);
+    }
+    
+    .calculator-body {
+      padding: 24px;
+      overflow-y: auto;
+      max-height: calc(90vh - 70px);
+      scrollbar-width: thin;
+      scrollbar-color: var(--gcp-blue) #f5f5f5;
+    }
+    
+    .calculator-body::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    .calculator-body::-webkit-scrollbar-track {
+      background: #f5f5f5;
+      border-radius: 4px;
+    }
+    
+    .calculator-body::-webkit-scrollbar-thumb {
+      background-color: var(--gcp-blue);
+      border-radius: 4px;
+    }
+    
+    .calculator-intro {
+      margin-bottom: 24px;
+      color: var(--light-text);
+      line-height: 1.6;
+      background-color: var(--bg-light);
+      padding: 15px;
+      border-radius: 8px;
+      border-left: 4px solid var(--gcp-blue);
+    }
+    
+    .calculator-section {
+      margin-bottom: 25px;
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    
+    .calculator-section h4 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      color: var(--dark-text);
+      font-size: 1.1rem;
+    }
+    
+    .calculator-section h4 i {
+      margin-right: 10px;
+      color: var(--gcp-blue);
+    }
+    
+    .input-group {
+      margin-bottom: 15px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      align-items: center;
+    }
+    
+    .input-group label {
+      font-weight: 500;
+      color: var(--dark-text);
+    }
+    
+    .input-with-prefix {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    
+    .input-prefix {
+      position: absolute;
+      left: 10px;
+      color: var(--light-text);
+      font-weight: 500;
+    }
+    
+    .input-suffix {
+      position: absolute;
+      right: 10px;
+      color: var(--light-text);
+      font-weight: 500;
+    }
+    
+    .input-group input,
+    .input-group select {
+      width: 100%;
+      padding: 10px 15px;
+      border: 1px solid var(--border-light);
+      border-radius: 6px;
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      transition: all 0.3s;
+    }
+    
+    .input-with-prefix input {
+      padding-left: 25px;
+    }
+    
+    .input-with-suffix input {
+      padding-right: 25px;
+    }
+    
+    .input-group input:focus,
+    .input-group select:focus {
+      outline: none;
+      border-color: var(--gcp-blue);
+      box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+    }
+    
+    .input-help {
+      grid-column: span 2;
+      font-size: 0.85rem;
+      color: var(--light-text);
+      margin-top: -5px;
+    }
+    
+    .calculator-actions {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+    
+    /* Calculation Results */
+    .calculation-results {
+      margin-top: 30px;
+      border-top: 1px solid var(--border-light);
+      padding-top: 30px;
+    }
+    
+    .calculation-results h4 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: var(--dark-text);
+      font-size: 1.3rem;
+    }
+    
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    
+    .result-card {
+      background-color: var(--bg-light);
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+      transition: all 0.3s;
+    }
+    
+    .result-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+    }
+    
+    .result-card.highlight {
+      grid-column: span 3;
+      background: linear-gradient(45deg, rgba(15, 157, 88, 0.1), rgba(66, 133, 244, 0.1));
+      border: 1px solid rgba(15, 157, 88, 0.2);
+    }
+    
+    .result-title {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--light-text);
+      margin-bottom: 12px;
+    }
+    
+    .result-value {
+      font-size: 1.8rem;
+      font-weight: 500;
+      color: var(--gcp-blue);
+    }
+    
+    .result-card.highlight .result-value {
+      color: var(--gcp-green);
+      font-size: 2.2rem;
+    }
+    
+    .results-chart-container {
+      height: 300px;
+      margin-bottom: 30px;
+    }
+    
+    /* Case Study Styles */
+    .case-study {
+      margin-bottom: 40px;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .case-study:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    }
+    
+    .case-study-header {
+      background: linear-gradient(45deg, var(--gcp-blue), #3367d6);
+      padding: 20px 25px;
+      color: white;
+    }
+    
+    .case-study-title {
+      font-size: 1.3rem;
+      font-weight: 500;
+      margin: 0;
+    }
+    
+    .case-study-subtitle {
+      font-size: 0.95rem;
+      opacity: 0.9;
+      margin-top: 5px;
+    }
+    
+    .case-study-body {
+      padding: 25px;
+    }
+    
+    .case-study-section {
+      margin-bottom: 25px;
+    }
+    
+    .case-study-section-title {
+      font-size: 1.1rem;
+      font-weight: 500;
+      margin-bottom: 15px;
+      color: var(--dark-text);
+      display: flex;
+      align-items: center;
+    }
+    
+    .case-study-section-title i {
+      margin-right: 10px;
+      color: var(--gcp-blue);
+      width: 24px;
+      height: 24px;
+      background-color: rgba(66, 133, 244, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .case-points {
+      list-style: none;
+      margin-left: 10px;
+      margin-top: 15px;
+    }
+    
+    .case-points li {
+      position: relative;
+      padding-left: 25px;
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+    
+    .case-points li:before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 8px;
+      width: 8px;
+      height: 8px;
+      background-color: var(--gcp-blue);
+      border-radius: 50%;
+    }
+    
+    .case-study-metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+      margin: 25px 0;
+    }
+    
+    .metric-box {
+      background-color: var(--bg-light);
+      border-radius: 8px;
+      padding: 20px 15px;
+      text-align: center;
+      border-top: 3px solid var(--gcp-blue);
+      transition: all 0.3s ease;
+    }
+    
+    .metric-box:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .metric-box.positive {
+      border-top-color: var(--gcp-green);
+    }
+    
+    .metric-box.negative {
+      border-top-color: var(--gcp-red);
+    }
+    
+    .metric-value {
+      font-size: 1.8rem;
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+    
+    .metric-box.positive .metric-value {
+      color: var(--gcp-green);
+    }
+    
+    .metric-box.negative .metric-value {
+      color: var(--gcp-red);
+    }
+    
+    .metric-label {
+      font-size: 0.9rem;
+      color: var(--light-text);
+    }
+    
+    .quote-box {
+      background-color: rgba(66, 133, 244, 0.05);
+      border-left: 4px solid var(--gcp-blue);
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 0 8px 8px 0;
+    }
+    
+    .quote-text {
+      font-style: italic;
+      color: var(--dark-text);
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+    
+    .quote-attribution {
+      font-weight: 500;
+      color: var(--gcp-blue);
+      text-align: right;
+    }
+    
+    @media print {
+      .calculator-modal {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: auto;
+        background: white;
+      }
+      
+      .calculator-close,
+      .calculator-actions,
+      .nav-buttons,
+      .handbook-tabs {
+        display: none !important;
+      }
+      
+      .calculator-body {
+        overflow: visible !important;
+        max-height: none !important;
+      }
+      
+      .results-chart-container {
+        page-break-inside: avoid;
+        height: 500px;
+      }
+      
+      .handbook-container,
+      .calculator-content {
+        box-shadow: none !important;
+      }
+    }
+    
+    /* Mermaid Diagrams */
+    .mermaid-diagram {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin: 30px 0;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    }
+    
+    .mermaid-title {
+      font-size: 1.1rem;
+      font-weight: 500;
+      margin-bottom: 15px;
+      color: var(--dark-text);
+      display: flex;
+      align-items: center;
+    }
+    
+    .mermaid-title i {
+      margin-right: 10px;
+      color: var(--gcp-blue);
+    }
+    
+    /* Data Tables */
+    .data-table-container {
+      margin: 30px 0;
+      overflow-x: auto;
+    }
+    
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    }
+    
+    .data-table th {
+      background-color: var(--gcp-blue);
+      color: white;
+      padding: 12px 15px;
+      text-align: left;
+      font-weight: 500;
+    }
+    
+    .data-table tr:nth-child(even) {
+      background-color: rgba(0,0,0,0.02);
+    }
+    
+    .data-table td {
+      padding: 12px 15px;
+      border-bottom: 1px solid var(--border-light);
+    }
+    
+    .data-table tr:hover {
+      background-color: rgba(66, 133, 244, 0.05);
+    }
+    
+    /* Advanced Chart Container */
+    .advanced-chart-container {
+      height: 400px;
+      margin: 30px 0;
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    }
+    
+    .chart-title {
+      font-size: 1.1rem;
+      font-weight: 500;
+      margin-bottom: 15px;
+      color: var(--dark-text);
+      display: flex;
+      align-items: center;
+    }
+    
+    .chart-title i {
+      margin-right: 10px;
+      color: var(--gcp-blue);
+    }
+    
+    /* Calculator Animations */
+    .btn-primary:active {
+      transform: scale(0.95);
+      box-shadow: 0 2px 5px rgba(66, 133, 244, 0.2);
+    }
+    
+    .highlight-result {
+      animation: highlight 1s ease;
+    }
+    
+    @keyframes highlight {
+      0% {
+        background-color: rgba(15, 157, 88, 0.2);
+      }
+      100% {
+        background-color: transparent;
+      }
+    }
+    
+    .results-appear {
+      animation: fadeIn 0.5s ease;
+    }
+    
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* Chatbot Styles */
+    .chatbot-toggle {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: var(--gcp-blue);
+      color: white;
+      border: none;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      cursor: pointer;
+      z-index: 9999;
+      transition: all 0.3s ease;
+    }
+    
+    .chatbot-toggle:hover {
+      transform: scale(1.05);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    
+    .chatbot-container {
+      position: fixed;
+      bottom: 100px;
+      right: 30px;
+      width: 360px;
+      height: 500px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+      z-index: 9998;
+      overflow: hidden;
+      transform: translateY(20px);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .chatbot-container.open {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .chatbot-header {
+      background: linear-gradient(45deg, var(--gcp-blue), #3367d6);
+      color: white;
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .chatbot-title {
+      font-size: 1.1rem;
+      font-weight: 500;
+      margin: 0;
+    }
+    
+    .chatbot-close {
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .chatbot-close:hover {
+      transform: scale(1.1);
+    }
+    
+    .chatbot-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .chatbot-message {
+      max-width: 85%;
+      padding: 10px 15px;
+      border-radius: 15px;
+      margin-bottom: 5px;
+      word-break: break-word;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    .chatbot-message.user {
+      background-color: var(--gcp-blue);
+      color: white;
+      align-self: flex-end;
+      border-bottom-right-radius: 5px;
+    }
+    
+    .chatbot-message.assistant {
+      background-color: var(--bg-light);
+      color: var(--dark-text);
+      align-self: flex-start;
+      border-bottom-left-radius: 5px;
+    }
+    
+    .chatbot-typing {
+      display: flex;
+      align-items: center;
+      padding: 10px 15px;
+      background-color: var(--bg-light);
+      color: var(--dark-text);
+      border-radius: 15px;
+      border-bottom-left-radius: 5px;
+      max-width: 75%;
+      align-self: flex-start;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    .chatbot-typing-dot {
+      width: 8px;
+      height: 8px;
+      background-color: #aaa;
+      border-radius: 50%;
+      margin: 0 2px;
+      animation: pulse 1.5s infinite;
+    }
+    
+    .chatbot-typing-dot:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+    
+    .chatbot-typing-dot:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+    
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 0.5;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.1);
+      }
+    }
+    
+    .chatbot-input-area {
+      display: flex;
+      padding: 10px;
+      border-top: 1px solid var(--border-light);
+      background-color: white;
+    }
+    
+    .chatbot-input {
+      flex: 1;
+      padding: 12px 15px;
+      border: 1px solid var(--border-light);
+      border-radius: 25px;
+      font-size: 0.95rem;
+      transition: all 0.3s;
+    }
+    
+    .chatbot-input:focus {
+      outline: none;
+      border-color: var(--gcp-blue);
+      box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+    }
+    
+    .chatbot-send {
+      width: 40px;
+      height: 40px;
+      margin-left: 10px;
+      background-color: var(--gcp-blue);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .chatbot-send:hover {
+      background-color: #3367d6;
+    }
+    
+    .chatbot-send:disabled {
+      background-color: #aaa;
+      cursor: not-allowed;
+    }
+    
+    /* Command chips */
+    .chatbot-command-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+      margin-bottom: 5px;
+    }
+    
+    .chatbot-command-chip {
+      padding: 6px 12px;
+      background-color: rgba(66, 133, 244, 0.1);
+      color: var(--gcp-blue);
+      border: 1px solid rgba(66, 133, 244, 0.3);
+      border-radius: 15px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    
+    .chatbot-command-chip:hover {
+      background-color: rgba(66, 133, 244, 0.2);
+      transform: translateY(-1px);
+    }
+    
+    /* For code blocks in chatbot */
+    .chatbot-message pre {
+      background-color: #1e1e1e;
+      color: #f8f8f8;
+      padding: 10px;
+      border-radius: 5px;
+      overflow-x: auto;
+      font-family: monospace;
+      font-size: 0.9rem;
+      margin: 5px 0;
+    }
+    
+    .chatbot-message code {
+      font-family: monospace;
+      background-color: rgba(0,0,0,0.05);
+      padding: 2px 4px;
+      border-radius: 3px;
+    }
+    
+    /* Chatbot transition animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* Responsive Styles for Chatbot */
+    @media (max-width: 768px) {
+      .chatbot-container {
+        width: 85%;
+        height: 70vh;
+        bottom: 80px;
+        right: 50%;
+        transform: translateX(50%) translateY(20px);
+      }
+      
+      .chatbot-container.open {
+        transform: translateX(50%) translateY(0);
+      }
+      
+      .chatbot-toggle {
+        right: 20px;
+        bottom: 20px;
+      }
+    }
+  </style>
+<style>
+  /* Custom chatbot positioning for this page */
+  #chatbot-toggle {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1000 !important;
+  }
+  
+  #chatbot-container {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1001 !important;
+    width: 350px !important;
+    max-height: 500px !important;
+  }
+</style><link rel="stylesheet" href="../navbar.css">
+<script src="../navbar.js"></script>
+<link rel="stylesheet" href="../chatbot.css">
+</head>
+<body>
+  <div class="page-container">
+    <div class="page-header">
+      <h1 class="page-title">Value Metrics Handbook</h1>
+      <p class="page-subtitle">Measure and track your Black Armor AI ROI</p>
+      
+      <!-- Sales Journey Context Banner -->
+      <div style="background-color: rgba(66, 133, 244, 0.1); color: var(--gcp-blue); padding: 10px 15px; border-radius: 8px; margin: 15px auto; max-width: 700px; display: flex; align-items: center;">
+        <i class="fas fa-map-marked-alt" style="margin-right: 10px;"></i>
+        <span style="font-size: 0.9rem;">
+          <strong>Sales Journey:</strong> Implementation planning tool - Project Phase (60% complete)
+        </span>
+      </div>
+    </div>
+    
+    <div class="tool-overview">
+      <p class="overview-desc">
+        This comprehensive guide helps you define and measure business value during cloud migration. Track key security, operational, and financial metrics to demonstrate the full impact of your Black Armor AI implementation.
+      </p>
+    </div>
+    
+    <div class="handbook-container">
+      <div class="handbook-header">
+        <h2 class="handbook-title"><i class="fas fa-book"></i> Value Metrics Guide</h2>
+      </div>
+      
+      <div class="handbook-tabs">
+        <button class="handbook-tab active" data-tab="metrics">Key Metrics</button>
+        <button class="handbook-tab" data-tab="implementation">Implementation Guide</button>
+        <button class="handbook-tab" data-tab="case-studies">Case Studies</button>
+        <button class="handbook-tab" data-tab="calculator">ROI Calculator</button>
+      </div>
+      
+      <!-- Key Metrics Tab -->
+      <div class="tab-content active" id="metrics-tab">
+        <div class="metrics-section">
+          <div class="metrics-section-header">
+            <h3 class="metrics-section-title"><i class="fas fa-shield-alt" style="color: var(--gcp-red);"></i> Security Metrics</h3>
+            <p class="metrics-section-subtitle">Track improvements in security posture and threat detection with these key metrics.</p>
+          </div>
+          
+          <div class="metrics-grid">
+            <div class="metric-card security">
+              <div class="metric-header">
+                <div class="metric-icon">
+                  <i class="fas fa-clock"></i>
+                </div>
+                <div>
+                  <div class="metric-name">Mean Time to Detect (MTTD)</div>
+                  <div class="metric-category">Security Performance</div>
+                </div>
+              </div>
+              <div class="metric-description">
+                Measures how quickly security threats are identified after they occur. Black Armor AI dramatically reduces detection time.
+              </div>
+              <div class="metric-formula">
+                MTTD = (Sum of detection times) / (Number of incidents)
+              </div>
+              <div class="metric-tags">
+                <span class="metric-tag">Security</span>
+                <span class="metric-tag">Detection</span>
+                <span class="metric-tag">Response Time</span>
+              </div>
+            </div>
+            
+            <div class="metric-card security">
+              <div class="metric-header">
+                <div class="metric-icon">
+                  <i class="fas fa-radiation"></i>
+                </div>
+                <div>
+                  <div class="metric-name">Perimeter Coverage Rate</div>
+                  <div class="metric-category">Surveillance Effectiveness</div>
+                </div>
+              </div>
+              <div class="metric-description">
+                Percentage of facility perimeter continuously monitored by Black Armor drones versus traditional fixed cameras.
+              </div>
+              <div class="metric-formula">
+                Coverage Rate = (Monitored area) / (Total perimeter area) × 100%
+              </div>
+              <div class="metric-tags">
+                <span class="metric-tag">Surveillance</span>
+                <span class="metric-tag">Coverage</span>
+                <span class="metric-tag">Security</span>
+              </div>
+            </div>
+            
+            <div class="metric-card security">
+              <div class="metric-header">
+                <div class="metric-icon">
+                  <i class="fas fa-user-secret"></i>
+                </div>
+                <div>
+                  <div class="metric-name">Threat Detection Accuracy</div>
+                  <div class="metric-category">AI Performance</div>
+                </div>
+              </div>
+              <div class="metric-description">
+                Accuracy of AI-based threat detection, combining precision and recall into a single metric.
+              </div>
+              <div class="metric-formula">
+                F1 Score = 2 × (Precision × Recall) / (Precision + Recall)
+              </div>
+              <div class="metric-tags">
+                <span class="metric-tag">AI</span>
+                <span class="metric-tag">Accuracy</span>
+                <span class="metric-tag">Detection</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Security Metrics Flow Diagram -->
+          <div class="mermaid-diagram">
+            <h4 class="mermaid-title"><i class="fas fa-project-diagram"></i> Security Metrics Relationship</h4>
+            <div class="mermaid">
+              flowchart LR
+                T[Threat Detection] -->|improves| R[Response Time]
+                C[Coverage Rate] -->|affects| T
+                T -->|reduces| I[Security Incidents]
+                I -->|impacts| F[Financial Loss]
+                R -->|reduces| I
+                subgraph Key Metrics
+                  T
+                  R
+                  C
+                end
+                style T fill:#DB4437,color:white
+                style R fill:#DB4437,color:white
+                style C fill:#DB4437,color:white
+                style I fill:#F4B400,color:black
+                style F fill:#0F9D58,color:white
+            </div>
+          </div>
+          
+          <!-- Security Metrics Data Table -->
+          <div class="data-table-container">
+            <h4 class="mermaid-title"><i class="fas fa-table"></i> Security Metrics Benchmark Data</h4>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Metric</th>
+                  <th>Industry Average</th>
+                  <th>Black Armor Standard</th>
+                  <th>Best in Class</th>
+                  <th>Improvement %</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Mean Time to Detect (MTTD)</td>
+                  <td>8.2 hours</td>
+                  <td>12 minutes</td>
+                  <td>5 minutes</td>
+                  <td>98%</td>
+                </tr>
+                <tr>
+                  <td>Perimeter Coverage Rate</td>
+                  <td>65%</td>
+                  <td>94%</td>
+                  <td>98%</td>
+                  <td>44%</td>
+                </tr>
+                <tr>
+                  <td>Threat Detection Accuracy</td>
+                  <td>76%</td>
+                  <td>97%</td>
+                  <td>99%</td>
+                  <td>28%</td>
+                </tr>
+                <tr>
+                  <td>False Alarm Rate</td>
+                  <td>22%</td>
+                  <td>3%</td>
+                  <td>1%</td>
+                  <td>86%</td>
+                </tr>
+                <tr>
+                  <td>Incident Response Time</td>
+                  <td>18 minutes</td>
+                  <td>3 minutes</td>
+                  <td>1 minute</td>
+                  <td>83%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+          <!-- Security Metrics Visualization -->
+          <div class="advanced-chart-container">
+            <h4 class="chart-title"><i class="fas fa-chart-line"></i> Security Metrics Improvement Timeline</h4>
+            <canvas id="securityMetricsChart"></canvas>
+          </div>
+        </div>
+        
+        <div class="metrics-section">
+          <div class="metrics-section-header">
+            <h3 class="metrics-section-title"><i class="fas fa-chart-line" style="color: var(--gcp-green);"></i> Financial Metrics</h3>
+            <p class="metrics-section-subtitle">Quantify cost savings and financial benefits of your Black Armor AI implementation.</p>
+          </div>
+          
+          <div class="metrics-grid">
+            <div class="metric-card financial">
+              <div class="metric-header">
+                <div class="metric-icon">
+                  <i class="fas fa-dollar-sign"></i>
+                </div>
+                <div>
+                  <div class="metric-name">Total Cost of Ownership (TCO)</div>
+                  <div class="metric-category">Financial</div>
+                </div>
+              </div>
+              <div class="metric-description">
+                Compares Black Armor AI drones against traditional security staff and fixed cameras over 3-5 years.
+              </div>
+              <div class="metric-formula">
+                TCO = Initial investment + Operating costs + Maintenance - Savings
+              </div>
+              <div class="metric-tags">
+                <span class="metric-tag">Cost</span>
+                <span class="metric-tag">Financial</span>
+                <span class="metric-tag">ROI</span>
+              </div>
+            </div>
+            
+            <div class="metric-card financial">
+              <div class="metric-header">
+                <div class="metric-icon">
+                  <i class="fas fa-chart-pie"></i>
+                </div>
+                <div>
+                  <div class="metric-name">Security Staffing Efficiency</div>
+                  <div class="metric-category">Operational Cost</div>
+                </div>
+              </div>
+              <div class="metric-description">
+                Measures the reduction in security personnel hours needed with automated drone surveillance.
+              </div>
+              <div class="metric-formula">
+                Efficiency = (Previous staff hours - Current staff hours) / Previous staff hours × 100%
+              </div>
+              <div class="metric-tags">
+                <span class="metric-tag">Staffing</span>
+                <span class="metric-tag">Efficiency</span>
+                <span class="metric-tag">Cost</span>
+              </div>
+            </div>
+            
+            <div class="metric-card financial">
+              <div class="metric-header">
+                <div class="metric-icon">
+                  <i class="fas fa-hand-holding-usd"></i>
+                </div>
+                <div>
+                  <div class="metric-name">Risk Mitigation Value</div>
+                  <div class="metric-category">Risk Management</div>
+                </div>
+              </div>
+              <div class="metric-description">
+                Quantifies the financial value of reduced security incidents and associated costs.
+              </div>
+              <div class="metric-formula">
+                Value = Avg. incident cost × Reduction in incident frequency
+              </div>
+              <div class="metric-tags">
+                <span class="metric-tag">Risk</span>
+                <span class="metric-tag">Financial</span>
+                <span class="metric-tag">Value</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Financial Metrics Flow Diagram -->
+          <div class="mermaid-diagram">
+            <h4 class="mermaid-title"><i class="fas fa-project-diagram"></i> Financial Impact Flow</h4>
+            <div class="mermaid">
+              flowchart TB
+                I[Initial Investment] -->|amortized over| L[System Lifecycle]
+                S[Security Staff Cost] -->|reduced by| A[Automation]
+                A -->|leads to| E[Efficiency]
+                E -->|improves| R[ROI]
+                M[Maintenance Cost] -->|affects| T[Total Cost of Ownership]
+                I -->|impacts| T
+                T -->|determines| R
+                INC[Incident Costs] -->|reduced by| P[Prevention]
+                P -->|improves| R
+                subgraph Cost Factors
+                  I
+                  S
+                  M
+                  INC
+                end
+                subgraph Benefits
+                  E
+                  P
+                  R
+                end
+                style I fill:#0F9D58,color:white
+                style S fill:#0F9D58,color:white
+                style M fill:#0F9D58,color:white
+                style T fill:#0F9D58,color:white
+                style INC fill:#DB4437,color:white
+                style R fill:#4285F4,color:white
+                style E fill:#4285F4,color:white
+                style P fill:#4285F4,color:white
+                style A fill:#F4B400,color:black
+            </div>
+          </div>
+          
+          <!-- Financial Metrics Data Table -->
+          <div class="data-table-container">
+            <h4 class="mermaid-title"><i class="fas fa-table"></i> Financial Impact Analysis</h4>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Cost Category</th>
+                  <th>Traditional Security (Annual)</th>
+                  <th>Black Armor AI (Annual)</th>
+                  <th>Savings</th>
+                  <th>5-Year Total Savings</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Security Personnel</td>
+                  <td>$420,000</td>
+                  <td>$210,000</td>
+                  <td>$210,000</td>
+                  <td>$1,050,000</td>
+                </tr>
+                <tr>
+                  <td>Security Infrastructure</td>
+                  <td>$150,000</td>
+                  <td>$80,000</td>
+                  <td>$70,000</td>
+                  <td>$350,000</td>
+                </tr>
+                <tr>
+                  <td>Incident Response</td>
+                  <td>$85,000</td>
+                  <td>$25,000</td>
+                  <td>$60,000</td>
+                  <td>$300,000</td>
+                </tr>
+                <tr>
+                  <td>Insurance Premiums</td>
+                  <td>$120,000</td>
+                  <td>$90,000</td>
+                  <td>$30,000</td>
+                  <td>$150,000</td>
+                </tr>
+                <tr>
+                  <td>Training & Compliance</td>
+                  <td>$75,000</td>
+                  <td>$45,000</td>
+                  <td>$30,000</td>
+                  <td>$150,000</td>
+                </tr>
+                <tr>
+                  <td><strong>Total</strong></td>
+                  <td><strong>$850,000</strong></td>
+                  <td><strong>$450,000</strong></td>
+                  <td><strong>$400,000</strong></td>
+                  <td><strong>$2,000,000</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+          <!-- Financial Metrics Visualization -->
+          <div class="advanced-chart-container">
+            <h4 class="chart-title"><i class="fas fa-chart-bar"></i> Financial Impact Comparison</h4>
+            <canvas id="financialImpactChart"></canvas>
+          </div>
+        </div>
+        
+        <div class="best-practices">
+          <h3 class="best-practices-title"><i class="fas fa-lightbulb"></i> Best Practices</h3>
+          <ul class="practices-list">
+            <li class="practice-item">Use visualization tools to make impact metrics easily digestible</li>
+            <li class="practice-item">Tailor reports to different stakeholder groups (technical vs. business)</li>
+            <li class="practice-item">Link technical achievements to specific business outcomes</li>
+            <li class="practice-item">Report on both leading indicators (predictive) and lagging indicators (results)</li>
+            <li class="practice-item">Establish baseline measurements before implementation for accurate comparisons</li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Implementation Guide Tab -->
+      <div class="tab-content" id="implementation-tab">
+        <div class="implementation-guide">
+          <h3 class="guide-title"><i class="fas fa-clipboard-list"></i> Implementation Guide</h3>
+          <ol class="guide-steps">
+            <li class="guide-step">
+              <div class="guide-step-content">
+                <h4 class="guide-step-title">Establish Baseline Metrics</h4>
+                <p class="guide-step-desc">Document current security metrics, costs, and performance indicators before implementing Black Armor AI. This baseline is essential for measuring improvement.</p>
+              </div>
+            </li>
+            <li class="guide-step">
+              <div class="guide-step-content">
+                <h4 class="guide-step-title">Define Key Performance Indicators</h4>
+                <p class="guide-step-desc">Work with stakeholders to identify the most relevant metrics for your organization. Select security, operational, and financial KPIs that align with business objectives.</p>
+              </div>
+            </li>
+            <li class="guide-step">
+              <div class="guide-step-content">
+                <h4 class="guide-step-title">Implement Measurement Systems</h4>
+                <p class="guide-step-desc">Configure Black Armor AI's built-in analytics and integrate with your existing monitoring systems to automatically collect metrics data.</p>
+              </div>
+            </li>
+            <li class="guide-step">
+              <div class="guide-step-content">
+                <h4 class="guide-step-title">Create Reporting Cadence</h4>
+                <p class="guide-step-desc">Establish regular reporting schedules for different stakeholder groups. Use the provided templates to create executive summaries and detailed technical reports.</p>
+              </div>
+            </li>
+            <li class="guide-step">
+              <div class="guide-step-content">
+                <h4 class="guide-step-title">Continuously Optimize</h4>
+                <p class="guide-step-desc">Use collected metrics to fine-tune your Black Armor AI implementation, adjusting drone paths, AI sensitivity, and integration points for maximum value.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+        
+        <!-- Implementation Process Diagram -->
+        <div class="mermaid-diagram">
+          <h4 class="mermaid-title"><i class="fas fa-project-diagram"></i> Implementation Process Timeline</h4>
+          <div class="mermaid">
+            gantt
+              title Black Armor AI Implementation Timeline
+              dateFormat  YYYY-MM-DD
+              axisFormat %b %d
+              
+              section Planning
+              Stakeholder Meetings      :a1, 2023-01-10, 10d
+              Requirements Analysis     :a2, after a1, 14d
+              Site Assessment           :a3, after a1, 7d
+              
+              section Installation
+              Hardware Setup            :b1, after a2, 14d
+              Network Integration       :b2, after b1, 7d
+              System Testing            :b3, after b2, 5d
+              
+              section Training
+              Admin Training            :c1, after b3, 5d
+              Security Team Training    :c2, after c1, 7d
+              
+              section Operation
+              Pilot Phase               :d1, after c2, 14d
+              Full Deployment           :d2, after d1, 7d
+              Ongoing Optimization      :d3, after d2, 30d
+          </div>
+        </div>
+        
+        <!-- Implementation Metrics Framework Diagram -->
+        <div class="mermaid-diagram">
+          <h4 class="mermaid-title"><i class="fas fa-sitemap"></i> Metrics Implementation Framework</h4>
+          <div class="mermaid">
+            flowchart TD
+              B[Baseline Assessment] --> R[Requirements Definition]
+              R --> M[Metrics Selection]
+              M --> D[Data Collection Setup]
+              D --> A[Analytics Configuration]
+              A --> V[Visualization Setup]
+              V --> E[Evaluation Phase]
+              E --> O[Optimization Loop]
+              O --> |Continuous Improvement| M
+              
+              subgraph Planning Phase
+                B
+                R
+                M
+              end
+              
+              subgraph Technical Setup
+                D
+                A
+                V
+              end
+              
+              subgraph Operational Phase
+                E
+                O
+              end
+              
+              style B fill:#4285F4,color:white
+              style R fill:#4285F4,color:white
+              style M fill:#4285F4,color:white
+              style D fill:#F4B400,color:black
+              style A fill:#F4B400,color:black
+              style V fill:#F4B400,color:black
+              style E fill:#0F9D58,color:white
+              style O fill:#0F9D58,color:white
+          </div>
+        </div>
+        
+        <!-- Implementation Milestones Data Table -->
+        <div class="data-table-container">
+          <h4 class="mermaid-title"><i class="fas fa-table"></i> Implementation Milestone Tracking</h4>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Milestone</th>
+                <th>Estimated Duration</th>
+                <th>Dependencies</th>
+                <th>Key Stakeholders</th>
+                <th>Completion Criteria</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Initial Assessment</td>
+                <td>2 weeks</td>
+                <td>Client availability</td>
+                <td>Security Team, IT Dept</td>
+                <td>Completed site survey, security gap analysis</td>
+              </tr>
+              <tr>
+                <td>Technical Requirements</td>
+                <td>1 week</td>
+                <td>Initial Assessment</td>
+                <td>IT Dept, Security Architect</td>
+                <td>Approved technical specification document</td>
+              </tr>
+              <tr>
+                <td>Drone System Installation</td>
+                <td>3 weeks</td>
+                <td>Technical Requirements</td>
+                <td>Implementation Team, Facilities</td>
+                <td>Operational drone stations, charging infrastructure</td>
+              </tr>
+              <tr>
+                <td>Software Integration</td>
+                <td>2 weeks</td>
+                <td>Drone System Installation</td>
+                <td>IT Dept, Software Engineers</td>
+                <td>Connected systems, functional dashboards</td>
+              </tr>
+              <tr>
+                <td>User Training</td>
+                <td>1 week</td>
+                <td>Software Integration</td>
+                <td>Security Team, Operations</td>
+                <td>Completed training sessions, passed certification</td>
+              </tr>
+              <tr>
+                <td>Pilot Operation</td>
+                <td>4 weeks</td>
+                <td>User Training</td>
+                <td>All Stakeholders</td>
+                <td>Successfully operated system, resolved issues</td>
+              </tr>
+              <tr>
+                <td>Full Deployment</td>
+                <td>2 weeks</td>
+                <td>Pilot Operation</td>
+                <td>All Stakeholders</td>
+                <td>Fully operational system, signed acceptance</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <!-- Implementation Progress Visualization -->
+        <div class="advanced-chart-container">
+          <h4 class="chart-title"><i class="fas fa-tasks"></i> Implementation Progress Tracking</h4>
+          <canvas id="implementationProgressChart"></canvas>
+        </div>
+      </div>
+      
+      <!-- Case Studies Tab -->
+      <div class="tab-content" id="case-studies-tab">
+        <!-- Comparative Case Studies Visualization -->
+        <div class="advanced-chart-container">
+          <h4 class="chart-title"><i class="fas fa-chart-bar"></i> Case Studies Performance Comparison</h4>
+          <canvas id="caseStudiesComparisonChart"></canvas>
+        </div>
+        
+        <!-- Case Studies Data Table -->
+        <div class="data-table-container">
+          <h4 class="mermaid-title"><i class="fas fa-table"></i> Implementation Results Summary</h4>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Organization</th>
+                <th>Industry</th>
+                <th>Implementation Scope</th>
+                <th>ROI Timeframe</th>
+                <th>Annual Savings</th>
+                <th>Security Improvement</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>GlobalTech Manufacturing</td>
+                <td>Manufacturing</td>
+                <td>12 drones, 200-acre campus</td>
+                <td>18 months</td>
+                <td>$620,000</td>
+                <td>85% incident reduction</td>
+              </tr>
+              <tr>
+                <td>Horizon Energy</td>
+                <td>Energy / Utilities</td>
+                <td>8 drones, 50-acre facility</td>
+                <td>24 months</td>
+                <td>$950,000</td>
+                <td>100% compliance achievement</td>
+              </tr>
+              <tr>
+                <td>Nexus Logistics</td>
+                <td>Logistics / Distribution</td>
+                <td>10 drones, 300,000 sq ft facility</td>
+                <td>14 months</td>
+                <td>$850,000</td>
+                <td>82% shrinkage reduction</td>
+              </tr>
+              <tr>
+                <td>CyberSecure Data Centers</td>
+                <td>Information Technology</td>
+                <td>6 drones, 3 data center locations</td>
+                <td>20 months</td>
+                <td>$780,000</td>
+                <td>92% threat detection improvement</td>
+              </tr>
+              <tr>
+                <td>MedTech Research</td>
+                <td>Healthcare / Pharmaceutical</td>
+                <td>9 drones, research campus</td>
+                <td>16 months</td>
+                <td>$1.1 million</td>
+                <td>76% security incident reduction</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <!-- Implementation Impact Diagram -->
+        <div class="mermaid-diagram">
+          <h4 class="mermaid-title"><i class="fas fa-project-diagram"></i> Case Study Implementation Impact</h4>
+          <div class="mermaid">
+            graph TD
+                I[Implementation] --> S[Security]
+                I --> C[Cost]
+                I --> O[Operations]
+                
+                S --> S1[Threat Detection]
+                S --> S2[Response Time]
+                S --> S3[Coverage Rate]
+                
+                C --> C1[Personnel Costs]
+                C --> C2[Equipment Costs]
+                C --> C3[Insurance Premiums]
+                
+                O --> O1[Staff Efficiency]
+                O --> O2[Process Automation]
+                O --> O3[Compliance Management]
+                
+                style I fill:#4285F4,color:white,stroke:#333,stroke-width:2px
+                style S fill:#DB4437,color:white
+                style C fill:#0F9D58,color:white
+                style O fill:#F4B400,color:black
+                
+                classDef metric fill:#eee,stroke:#999,stroke-width:1px,color:#333
+                class S1,S2,S3,C1,C2,C3,O1,O2,O3 metric
+          </div>
+        </div>
+        
+        <div class="case-study">
+          <div class="case-study-header">
+            <h3 class="case-study-title">GlobalTech Manufacturing Campus</h3>
+            <div class="case-study-subtitle">Large scale industrial security implementation</div>
+          </div>
+          <div class="case-study-body">
+            <div class="case-study-section">
+              <h4 class="case-study-section-title"><i class="fas fa-industry"></i> Challenge</h4>
+              <p>GlobalTech, a Fortune 500 manufacturer with a 200-acre campus housing sensitive R&D facilities and production lines, faced significant security challenges with their traditional fixed camera system and guard-based patrols. Key issues included:</p>
+              <ul class="case-points">
+                <li>Blind spots in perimeter security coverage</li>
+                <li>High annual costs for security personnel ($1.2M annually)</li>
+                <li>Delayed response times to security incidents (average 8.5 minutes)</li>
+                <li>Frequent false alarms disrupting operations</li>
+              </ul>
+            </div>
+            
+            <div class="case-study-section">
+              <h4 class="case-study-section-title"><i class="fas fa-cogs"></i> Solution</h4>
+              <p>Black Armor AI implemented a comprehensive drone security solution featuring:</p>
+              <ul class="case-points">
+                <li>12 autonomous security drones with 24/7 operation capability</li>
+                <li>AI-powered threat detection with 99.2% accuracy</li>
+                <li>Integration with existing security infrastructure</li>
+                <li>Automated patrol routes with dynamic response capabilities</li>
+                <li>Weather-resistant operation in all environmental conditions</li>
+              </ul>
+            </div>
+            
+            <div class="case-study-metrics">
+              <div class="metric-box positive">
+                <div class="metric-value">94%</div>
+                <div class="metric-label">Reduction in false alarms</div>
+              </div>
+              <div class="metric-box positive">
+                <div class="metric-value">42%</div>
+                <div class="metric-label">Decrease in security staffing costs</div>
+              </div>
+              <div class="metric-box positive">
+                <div class="metric-value">1.2 min</div>
+                <div class="metric-label">Average incident response time</div>
+              </div>
+              <div class="metric-box positive">
+                <div class="metric-value">18 mo</div>
+                <div class="metric-label">ROI breakeven period</div>
+              </div>
+            </div>
+            
+            <div class="quote-box">
+              <p class="quote-text">"The Black Armor AI system transformed our security operations. Not only did we achieve comprehensive coverage of our entire campus, but we've significantly reduced costs while improving incident response times by over 85%. The system's ability to intelligently distinguish between actual threats and false alarms has allowed our security team to focus on what matters."</p>
+              <p class="quote-attribution">— Sarah Chen, CSO, GlobalTech Manufacturing</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="case-study">
+          <div class="case-study-header" style="background: linear-gradient(45deg, var(--gcp-green), #00897B);">
+            <h3 class="case-study-title">Horizon Energy Distribution Center</h3>
+            <div class="case-study-subtitle">Critical infrastructure protection</div>
+          </div>
+          <div class="case-study-body">
+            <div class="case-study-section">
+              <h4 class="case-study-section-title"><i class="fas fa-bolt"></i> Challenge</h4>
+              <p>Horizon Energy operates a critical power distribution hub serving over 500,000 homes and businesses. They needed to enhance security measures for their 50-acre facility with complex infrastructure and regulatory compliance requirements. Key concerns included:</p>
+              <ul class="case-points">
+                <li>Vulnerability to physical security breaches around transformer stations</li>
+                <li>Compliance with updated NERC CIP-014 security regulations</li>
+                <li>Limited visibility in remote areas of the facility</li>
+                <li>Rising insurance premiums due to security risk assessment</li>
+              </ul>
+            </div>
+            
+            <div class="case-study-section">
+              <h4 class="case-study-section-title"><i class="fas fa-shield-alt"></i> Solution</h4>
+              <p>Black Armor AI deployed a tailored drone security system featuring:</p>
+              <ul class="case-points">
+                <li>8 autonomous security drones with specialized infrared and thermal imaging</li>
+                <li>Custom AI algorithms trained for utility infrastructure protection</li>
+                <li>Regular compliance reporting automation</li>
+                <li>Integration with emergency response systems</li>
+                <li>Automated regulatory documentation for audit processes</li>
+              </ul>
+            </div>
+            
+            <div class="case-study-metrics">
+              <div class="metric-box positive">
+                <div class="metric-value">100%</div>
+                <div class="metric-label">NERC CIP-014 compliance</div>
+              </div>
+              <div class="metric-box positive">
+                <div class="metric-value">22%</div>
+                <div class="metric-label">Reduction in insurance premiums</div>
+              </div>
+              <div class="metric-box positive">
+                <div class="metric-value">5</div>
+                <div class="metric-label">Security incidents prevented</div>
+              </div>
+              <div class="metric-box positive">
+                <div class="metric-value">$950K</div>
+                <div class="metric-label">Estimated annual savings</div>
+              </div>
+            </div>
+            
+            <div class="quote-box">
+              <p class="quote-text">"Beyond the impressive security capabilities, what stood out was how the Black Armor system streamlined our regulatory compliance processes. The automated documentation and regular aerial inspections have not only improved our security posture but significantly reduced our compliance workload and insurance costs."</p>
+              <p class="quote-attribution">— Michael Rodriguez, Facilities Director, Horizon Energy</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="case-study">
+          <div class="case-study-header" style="background: linear-gradient(45deg, var(--gcp-purple), #7B1FA2);">
+            <h3 class="case-study-title">Nexus Logistics Distribution Center</h3>
+            <div class="case-study-subtitle">High-value inventory protection</div>
+          </div>
+          <div class="case-study-body">
+            <div class="case-study-section">
+              <h4 class="case-study-section-title"><i class="fas fa-warehouse"></i> Challenge</h4>
+              <p>Nexus Logistics operates a 300,000 sq ft distribution center housing over $50M in inventory with high-value electronics and pharmaceutical products. They faced increasing theft attempts and security challenges:</p>
+              <ul class="case-points">
+                <li>Annual inventory shrinkage of approximately $1.2M</li>
+                <li>Multiple blind spots in traditional security camera coverage</li>
+                <li>Increasing organized theft attempts targeting specific loading areas</li>
+                <li>High cost of 24/7 security personnel</li>
+              </ul>
+            </div>
+            
+            <div class="case-study-section">
+              <h4 class="case-study-section-title"><i class="fas fa-drone"></i> Solution</h4>
+              <p>Black Armor AI implemented an integrated security solution:</p>
+              <ul class="case-points">
+                <li>6 indoor and 4 outdoor autonomous security drones</li>
+                <li>AI-powered behavior analysis to detect unusual access patterns</li>
+                <li>Integration with building access control systems</li>
+                <li>Automated inventory verification capabilities</li>
+                <li>Nighttime thermal imaging for 24/7 protection</li>
+              </ul>
+            </div>
+            
+            <div class="case-study-metrics">
+              <div class="metric-box positive">
+                <div class="metric-value">82%</div>
+                <div class="metric-label">Reduction in inventory shrinkage</div>
+              </div>
+              <div class="metric-box positive">
+                <div class="metric-value">0</div>
+                <div class="metric-label">Successful theft attempts post-implementation</div>
+              </div>
+              <div class="metric-box positive">
+                <div class="metric-value">35%</div>
+                <div class="metric-label">Reduction in security personnel costs</div>
+              </div>
+              <div class="metric-box positive">
+                <div class="metric-value">14 mo</div>
+                <div class="metric-label">ROI breakeven period</div>
+              </div>
+            </div>
+            
+            <div class="quote-box">
+              <p class="quote-text">"The Black Armor AI system paid for itself in just over a year through shrinkage reduction alone. The indoor drones provide security coverage we simply couldn't achieve with fixed cameras, and the system's ability to identify unusual behavior patterns has prevented multiple potential theft incidents before they occurred."</p>
+              <p class="quote-attribution">— David Washington, COO, Nexus Logistics</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- ROI Calculator Tab -->
+      <div class="tab-content" id="calculator-tab">
+        <!-- ROI Framework Diagram -->
+        <div class="mermaid-diagram">
+          <h4 class="mermaid-title"><i class="fas fa-project-diagram"></i> ROI Calculation Framework</h4>
+          <div class="mermaid">
+            flowchart LR
+              I[Initial Investment] -->|subtracted from| NB[Net Benefits]
+              AC[Annual Costs] -->|subtracted from| AB[Annual Benefits]
+              AB -->|equals| ANB[Annual Net Benefit]
+              ANB -->|multiplied by| Y[Years]
+              Y -->|equals| TB[Total Benefits]
+              TB -->|minus| I
+              I --> |divided into| ANB
+              ANB --> |equals| PP[Payback Period]
+              TB -->|minus| I -->|divided by| I
+              I -->|equals| ROI[Return on Investment]
+              
+              style I fill:#DB4437,color:white
+              style AC fill:#DB4437,color:white
+              style AB fill:#0F9D58,color:white
+              style ANB fill:#0F9D58,color:white
+              style TB fill:#0F9D58,color:white
+              style ROI fill:#4285F4,color:white
+              style PP fill:#F4B400,color:black
+              style Y fill:#A142F4,color:white
+              style NB fill:#0F9D58,color:white
+          </div>
+        </div>
+        
+        <!-- Sample ROI Data Table -->
+        <div class="data-table-container">
+          <h4 class="mermaid-title"><i class="fas fa-table"></i> ROI Analysis Examples by Industry</h4>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Industry</th>
+                <th>Initial Investment</th>
+                <th>Annual Net Benefit</th>
+                <th>Payback Period</th>
+                <th>3-Year ROI</th>
+                <th>5-Year ROI</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Manufacturing</td>
+                <td>$225,000</td>
+                <td>$195,000</td>
+                <td>1.2 years</td>
+                <td>160%</td>
+                <td>310%</td>
+              </tr>
+              <tr>
+                <td>Energy & Utilities</td>
+                <td>$280,000</td>
+                <td>$210,000</td>
+                <td>1.3 years</td>
+                <td>125%</td>
+                <td>275%</td>
+              </tr>
+              <tr>
+                <td>Logistics & Distribution</td>
+                <td>$190,000</td>
+                <td>$180,000</td>
+                <td>1.1 years</td>
+                <td>184%</td>
+                <td>374%</td>
+              </tr>
+              <tr>
+                <td>Healthcare & Pharmaceuticals</td>
+                <td>$320,000</td>
+                <td>$240,000</td>
+                <td>1.3 years</td>
+                <td>125%</td>
+                <td>275%</td>
+              </tr>
+              <tr>
+                <td>Data Centers & Technology</td>
+                <td>$250,000</td>
+                <td>$220,000</td>
+                <td>1.1 years</td>
+                <td>164%</td>
+                <td>340%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <!-- Industry Comparison Chart -->
+        <div class="advanced-chart-container">
+          <h4 class="chart-title"><i class="fas fa-chart-line"></i> Industry ROI Comparison</h4>
+          <canvas id="industryComparisonChart"></canvas>
+        </div>
+        
+        <!-- Launch Calculator Button -->
+        <div class="btn-container" style="margin-top: 40px; text-align: center;">
+          <button class="btn btn-primary" id="launchCalculatorBtn" style="padding: 15px 30px; font-size: 1.1rem; box-shadow: 0 5px 15px rgba(66, 133, 244, 0.3);">
+            <i class="fas fa-calculator"></i> Launch Interactive ROI Calculator
+          </button>
+        </div>
+      </div>
+      
+      <div class="btn-container">
+        <button class="btn btn-secondary">
+          <i class="fas fa-download"></i> Download PDF
+        </button>
+        <button class="btn btn-primary" id="calculatorBtn">
+          <i class="fas fa-calculator"></i> Launch Calculator
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- ROI Calculator Popup -->
+  <div id="calculatorModal" class="calculator-modal">
+    <div class="calculator-content">
+      <div class="calculator-header">
+        <h3>Black Armor AI ROI Calculator</h3>
+        <span class="calculator-close">&times;</span>
+      </div>
+      <div class="calculator-body">
+        <div class="calculator-intro">
+          <p>This calculator helps you estimate the Return on Investment (ROI) for your Black Armor AI implementation. Enter your specific values or use the defaults based on industry averages.</p>
+        </div>
+        
+        <form id="roiCalculatorForm">
+          <div class="calculator-section">
+            <h4><i class="fas fa-dollar-sign"></i> Investment Costs</h4>
+            
+            <div class="input-group">
+              <label for="droneCost">Drone System Cost</label>
+              <div class="input-with-prefix">
+                <span class="input-prefix">$</span>
+                <input type="number" id="droneCost" name="droneCost" value="150000" min="0">
+              </div>
+              <div class="input-help">Total cost for Black Armor AI drone system</div>
+            </div>
+            
+            <div class="input-group">
+              <label for="implementationCost">Implementation Cost</label>
+              <div class="input-with-prefix">
+                <span class="input-prefix">$</span>
+                <input type="number" id="implementationCost" name="implementationCost" value="50000" min="0">
+              </div>
+              <div class="input-help">Professional services and deployment costs</div>
+            </div>
+            
+            <div class="input-group">
+              <label for="trainingCost">Training & Onboarding</label>
+              <div class="input-with-prefix">
+                <span class="input-prefix">$</span>
+                <input type="number" id="trainingCost" name="trainingCost" value="25000" min="0">
+              </div>
+              <div class="input-help">Staff training and change management</div>
+            </div>
+          </div>
+          
+          <div class="calculator-section">
+            <h4><i class="fas fa-chart-line"></i> Annual Benefits</h4>
+            
+            <div class="input-group">
+              <label for="securityStaffSavings">Security Staffing Savings</label>
+              <div class="input-with-prefix">
+                <span class="input-prefix">$</span>
+                <input type="number" id="securityStaffSavings" name="securityStaffSavings" value="120000" min="0">
+              </div>
+              <div class="input-help">Reduced security staff costs per year</div>
+            </div>
+            
+            <div class="input-group">
+              <label for="incidentReduction">Incident Cost Reduction</label>
+              <div class="input-with-prefix">
+                <span class="input-prefix">$</span>
+                <input type="number" id="incidentReduction" name="incidentReduction" value="80000" min="0">
+              </div>
+              <div class="input-help">Savings from prevented security incidents</div>
+            </div>
+            
+            <div class="input-group">
+              <label for="insuranceSavings">Insurance Premium Reduction</label>
+              <div class="input-with-prefix">
+                <span class="input-prefix">$</span>
+                <input type="number" id="insuranceSavings" name="insuranceSavings" value="30000" min="0">
+              </div>
+              <div class="input-help">Reduced insurance costs due to improved security</div>
+            </div>
+          </div>
+          
+          <div class="calculator-section">
+            <h4><i class="fas fa-cogs"></i> Annual Costs</h4>
+            
+            <div class="input-group">
+              <label for="maintenanceCost">Maintenance & Support</label>
+              <div class="input-with-prefix">
+                <span class="input-prefix">$</span>
+                <input type="number" id="maintenanceCost" name="maintenanceCost" value="20000" min="0">
+              </div>
+              <div class="input-help">Annual maintenance and support costs</div>
+            </div>
+            
+            <div class="input-group">
+              <label for="operatingCost">Operating Costs</label>
+              <div class="input-with-prefix">
+                <span class="input-prefix">$</span>
+                <input type="number" id="operatingCost" name="operatingCost" value="15000" min="0">
+              </div>
+              <div class="input-help">Energy, charging, and related costs</div>
+            </div>
+          </div>
+          
+          <div class="calculator-section">
+            <h4><i class="fas fa-sliders-h"></i> Analysis Period</h4>
+            
+            <div class="input-group">
+              <label for="years">Years for ROI Calculation</label>
+              <select id="years" name="years">
+                <option value="1">1 Year</option>
+                <option value="3" selected>3 Years</option>
+                <option value="5">5 Years</option>
+              </select>
+              <div class="input-help">Period for calculating return on investment</div>
+            </div>
+            
+            <div class="input-group">
+              <label for="discountRate">Discount Rate</label>
+              <div class="input-with-prefix">
+                <input type="number" id="discountRate" name="discountRate" value="5" min="0" max="100">
+                <span class="input-suffix">%</span>
+              </div>
+              <div class="input-help">Annual discount rate for NPV calculation</div>
+            </div>
+          </div>
+          
+          <div class="calculator-actions">
+            <button type="button" id="calculateBtn" class="btn btn-primary" style="padding: 12px 30px; font-weight: 500; min-width: 180px;">
+              <i class="fas fa-calculator"></i> Calculate ROI
+            </button>
+            <button type="button" id="resetBtn" class="btn btn-secondary">
+              <i class="fas fa-undo"></i> Reset Values
+            </button>
+          </div>
+        </form>
+        
+        <div id="calculationResults" class="calculation-results" style="display: none;">
+          <h4 style="text-align: center; margin-bottom: 25px; color: var(--dark-text); font-size: 1.4rem; padding-top: 10px;">
+            <i class="fas fa-chart-line" style="color: var(--gcp-green); margin-right: 10px;"></i>
+            ROI Analysis Results
+          </h4>
+          
+          <div class="results-grid">
+            <div class="result-card" style="transition: all 0.3s ease;">
+              <div class="result-title">Total Investment</div>
+              <div class="result-value" id="totalInvestment">$225,000</div>
+            </div>
+            
+            <div class="result-card" style="transition: all 0.3s ease;">
+              <div class="result-title">Annual Net Benefit</div>
+              <div class="result-value" id="annualNetBenefit">$195,000</div>
+            </div>
+            
+            <div class="result-card highlight" style="transition: all 0.3s ease; background: linear-gradient(135deg, rgba(15, 157, 88, 0.1), rgba(66, 133, 244, 0.1));">
+              <div class="result-title" style="color: #202124; font-weight: 500;">Return on Investment (ROI)</div>
+              <div class="result-value" id="roiValue" style="font-size: 2.4rem;">260%</div>
+            </div>
+            
+            <div class="result-card" style="transition: all 0.3s ease;">
+              <div class="result-title">Payback Period</div>
+              <div class="result-value" id="paybackPeriod">1.2 years</div>
+            </div>
+            
+            <div class="result-card" style="transition: all 0.3s ease;">
+              <div class="result-title">Net Present Value (NPV)</div>
+              <div class="result-value" id="npvValue">$310,450</div>
+            </div>
+          </div>
+          
+          <div class="results-chart-container">
+            <canvas id="roiChart"></canvas>
+          </div>
+          
+          <div class="calculator-actions">
+            <button type="button" id="printResultsBtn" class="btn btn-secondary">
+              <i class="fas fa-print"></i> Print Results
+            </button>
+            <button type="button" id="saveResultsBtn" class="btn btn-primary">
+              <i class="fas fa-save"></i> Save Results
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Navigation Buttons -->
+  <div class="nav-buttons">
+    <button class="nav-button home-button" title="Home" onclick="window.location.href='client_presentations/Executive_Briefing.html'">
+      <i class="fas fa-home"></i>
+    </button>
+    <button class="nav-button back-button" title="Back" onclick="window.location.href='resources_tools/Migration_Planner.html'">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+  </div>
+  
+  <!-- Chatbot Toggle Button -->
+  <button class="chatbot-toggle" id="chatbotToggle">
+    <i class="fas fa-comment-dots"></i>
+  </button>
+  
+  <!-- Chatbot Container -->
+  <div class="chatbot-container" id="chatbotContainer">
+    <div class="chatbot-header">
+      <h3 class="chatbot-title">Black Armor AI Assistant</h3>
+      <div class="chatbot-close" id="chatbotClose">&times;</div>
+    </div>
+    <div class="chatbot-content" id="chatbotContent">
+      <!-- Messages will be inserted here -->
+    </div>
+    <div class="chatbot-input-area">
+      <input type="text" class="chatbot-input" id="chatbotInput" placeholder="Ask me anything..." />
+      <button class="chatbot-send" id="chatbotSend">
+        <i class="fas fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Include Chart.js for calculator visualizations -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+    // Initialize Mermaid diagrams
+    document.addEventListener('DOMContentLoaded', function() {
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'neutral',
+        flowchart: {
+          useMaxWidth: true,
+          htmlLabels: true,
+          curve: 'basis'
+        },
+        securityLevel: 'loose'
+      });
+      
+      // Initialize charts for the first tab (metrics tab)
+      initSecurityMetricsChart();
+      initFinancialImpactChart();
+      
+      // Set up calculator button event listeners
+      const calculatorBtn = document.getElementById('calculatorBtn');
+      const launchCalculatorBtn = document.getElementById('launchCalculatorBtn');
+      const calculatorModal = document.getElementById('calculatorModal');
+      const calculatorClose = document.querySelector('.calculator-close');
+      const calculateBtn = document.getElementById('calculateBtn');
+      const resetBtn = document.getElementById('resetBtn');
+      const calculationResults = document.getElementById('calculationResults');
+      const roiCalculatorForm = document.getElementById('roiCalculatorForm');
+      
+      if (calculatorBtn) {
+        calculatorBtn.addEventListener('click', function() {
+          calculatorModal.style.display = 'flex';
+        });
+      }
+      
+      if (launchCalculatorBtn) {
+        launchCalculatorBtn.addEventListener('click', function() {
+          calculatorModal.style.display = 'flex';
+        });
+      }
+      
+      // Close the calculator modal
+      if (calculatorClose) {
+        calculatorClose.addEventListener('click', function() {
+          calculatorModal.style.display = 'none';
+        });
+      }
+      
+      // Close the modal when clicking outside
+      window.addEventListener('click', function(event) {
+        if (event.target === calculatorModal) {
+          calculatorModal.style.display = 'none';
+        }
+      });
+      
+      // Calculate ROI button functionality
+      if (calculateBtn) {
+        calculateBtn.addEventListener('click', function() {
+          // Get form values
+          const droneCost = parseFloat(document.getElementById('droneCost').value) || 0;
+          const implementationCost = parseFloat(document.getElementById('implementationCost').value) || 0;
+          const trainingCost = parseFloat(document.getElementById('trainingCost').value) || 0;
+          const securityStaffSavings = parseFloat(document.getElementById('securityStaffSavings').value) || 0;
+          const incidentReduction = parseFloat(document.getElementById('incidentReduction').value) || 0;
+          const insuranceSavings = parseFloat(document.getElementById('insuranceSavings').value) || 0;
+          const maintenanceCost = parseFloat(document.getElementById('maintenanceCost').value) || 0;
+          const operatingCost = parseFloat(document.getElementById('operatingCost').value) || 0;
+          const years = parseInt(document.getElementById('years').value) || 3;
+          const discountRate = parseFloat(document.getElementById('discountRate').value) || 5;
+          
+          // Calculate metrics
+          const totalInvestment = droneCost + implementationCost + trainingCost;
+          const annualBenefits = securityStaffSavings + incidentReduction + insuranceSavings;
+          const annualCosts = maintenanceCost + operatingCost;
+          const annualNetBenefit = annualBenefits - annualCosts;
+          
+          // Calculate ROI
+          const totalBenefits = annualNetBenefit * years;
+          const roi = (totalBenefits - totalInvestment) / totalInvestment * 100;
+          
+          // Calculate payback period
+          const paybackPeriod = totalInvestment / annualNetBenefit;
+          
+          // Calculate NPV
+          let npv = -totalInvestment;
+          for (let i = 1; i <= years; i++) {
+            npv += annualNetBenefit / Math.pow(1 + discountRate / 100, i);
+          }
+          
+          // Update results
+          document.getElementById('totalInvestment').textContent = '$' + totalInvestment.toLocaleString();
+          document.getElementById('annualNetBenefit').textContent = '$' + annualNetBenefit.toLocaleString();
+          document.getElementById('roiValue').textContent = roi.toFixed(1) + '%';
+          document.getElementById('paybackPeriod').textContent = paybackPeriod.toFixed(1) + ' years';
+          document.getElementById('npvValue').textContent = '$' + npv.toLocaleString(undefined, { maximumFractionDigits: 0 });
+          
+          // Show results with animation
+          if (calculationResults) {
+            calculationResults.style.display = 'block';
+            calculationResults.classList.add('results-appear');
+            
+            // Highlight the main ROI value
+            const roiValueElement = document.getElementById('roiValue');
+            if (roiValueElement) {
+              roiValueElement.classList.add('highlight-result');
+              
+              // Remove the animation class after it completes
+              setTimeout(() => {
+                roiValueElement.classList.remove('highlight-result');
+              }, 1500);
+            }
+            
+            // Add a subtle highlight to each result card
+            const resultCards = document.querySelectorAll('.result-card');
+            resultCards.forEach((card, index) => {
+              setTimeout(() => {
+                card.classList.add('highlight-result');
+                setTimeout(() => {
+                  card.classList.remove('highlight-result');
+                }, 1000);
+              }, index * 200);
+            });
+            
+            // Remove the appear animation after it completes
+            setTimeout(() => {
+              calculationResults.classList.remove('results-appear');
+            }, 1000);
+          }
+          
+          // Create chart
+          createROIChart(totalInvestment, annualNetBenefit, years);
+        });
+      }
+      
+      // Reset button functionality
+      if (resetBtn) {
+        resetBtn.addEventListener('click', function() {
+          if (roiCalculatorForm) {
+            roiCalculatorForm.reset();
+          }
+          if (calculationResults) {
+            calculationResults.style.display = 'none';
+          }
+        });
+      }
+      
+      // Print Results
+      const printResultsBtn = document.getElementById('printResultsBtn');
+      if (printResultsBtn) {
+        printResultsBtn.addEventListener('click', function() {
+          window.print();
+        });
+      }
+      
+      // Save Results
+      const saveResultsBtn = document.getElementById('saveResultsBtn');
+      if (saveResultsBtn) {
+        saveResultsBtn.addEventListener('click', function() {
+          alert('In a live implementation, this would save your calculation results to your account.');
+        });
+      }
+    });
+    
+    // Tab switching functionality
+    document.querySelectorAll('.handbook-tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        // Get the tab ID
+        const tabId = this.getAttribute('data-tab');
+        
+        // Remove active class from all tabs and tab contents
+        document.querySelectorAll('.handbook-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+        
+        // Add active class to clicked tab
+        this.classList.add('active');
+        
+        // Show the corresponding tab content
+        document.getElementById(`${tabId}-tab`).classList.add('active');
+        
+        // Initialize charts for the activated tab
+        if (tabId === 'metrics') {
+          initSecurityMetricsChart();
+          initFinancialImpactChart();
+        } else if (tabId === 'implementation') {
+          initImplementationProgressChart();
+        } else if (tabId === 'case-studies') {
+          initCaseStudiesComparisonChart();
+        } else if (tabId === 'calculator') {
+          initIndustryComparisonChart();
+        }
+      });
+    });
+    
+    // Initialize security metrics chart
+    function initSecurityMetricsChart() {
+      const ctx = document.getElementById('securityMetricsChart');
+      
+      // Check if chart already exists
+      if (window.securityMetricsChartInstance) {
+        window.securityMetricsChartInstance.destroy();
+      }
+      
+      // Create chart
+      window.securityMetricsChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['Baseline', 'Month 1', 'Month 2', 'Month 3', 'Month 6', 'Month 12'],
+          datasets: [
+            {
+              label: 'Mean Time to Detect (min)',
+              data: [485, 120, 45, 25, 18, 12],
+              borderColor: 'rgba(219, 68, 55, 1)', // GCP red
+              backgroundColor: 'rgba(219, 68, 55, 0.1)',
+              tension: 0.3,
+              fill: true
+            },
+            {
+              label: 'Coverage Rate (%)',
+              data: [65, 75, 85, 90, 92, 94],
+              borderColor: 'rgba(15, 157, 88, 1)', // GCP green
+              backgroundColor: 'rgba(15, 157, 88, 0.1)',
+              tension: 0.3,
+              fill: true
+            },
+            {
+              label: 'Threat Detection Accuracy (%)',
+              data: [76, 82, 88, 92, 95, 97],
+              borderColor: 'rgba(66, 133, 244, 1)', // GCP blue
+              backgroundColor: 'rgba(66, 133, 244, 0.1)',
+              tension: 0.3,
+              fill: true
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Security Metrics Improvement Over Time',
+              font: { size: 16 }
+            },
+            tooltip: {
+              mode: 'index',
+              intersect: false
+            },
+            legend: {
+              position: 'top'
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: false,
+              ticks: {
+                callback: function(value) {
+                  if (this.chart.data.datasets[0].data.includes(value)) {
+                    return value + ' min';
+                  } else {
+                    return value + '%';
+                  }
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+    
+    // Initialize financial impact chart
+    function initFinancialImpactChart() {
+      const ctx = document.getElementById('financialImpactChart');
+      
+      // Check if chart already exists
+      if (window.financialImpactChartInstance) {
+        window.financialImpactChartInstance.destroy();
+      }
+      
+      // Create chart
+      window.financialImpactChartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Security Personnel', 'Security Infrastructure', 'Incident Response', 'Insurance Premiums', 'Training & Compliance'],
+          datasets: [
+            {
+              label: 'Traditional Security',
+              data: [420000, 150000, 85000, 120000, 75000],
+              backgroundColor: 'rgba(219, 68, 55, 0.7)', // GCP red
+              borderColor: 'rgba(219, 68, 55, 1)',
+              borderWidth: 1
+            },
+            {
+              label: 'Black Armor AI',
+              data: [210000, 80000, 25000, 90000, 45000],
+              backgroundColor: 'rgba(15, 157, 88, 0.7)', // GCP green
+              borderColor: 'rgba(15, 157, 88, 1)',
+              borderWidth: 1
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Annual Security Costs Comparison',
+              font: { size: 16 }
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return context.dataset.label + ': $' + context.raw.toLocaleString();
+                }
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'Annual Cost ($)'
+              },
+              ticks: {
+                callback: function(value) {
+                  return '$' + value.toLocaleString(undefined, { maximumFractionDigits: 0 });
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+    
+    // Initialize implementation progress chart
+    function initImplementationProgressChart() {
+      const ctx = document.getElementById('implementationProgressChart');
+      
+      // Check if chart already exists
+      if (window.implementationProgressChartInstance) {
+        window.implementationProgressChartInstance.destroy();
+      }
+      
+      // Create chart
+      window.implementationProgressChartInstance = new Chart(ctx, {
+        type: 'horizontalBar',
+        data: {
+          labels: ['Initial Assessment', 'Technical Requirements', 'Drone System Installation', 'Software Integration', 'User Training', 'Pilot Operation', 'Full Deployment'],
+          datasets: [
+            {
+              label: 'Planned Duration (weeks)',
+              data: [2, 1, 3, 2, 1, 4, 2],
+              backgroundColor: 'rgba(66, 133, 244, 0.7)', // GCP blue
+              borderColor: 'rgba(66, 133, 244, 1)',
+              borderWidth: 1
+            },
+            {
+              label: 'Actual Duration (weeks)',
+              data: [2.2, 1.5, 2.8, 2.4, 1, 3.2, 1.8],
+              backgroundColor: 'rgba(244, 180, 0, 0.7)', // GCP yellow
+              borderColor: 'rgba(244, 180, 0, 1)',
+              borderWidth: 1
+            }
+          ]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Implementation Timeline Comparison',
+              font: { size: 16 }
+            }
+          },
+          scales: {
+            x: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'Duration (weeks)'
+              }
+            }
+          }
+        }
+      });
+    }
+    
+    // Initialize case studies comparison chart
+    function initCaseStudiesComparisonChart() {
+      const ctx = document.getElementById('caseStudiesComparisonChart');
+      
+      // Check if chart already exists
+      if (window.caseStudiesComparisonChartInstance) {
+        window.caseStudiesComparisonChartInstance.destroy();
+      }
+      
+      // Create chart
+      window.caseStudiesComparisonChartInstance = new Chart(ctx, {
+        type: 'radar',
+        data: {
+          labels: ['ROI Timeframe', 'Cost Reduction', 'Security Improvement', 'Operational Efficiency', 'Compliance', 'Scalability'],
+          datasets: [
+            {
+              label: 'GlobalTech Manufacturing',
+              data: [85, 92, 85, 78, 70, 80],
+              backgroundColor: 'rgba(66, 133, 244, 0.2)', // GCP blue
+              borderColor: 'rgba(66, 133, 244, 1)',
+              pointBackgroundColor: 'rgba(66, 133, 244, 1)',
+              pointRadius: 4
+            },
+            {
+              label: 'Horizon Energy',
+              data: [75, 80, 75, 85, 95, 70],
+              backgroundColor: 'rgba(15, 157, 88, 0.2)', // GCP green
+              borderColor: 'rgba(15, 157, 88, 1)',
+              pointBackgroundColor: 'rgba(15, 157, 88, 1)',
+              pointRadius: 4
+            },
+            {
+              label: 'Nexus Logistics',
+              data: [90, 82, 80, 88, 65, 75],
+              backgroundColor: 'rgba(219, 68, 55, 0.2)', // GCP red
+              borderColor: 'rgba(219, 68, 55, 1)',
+              pointBackgroundColor: 'rgba(219, 68, 55, 1)',
+              pointRadius: 4
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Case Studies Performance Metrics (100 = Best)',
+              font: { size: 16 }
+            }
+          },
+          scales: {
+            r: {
+              beginAtZero: true,
+              min: 0,
+              max: 100,
+              ticks: {
+                stepSize: 20
+              }
+            }
+          }
+        }
+      });
+    }
+    
+    // Initialize industry comparison chart
+    function initIndustryComparisonChart() {
+      const ctx = document.getElementById('industryComparisonChart');
+      
+      // Check if chart already exists
+      if (window.industryComparisonChartInstance) {
+        window.industryComparisonChartInstance.destroy();
+      }
+      
+      // Create chart
+      window.industryComparisonChartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Manufacturing', 'Energy & Utilities', 'Logistics & Distribution', 'Healthcare & Pharmaceuticals', 'Data Centers & Technology'],
+          datasets: [
+            {
+              label: '3-Year ROI (%)',
+              data: [160, 125, 184, 125, 164],
+              backgroundColor: 'rgba(66, 133, 244, 0.7)', // GCP blue
+              borderColor: 'rgba(66, 133, 244, 1)',
+              borderWidth: 1
+            },
+            {
+              label: '5-Year ROI (%)',
+              data: [310, 275, 374, 275, 340],
+              backgroundColor: 'rgba(15, 157, 88, 0.7)', // GCP green
+              borderColor: 'rgba(15, 157, 88, 1)',
+              borderWidth: 1
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            title: {
+              display: true,
+              text: 'ROI by Industry Sector',
+              font: { size: 16 }
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return context.dataset.label + ': ' + context.raw + '%';
+                }
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'Return on Investment (%)'
+              },
+              ticks: {
+                callback: function(value) {
+                  return value + '%';
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+    
+    // Initialize first tab charts on load
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize charts for the first tab (metrics tab)
+      initSecurityMetricsChart();
+      initFinancialImpactChart();
+    });
+    
+    // Create ROI Chart
+    function createROIChart(totalInvestment, annualNetBenefit, years) {
+      const ctx = document.getElementById('roiChart').getContext('2d');
+      
+      // Clear previous chart if it exists
+      if (window.roiChartInstance) {
+        window.roiChartInstance.destroy();
+      }
+      
+      // Generate data for cumulative cash flow
+      const labels = Array.from({length: years + 1}, (_, i) => 'Year ' + i);
+      const data = [-totalInvestment];
+      
+      for (let i = 1; i <= years; i++) {
+        data.push(data[i-1] + annualNetBenefit);
+      }
+      
+      // Create new chart
+      window.roiChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Cumulative Cash Flow',
+            data: data,
+            backgroundColor: 'rgba(66, 133, 244, 0.2)',
+            borderColor: 'rgba(66, 133, 244, 1)',
+            borderWidth: 2,
+            fill: true,
+            pointBackgroundColor: 'rgba(66, 133, 244, 1)',
+            pointRadius: 5,
+            pointHoverRadius: 7
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Cumulative Cash Flow Over Time',
+              font: {
+                size: 16
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return '$' + context.parsed.y.toLocaleString(undefined, { maximumFractionDigits: 0 });
+                }
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: false,
+              title: {
+                display: true,
+                text: 'Cumulative Cash Flow ($)'
+              },
+              ticks: {
+                callback: function(value) {
+                  return '$' + value.toLocaleString(undefined, { maximumFractionDigits: 0 });
+                }
+              }
+            },
+            x: {
+              title: {
+                display: true,
+                text: 'Time Period'
+              }
+            }
+          }
+        }
+      });
+    }
+  </script>
+
+  <!-- Chatbot Implementation -->
+  <script>
+    // Chatbot System Class
+    class ChatbotSystem {
+      constructor() {
+        this.currentTab = 'metrics'; // Default active tab
+        this.chatHistory = [];
+        this.isTyping = false;
+        
+        // Define tab-specific commands
+        this.tabCommands = {
+          metrics: [
+            { command: 'explain_security_metrics', label: 'Explain Security Metrics', color: '#DB4437' },
+            { command: 'explain_financial_metrics', label: 'Explain Financial Metrics', color: '#0F9D58' },
+            { command: 'generate_metrics_report', label: 'Generate Metrics Report', color: '#4285F4' }
+          ],
+          implementation: [
+            { command: 'implementation_steps', label: 'Implementation Steps', color: '#4285F4' },
+            { command: 'implementation_timeline', label: 'View Timeline', color: '#F4B400' },
+            { command: 'implementation_challenges', label: 'Common Challenges', color: '#DB4437' }
+          ],
+          'case-studies': [
+            { command: 'compare_case_studies', label: 'Compare Case Studies', color: '#4285F4' },
+            { command: 'case_study_insights', label: 'Key Insights', color: '#0F9D58' },
+            { command: 'customize_case_study', label: 'Customize for My Industry', color: '#A142F4' }
+          ],
+          calculator: [
+            { command: 'explain_roi_calculation', label: 'Explain ROI Calculation', color: '#4285F4' },
+            { command: 'sample_calculation', label: 'Run Sample Calculation', color: '#0F9D58' },
+            { command: 'interpret_results', label: 'Interpret My Results', color: '#F4B400' }
+          ]
+        };
+        
+        // System responses for commands
+        this.commandResponses = {
+          // Metrics Tab Commands
+          explain_security_metrics: `<b>Security Metrics Explained:</b><br>
+            Security metrics in Black Armor AI measure the effectiveness of your drone security implementation:
+            <ul>
+              <li><b>Mean Time to Detect (MTTD)</b>: Measures how quickly threats are identified (industry avg: 8.2 hours, Black Armor: 12 minutes)</li>
+              <li><b>Perimeter Coverage Rate</b>: Percentage of facility continuously monitored (94% with Black Armor)</li>
+              <li><b>Threat Detection Accuracy</b>: Combines precision and recall using F1 Score (97% with Black Armor)</li>
+            </ul>
+            Would you like me to explain how these metrics are calculated?`,
+          
+          explain_financial_metrics: `<b>Financial Metrics Explained:</b><br>
+            Black Armor AI's financial metrics quantify the ROI of your security investment:
+            <ul>
+              <li><b>Total Cost of Ownership (TCO)</b>: Complete cost over 3-5 years, including initial investment, operations, and maintenance</li>
+              <li><b>Security Staffing Efficiency</b>: Measures reduction in security personnel hours needed</li>
+              <li><b>Risk Mitigation Value</b>: Quantifies financial value of reduced security incidents</li>
+            </ul>
+            These metrics typically show 40-60% cost reduction compared to traditional security systems.`,
+          
+          generate_metrics_report: `<b>Metrics Report Generated:</b><br>
+            Based on industry benchmarks for your sector, here's a summary of expected impact:
+            <ul>
+              <li>Security incident reduction: 85%</li>
+              <li>Response time improvement: 94%</li>
+              <li>Coverage increase: 45%</li>
+              <li>Annual cost savings: $400,000</li>
+              <li>Expected ROI: 260% (3-year)</li>
+              <li>Payback period: 1.2 years</li>
+            </ul>
+            I can create a customized report if you provide your specific facility details.`,
+          
+          // Implementation Tab Commands
+          implementation_steps: `<b>Implementation Steps:</b><br>
+            The Black Armor AI implementation follows these key phases:
+            <ol>
+              <li><b>Assessment & Planning</b> (2-3 weeks): Site survey, requirements gathering, facility mapping</li>
+              <li><b>Installation</b> (3-4 weeks): Hardware setup, charging stations, network integration</li>
+              <li><b>Configuration</b> (1-2 weeks): Flight paths, security zones, AI model customization</li>
+              <li><b>Training</b> (1 week): Staff training, control system operations, emergency procedures</li>
+              <li><b>Testing</b> (2 weeks): Controlled tests, simulation scenarios, system validation</li>
+              <li><b>Deployment</b> (1-2 weeks): Phased rollout, system optimization</li>
+              <li><b>Ongoing Support</b>: Regular updates, performance monitoring, continuous improvement</li>
+            </ol>`,
+          
+          implementation_timeline: `<b>Implementation Timeline:</b><br>
+            A typical Black Armor AI implementation takes 10-14 weeks from start to full operation:
+            <ul>
+              <li><b>Weeks 1-2</b>: Initial consultation and site assessment</li>
+              <li><b>Weeks 3-4</b>: Solution design and planning</li>
+              <li><b>Weeks 5-8</b>: Hardware installation and infrastructure setup</li>
+              <li><b>Weeks 9-10</b>: Software configuration and AI model training</li>
+              <li><b>Weeks 11-12</b>: Testing and validation</li>
+              <li><b>Weeks 13-14</b>: Full deployment and handover</li>
+            </ul>
+            This timeline can be accelerated for urgent security needs.`,
+          
+          implementation_challenges: `<b>Common Implementation Challenges:</b><br>
+            Based on previous deployments, here are challenges to anticipate:
+            <ul>
+              <li><b>Integration with Legacy Systems</b>: May require additional adapters or custom development</li>
+              <li><b>Weather Conditions</b>: Local weather patterns may require specialized drone models</li>
+              <li><b>Regulatory Compliance</b>: FAA and local regulations vary by location</li>
+              <li><b>Network Infrastructure</b>: May need upgrades for real-time video processing</li>
+              <li><b>Staff Adoption</b>: Change management is critical for security team buy-in</li>
+            </ul>
+            Our implementation team addresses these proactively during planning.`,
+          
+          // Case Studies Tab Commands
+          compare_case_studies: `<b>Case Studies Comparison:</b><br>
+            Comparing our three main case studies:
+            <table style="width:100%; border-collapse:collapse; margin:10px 0;">
+              <tr style="background:#f2f2f2">
+                <th style="padding:8px; text-align:left">Organization</th>
+                <th style="padding:8px; text-align:left">Industry</th>
+                <th style="padding:8px; text-align:left">ROI Timeframe</th>
+                <th style="padding:8px; text-align:left">Key Benefit</th>
+              </tr>
+              <tr>
+                <td style="padding:8px; border-top:1px solid #ddd">GlobalTech</td>
+                <td style="padding:8px; border-top:1px solid #ddd">Manufacturing</td>
+                <td style="padding:8px; border-top:1px solid #ddd">18 months</td>
+                <td style="padding:8px; border-top:1px solid #ddd">94% reduction in false alarms</td>
+              </tr>
+              <tr>
+                <td style="padding:8px; border-top:1px solid #ddd">Horizon Energy</td>
+                <td style="padding:8px; border-top:1px solid #ddd">Utilities</td>
+                <td style="padding:8px; border-top:1px solid #ddd">24 months</td>
+                <td style="padding:8px; border-top:1px solid #ddd">100% regulatory compliance</td>
+              </tr>
+              <tr>
+                <td style="padding:8px; border-top:1px solid #ddd">Nexus Logistics</td>
+                <td style="padding:8px; border-top:1px solid #ddd">Distribution</td>
+                <td style="padding:8px; border-top:1px solid #ddd">14 months</td>
+                <td style="padding:8px; border-top:1px solid #ddd">82% shrinkage reduction</td>
+              </tr>
+            </table>`,
+          
+          case_study_insights: `<b>Key Case Study Insights:</b><br>
+            Analyzing patterns across all case studies reveals:
+            <ul>
+              <li><b>Fastest Impact</b>: Security incident response time improves within first 30 days</li>
+              <li><b>Highest ROI Factor</b>: Reduction in false alarms and associated response costs</li>
+              <li><b>Critical Success Factor</b>: Integration with existing security infrastructure</li>
+              <li><b>Unexpected Benefit</b>: Insurance premium reductions averaging 22%</li>
+              <li><b>Staff Efficiency</b>: Security personnel redeployment to higher-value activities</li>
+            </ul>
+            These insights can help prioritize your implementation goals.`,
+          
+          customize_case_study: `<b>Industry Customization:</b><br>
+            I'd be happy to customize a case study for your industry. What sector are you in?
+            
+            We have detailed data for these sectors:
+            <ul>
+              <li>Manufacturing & Industrial</li>
+              <li>Energy & Utilities</li>
+              <li>Logistics & Distribution</li>
+              <li>Healthcare & Pharmaceuticals</li>
+              <li>Data Centers & Technology</li>
+              <li>Commercial Real Estate</li>
+              <li>Education & Campus Security</li>
+            </ul>
+            Let me know which one matches your needs.`,
+          
+          // Calculator Tab Commands
+          explain_roi_calculation: `<b>ROI Calculation Methodology:</b><br>
+            The Black Armor AI ROI calculator uses this formula:
+            
+            <pre>ROI = ((Annual Net Benefit × Years) - Initial Investment) / Initial Investment × 100%</pre>
+            
+            Where:
+            <ul>
+              <li><b>Initial Investment</b> = Drone System + Implementation + Training</li>
+              <li><b>Annual Net Benefit</b> = Annual Benefits - Annual Costs</li>
+              <li><b>Annual Benefits</b> = Security Staffing Savings + Incident Cost Reduction + Insurance Savings</li>
+              <li><b>Annual Costs</b> = Maintenance & Support + Operating Costs</li>
+            </ul>
+            
+            We also calculate the Payback Period:
+            <pre>Payback Period = Initial Investment / Annual Net Benefit</pre>`,
+          
+          sample_calculation: `<b>Sample ROI Calculation:</b><br>
+            For a typical manufacturing facility:
+            
+            <b>Initial Investment:</b>
+            - Drone System: $150,000
+            - Implementation: $50,000
+            - Training: $25,000
+            <b>Total: $225,000</b>
+            
+            <b>Annual Benefits:</b>
+            - Security Staffing Savings: $120,000
+            - Incident Cost Reduction: $80,000
+            - Insurance Savings: $30,000
+            <b>Total Benefits: $230,000</b>
+            
+            <b>Annual Costs:</b>
+            - Maintenance & Support: $20,000
+            - Operating Costs: $15,000
+            <b>Total Costs: $35,000</b>
+            
+            <b>Annual Net Benefit: $195,000</b>
+            <b>3-Year ROI: 160%</b>
+            <b>Payback Period: 1.2 years</b>`,
+          
+          interpret_results: `<b>Interpreting ROI Results:</b><br>
+            Here's how to interpret the calculator results:
+            
+            <ul>
+              <li><b>Total Investment</b>: Your complete upfront cost</li>
+              <li><b>Annual Net Benefit</b>: Yearly savings after operating costs</li>
+              <li><b>ROI Percentage</b>: Return on investment over the selected period</li>
+              <li><b>Payback Period</b>: Time to recoup initial investment</li>
+              <li><b>Net Present Value</b>: Today's value of future cash flows</li>
+            </ul>
+            
+            Industry benchmarks:
+            - Excellent ROI: >200%
+            - Good ROI: 100-200%
+            - Average ROI: 50-100%
+            - Payback under 18 months is considered excellent`
+        };
+        
+        // Elements
+        this.elements = {
+          toggle: document.getElementById('chatbotToggle'),
+          container: document.getElementById('chatbotContainer'),
+          close: document.getElementById('chatbotClose'),
+          content: document.getElementById('chatbotContent'),
+          input: document.getElementById('chatbotInput'),
+          send: document.getElementById('chatbotSend')
+        };
+        
+        // Initialize
+        this.init();
+      }
+      
+      init() {
+        // Add welcome message
+        this.addMessage('assistant', 'Hello! I\'m your Black Armor AI assistant. How can I help you with the Value Metrics Handbook?');
+        
+        // Add commands for current tab
+        this.showCommandChips();
+        
+        // Event listeners
+        this.elements.toggle.addEventListener('click', () => this.toggleChatbot());
+        this.elements.close.addEventListener('click', () => this.toggleChatbot(false));
+        this.elements.send.addEventListener('click', () => this.sendMessage());
+        this.elements.input.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') this.sendMessage();
+        });
+        
+        // Track active tab
+        document.querySelectorAll('.handbook-tab').forEach(tab => {
+          tab.addEventListener('click', () => {
+            this.currentTab = tab.getAttribute('data-tab');
+            this.showCommandChips();
+          });
+        });
+      }
+      
+      toggleChatbot(show = null) {
+        if (show === null) {
+          this.elements.container.classList.toggle('open');
+        } else if (show) {
+          this.elements.container.classList.add('open');
+        } else {
+          this.elements.container.classList.remove('open');
+        }
+        
+        if (this.elements.container.classList.contains('open')) {
+          this.elements.input.focus();
+        }
+      }
+      
+      showCommandChips() {
+        // Create command chips container if it doesn't exist
+        let commandChipsContainer = this.elements.content.querySelector('.chatbot-command-chips');
+        if (!commandChipsContainer) {
+          commandChipsContainer = document.createElement('div');
+          commandChipsContainer.className = 'chatbot-command-chips';
+          this.elements.content.appendChild(commandChipsContainer);
+        }
+        
+        // Clear existing chips
+        commandChipsContainer.innerHTML = '';
+        
+        // Add new chips based on current tab
+        const commands = this.tabCommands[this.currentTab] || [];
+        commands.forEach(cmd => {
+          const chip = document.createElement('div');
+          chip.className = 'chatbot-command-chip';
+          chip.textContent = cmd.label;
+          if (cmd.color) {
+            chip.style.color = cmd.color;
+            chip.style.borderColor = cmd.color.replace(')', ', 0.3)').replace('rgb', 'rgba');
+            chip.style.backgroundColor = cmd.color.replace(')', ', 0.1)').replace('rgb', 'rgba');
+          }
+          chip.addEventListener('click', () => this.executeCommand(cmd.command));
+          commandChipsContainer.appendChild(chip);
+        });
+      }
+      
+      addMessage(role, content) {
+        const messageEl = document.createElement('div');
+        messageEl.className = `chatbot-message ${role}`;
+        messageEl.innerHTML = content;
+        
+        this.elements.content.appendChild(messageEl);
+        this.elements.content.scrollTop = this.elements.content.scrollHeight;
+        
+        // Add to chat history
+        this.chatHistory.push({ role, content });
+      }
+      
+      showTypingIndicator() {
+        if (this.isTyping) return;
+        
+        this.isTyping = true;
+        const typingEl = document.createElement('div');
+        typingEl.className = 'chatbot-typing';
+        typingEl.id = 'chatbotTyping';
+        typingEl.innerHTML = `
+          <div class="chatbot-typing-dot"></div>
+          <div class="chatbot-typing-dot"></div>
+          <div class="chatbot-typing-dot"></div>
+        `;
+        
+        this.elements.content.appendChild(typingEl);
+        this.elements.content.scrollTop = this.elements.content.scrollHeight;
+      }
+      
+      hideTypingIndicator() {
+        const typingEl = document.getElementById('chatbotTyping');
+        if (typingEl) {
+          typingEl.remove();
+        }
+        this.isTyping = false;
+      }
+      
+      sendMessage() {
+        const message = this.elements.input.value.trim();
+        if (!message || this.isTyping) return;
+        
+        // Clear input
+        this.elements.input.value = '';
+        
+        // Add user message
+        this.addMessage('user', message);
+        
+        // Show typing indicator
+        this.showTypingIndicator();
+        
+        // Process message and get response
+        setTimeout(() => {
+          this.processMessage(message);
+        }, 1000);
+      }
+      
+      processMessage(message) {
+        // Simple command detection
+        const commandMatch = /^\/([a-z_]+)/.exec(message);
+        if (commandMatch && this.commandResponses[commandMatch[1]]) {
+          this.executeCommand(commandMatch[1]);
+          return;
+        }
+        
+        // Check for keyword matches with commands
+        const allCommands = Object.values(this.tabCommands).flat();
+        for (const cmd of allCommands) {
+          const keywords = cmd.label.toLowerCase().split(' ');
+          const messageWords = message.toLowerCase().split(' ');
+          
+          if (keywords.some(keyword => messageWords.includes(keyword)) ||
+              message.toLowerCase().includes(cmd.command.toLowerCase())) {
+            this.executeCommand(cmd.command);
+            return;
+          }
+        }
+        
+        // Generate contextual response based on current tab
+        let response = '';
+        switch (this.currentTab) {
+          case 'metrics':
+            response = `I can help you understand the value metrics for Black Armor AI. Would you like to learn about security metrics, financial metrics, or best practices for measurement?`;
+            break;
+          case 'implementation':
+            response = `I can assist with your implementation journey. Would you like information about implementation steps, timeline planning, or common challenges?`;
+            break;
+          case 'case-studies':
+            response = `Our case studies demonstrate real-world results. Would you like to compare different implementations, get key insights, or customize for your industry?`;
+            break;
+          case 'calculator':
+            response = `The ROI calculator helps quantify your investment benefits. Would you like me to explain the calculation methodology, run a sample calculation, or help interpret results?`;
+            break;
+          default:
+            response = `I'm here to help with any questions about Black Armor AI. What specific information are you looking for?`;
+        }
+        
+        // Hide typing indicator and show response
+        this.hideTypingIndicator();
+        this.addMessage('assistant', response);
+      }
+      
+      executeCommand(command) {
+        if (!this.commandResponses[command]) {
+          this.addMessage('assistant', `I'm sorry, that command is not recognized.`);
+          return;
+        }
+        
+        // Add as if user requested it
+        const commandLabels = Object.values(this.tabCommands)
+          .flat()
+          .find(cmd => cmd.command === command);
+          
+        const userMessage = commandLabels ? commandLabels.label : command;
+        this.addMessage('user', userMessage);
+        
+        // Show typing
+        this.showTypingIndicator();
+        
+        // Delayed response for realistic effect
+        setTimeout(() => {
+          this.hideTypingIndicator();
+          this.addMessage('assistant', this.commandResponses[command]);
+        }, 1500);
+      }
+    }
+    
+    // Initialize chatbot when DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      window.chatbot = new ChatbotSystem();
+    });
+  </script>
+
+<script src="../chatbot_commands.js"></script>
+<script src="0
+  <!-- Chatbot Container -->
+  <!-- Chatbot is dynamically created by chatbot scripts -->    <i class="fas fa-comment"></i>
+  </button>
+</body>
+</html> 

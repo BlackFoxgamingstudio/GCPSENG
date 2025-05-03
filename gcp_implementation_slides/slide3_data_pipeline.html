@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DroneAI GCP Implementation - Data Pipeline & Storage</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../favicon.ico">
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="../navbar.css">
+  <link rel="stylesheet" href="../chatbot.css">
+
+  <style>
+    :root {
+      --gcp-blue: #4285F4;
+      --gcp-red: #DB4437;
+      --gcp-yellow: #F4B400;
+      --gcp-green: #0F9D58;
+      --gcp-purple: #A142F4;
+      --dark-text: #202124;
+      --light-text: #5f6368;
+      --bg-light: #f8f9fa;
+      --border-light: #dadce0;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      color: var(--dark-text);
+      background-color: var(--bg-light);
+      line-height: 1.6;
+    }
+    
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+      color: var(--dark-text);
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+    
+    h1 {
+      font-size: 2.5rem;
+      color: var(--gcp-green);
+      margin-bottom: 1.5rem;
+      position: relative;
+      display: inline-block;
+    }
+    
+    h1::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -10px;
+      width: 80px;
+      height: 4px;
+      background-color: var(--gcp-green);
+      border-radius: 2px;
+    }
+    
+    h2 {
+      font-size: 1.8rem;
+      color: var(--gcp-blue);
+      margin-top: 2rem;
+      border-bottom: 1px solid var(--border-light);
+      padding-bottom: 0.5rem;
+    }
+    
+    h3 {
+      font-size: 1.4rem;
+      margin-top: 1.5rem;
+      color: var(--gcp-purple);
+    }
+    
+    p {
+      margin-bottom: 1rem;
+    }
+    
+    a {
+      color: var(--gcp-blue);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    
+    a:hover {
+      color: var(--gcp-green);
+      text-decoration: underline;
+    }
+    
+    ul, ol {
+      margin-left: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .slide-container {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 30px;
+      margin-bottom: 40px;
+    }
+    
+    .slide-navigation {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-light);
+    }
+    
+    .nav-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background-color: var(--gcp-blue);
+      color: white;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+    
+    .nav-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(66, 133, 244, 0.3);
+      text-decoration: none;
+      color: white;
+    }
+    
+    .nav-button.prev {
+      background-color: var(--light-text);
+    }
+    
+    .nav-button.next {
+      background-color: var(--gcp-green);
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    th, td {
+      border: 1px solid var(--border-light);
+      padding: 12px 15px;
+      text-align: left;
+    }
+    
+    th {
+      background-color: var(--bg-light);
+      font-weight: 500;
+      color: var(--gcp-blue);
+    }
+    
+    tr:nth-child(even) {
+      background-color: var(--bg-light);
+    }
+    
+    code, pre {
+      font-family: 'Roboto Mono', monospace;
+      background-color: #f5f5f5;
+      border-radius: 4px;
+    }
+    
+    code {
+      padding: 2px 5px;
+      font-size: 0.9em;
+    }
+    
+    pre {
+      padding: 15px;
+      overflow-x: auto;
+      margin-bottom: 1.5rem;
+      border-left: 4px solid var(--gcp-blue);
+    }
+    
+    .pipeline-diagram {
+      width: 100%;
+      margin: 2rem 0;
+      padding: 1.5rem;
+      background-color: #f5f5f5;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.9rem;
+      overflow-x: auto;
+      white-space: pre;
+      line-height: 1.5;
+      text-align: center;
+    }
+    
+    .storage-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin: 2rem 0;
+    }
+    
+    .storage-card {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .storage-header {
+      background-color: var(--gcp-blue);
+      color: white;
+      padding: 15px;
+      font-weight: 500;
+    }
+    
+    .storage-content {
+      padding: 15px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .storage-content ul {
+      margin-left: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .storage-footer {
+      background-color: var(--bg-light);
+      padding: 10px 15px;
+      margin-top: auto;
+      color: var(--light-text);
+      font-size: 0.9rem;
+      border-top: 1px solid var(--border-light);
+    }
+    
+    .data-flow {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin: 2rem 0;
+    }
+    
+    .flow-step {
+      display: flex;
+      gap: 15px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      padding: 20px;
+      position: relative;
+    }
+    
+    .flow-step::after {
+      content: "";
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 12px solid transparent;
+      border-right: 12px solid transparent;
+      border-top: 12px solid white;
+      z-index: 10;
+    }
+    
+    .flow-step:last-child::after {
+      display: none;
+    }
+    
+    .step-number {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 40px;
+      height: 40px;
+      background-color: var(--gcp-green);
+      color: white;
+      border-radius: 50%;
+      font-weight: bold;
+    }
+    
+    .step-content {
+      flex: 1;
+    }
+    
+    .step-title {
+      font-weight: 500;
+      color: var(--gcp-blue);
+      margin-bottom: 8px;
+      font-size: 1.1rem;
+    }
+    
+    .schema-box {
+      background-color: #f5f5f5;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 1rem 0;
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.9rem;
+      overflow-x: auto;
+    }
+    
+    .dual-column {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin: 2rem 0;
+    }
+    
+    .integration-card {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      padding: 20px;
+    }
+    
+    .integration-heading {
+      font-weight: 500;
+      color: var(--gcp-purple);
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .integration-heading i {
+      color: var(--gcp-blue);
+    }
+    
+    @media (max-width: 768px) {
+      main {
+        padding: 20px 15px 60px;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      h2 {
+        font-size: 1.5rem;
+      }
+      
+      h3 {
+        font-size: 1.2rem;
+      }
+      
+      .slide-container {
+        padding: 20px;
+      }
+      
+      .storage-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .dual-column {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+<style>
+  /* Custom chatbot positioning for this page */
+  #chatbot-toggle {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1000 !important;
+  }
+  
+  #chatbot-container {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1001 !important;
+    width: 350px !important;
+    max-height: 500px !important;
+  }
+</style></head>
+<body>
+  <!-- Main content -->
+  <main>
+    <div class="slide-container">
+      <h1>Data Pipeline & Storage</h1>
+      
+      <p>The DroneAI solution requires a robust data pipeline that can ingest, process, and analyze large volumes of drone telemetry data and video footage. This slide details the end-to-end data flow architecture, storage solutions, and integration points for the D&D-style gamification layer.</p>
+      
+      <h2>End-to-End Data Pipeline Architecture</h2>
+      
+      <div class="pipeline-diagram">
+[Drone Hardware] → [IoT Core] → [Pub/Sub] → [Dataflow]
+                                               ↓
+              [BigQuery] ← [Data Processing] → [Cloud Storage]
+                  ↓                                  ↓
+          [BigQuery ML] → [Vector AI] ← [Video Intelligence API]
+                  ↓
+     [Looker Studio] → [Game Mechanics Engine]</div>
+      
+      <h3>Pipeline Components & Functions</h3>
+      
+      <div class="data-flow">
+        <div class="flow-step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <div class="step-title">Data Ingestion (Drone → IoT Core → Pub/Sub)</div>
+            <p>Telemetry data from drones is ingested through IoT Core, which securely connects and manages drone devices. This data is then streamed to Pub/Sub for real-time processing.</p>
+            <p><strong>Key streaming metrics include:</strong></p>
+            <ul>
+              <li>Drone positioning (coordinates, altitude, orientation)</li>
+              <li>Camera parameters (angle, zoom, focus, exposure)</li>
+              <li>System status (battery, signal strength, temperature)</li>
+              <li>Environmental conditions (wind speed, light level)</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="flow-step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <div class="step-title">Data Processing (Dataflow)</div>
+            <p>Streaming data is processed by Dataflow pipelines that handle data cleansing, enrichment, and transformation. Multiple pipelines process different data types:</p>
+            <ul>
+              <li><strong>Telemetry Pipeline</strong>: Processes drone sensor data (20-50 metrics per second)</li>
+              <li><strong>Media Pipeline</strong>: Handles video streams and image data</li>
+              <li><strong>Event Pipeline</strong>: Captures user interactions and game mechanics events</li>
+            </ul>
+            <p>Dataflow also applies basic ML transformations like feature extraction for real-time analytics.</p>
+          </div>
+        </div>
+        
+        <div class="flow-step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <div class="step-title">Storage & Analytics (BigQuery & Cloud Storage)</div>
+            <p>Processed data is stored in domain-specific BigQuery tables and Cloud Storage buckets:</p>
+            <ul>
+              <li><strong>BigQuery</strong>: Structured telemetry data, game events, performance metrics</li>
+              <li><strong>Cloud Storage</strong>: Raw video footage, processed video segments, map data</li>
+            </ul>
+            <p>BigQuery enables complex analytical queries while Cloud Storage provides cost-effective storage for large media files.</p>
+          </div>
+        </div>
+        
+        <div class="flow-step">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <div class="step-title">Advanced AI Processing (Video Intelligence API & Vector AI)</div>
+            <p>Media content is analyzed by Video Intelligence API for scene detection, object tracking, and quality assessment. Vector AI creates embeddings of mission data and media content for semantic search and similarity analysis.</p>
+            <p>These AI components feed the D&D-style game mechanics by providing objective measurement of:</p>
+            <ul>
+              <li>Shot quality (stability, framing, lighting) → affects "skill check" scores</li>
+              <li>Subject tracking accuracy → determines "Dexterity" scores</li>
+              <li>Scene complexity handling → influences "Challenge Rating"</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="flow-step">
+          <div class="step-number">5</div>
+          <div class="step-content">
+            <div class="step-title">Visualization & Game Mechanics (Looker & Game Engine)</div>
+            <p>The processed data is made available through Looker dashboards for analytics and visualization. The Game Mechanics Engine uses this data to drive the D&D-style experience:</p>
+            <ul>
+              <li>XP calculation and level progression</li>
+              <li>Skill check difficulty scaling based on historical performance</li>
+              <li>Mission reward distribution</li>
+              <li>Team-based challenges and cooperative missions</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <h2>BigQuery Data Schema Design</h2>
+      
+      <p>Our BigQuery schema follows a star schema design optimized for analytical queries while supporting the game mechanics requirements. Key tables include:</p>
+      
+      <div class="schema-box">
+# Mission table (fact table)
+mission_events
+- mission_id: STRING
+- timestamp: TIMESTAMP
+- drone_id: STRING
+- operator_id: STRING
+- event_type: STRING (e.g., 'start', 'end', 'skill_check', 'reward')
+- location: GEOGRAPHY
+- event_details: JSON
+- game_mechanics: STRUCT<
+    skill_check_type: STRING,
+    difficulty_rating: INT64,
+    success_result: BOOL,
+    dice_roll: INT64,
+    xp_earned: INT64
+  >
+
+# Dimension tables
+drones
+- drone_id: STRING
+- model: STRING
+- specs: JSON
+- capabilities: ARRAY<STRING>
+
+operators
+- operator_id: STRING
+- name: STRING
+- level: INT64
+- class: STRING (e.g., 'Ranger', 'Wizard')
+- skills: ARRAY<STRUCT<name: STRING, level: INT64>>
+- xp_total: INT64
+
+missions
+- mission_id: STRING
+- name: STRING
+- template_id: STRING
+- difficulty: INT64
+- terrain_type: STRING
+- objectives: ARRAY<STRING>
+- rewards: JSON</div>
+      
+      <h2>Storage Solutions by Data Type</h2>
+      
+      <div class="storage-grid">
+        <div class="storage-card">
+          <div class="storage-header">Video Content Storage</div>
+          <div class="storage-content">
+            <p><strong>Cloud Storage with hierarchical structure:</strong></p>
+            <ul>
+              <li>Raw footage in archival storage class</li>
+              <li>Processed clips in standard storage</li>
+              <li>Mission highlight reels in standard storage</li>
+              <li>Training sets in nearline storage</li>
+            </ul>
+            <p><strong>Content organization:</strong></p>
+            <pre>gs://droneai-media-{env}/
+  mission-{id}/
+    raw/
+    processed/
+    highlights/
+    metadata.json</pre>
+          </div>
+          <div class="storage-footer">Typical volume: 50-200GB per mission</div>
+        </div>
+        
+        <div class="storage-card">
+          <div class="storage-header">Telemetry Data Storage</div>
+          <div class="storage-content">
+            <p><strong>BigQuery partitioned and clustered tables:</strong></p>
+            <ul>
+              <li>Partitioned by date for query efficiency</li>
+              <li>Clustered by mission_id and drone_id</li>
+              <li>Time-series optimization with ingestion-time partitioning</li>
+            </ul>
+            <p><strong>Performance optimization:</strong></p>
+            <ul>
+              <li>Materialized views for common game metrics</li>
+              <li>Custom BigQuery slots allocation for real-time queries</li>
+              <li>Data compression using columnar storage</li>
+            </ul>
+          </div>
+          <div class="storage-footer">Typical volume: 250-500MB per mission</div>
+        </div>
+        
+        <div class="storage-card">
+          <div class="storage-header">Game Assets Storage</div>
+          <div class="storage-content">
+            <p><strong>Cloud Storage with CDN integration:</strong></p>
+            <ul>
+              <li>Mission templates with versioning</li>
+              <li>Character sheet templates</li>
+              <li>UI assets (icons, sound effects, backgrounds)</li>
+              <li>Narrative content and mission briefings</li>
+            </ul>
+            <p><strong>Caching strategy:</strong></p>
+            <ul>
+              <li>Edge caching for frequently accessed assets</li>
+              <li>Browser caching with appropriate Cache-Control headers</li>
+              <li>Versioned URLs for cache invalidation</li>
+            </ul>
+          </div>
+          <div class="storage-footer">Typical volume: 5-10GB total</div>
+        </div>
+      </div>
+      
+      <h2>Real-time Data Processing Configuration</h2>
+      
+      <p>The DroneAI solution requires near real-time processing of telemetry data to feed the game mechanics engine. Our Dataflow pipelines are optimized for minimum latency:</p>
+      
+      <pre>
+// Sample Dataflow job configuration
+{
+  "jobName": "drone-telemetry-streaming",
+  "parameters": {
+    "streaming": true,
+    "inputSubscription": "projects/drone-ai-data-prod/subscriptions/drone-telemetry-sub",
+    "outputTable": "drone-ai-data-prod:telemetry.mission_events",
+    "windowSize": "5s",
+    "allowedLateness": "30s",
+    "gameRulesPath": "gs://droneai-config/game_rules.json"
+  },
+  "environmentConfig": {
+    "serviceAccountEmail": "dataflow-sa@drone-ai-data-prod.iam.gserviceaccount.com",
+    "maxWorkers": 10,
+    "workerMachineType": "n2-standard-2",
+    "network": "drone-ai-network",
+    "subnetwork": "drone-ai-subnet",
+    "enableStreamingEngine": true
+  }
+}</pre>
+      
+      <h2>Integration with External Systems</h2>
+      
+      <div class="dual-column">
+        <div class="integration-card">
+          <div class="integration-heading">
+            <i class="fas fa-drone"></i>
+            Drone Hardware Integration
+          </div>
+          <p>Our data pipeline seamlessly integrates with major drone hardware platforms through IoT Core device management:</p>
+          <ul>
+            <li><strong>DJI Enterprise</strong>: Full telemetry integration via SDK</li>
+            <li><strong>Skydio</strong>: Advanced autonomy features via API</li>
+            <li><strong>Custom drones</strong>: Protocol adapters for MQTT/MAVLink</li>
+          </ul>
+          <p>Device authentication uses X.509 certificates with automatic rotation and secure provisioning.</p>
+        </div>
+        
+        <div class="integration-card">
+          <div class="integration-heading">
+            <i class="fas fa-film"></i>
+            Media Production Software
+          </div>
+          <p>Integration with industry-standard media software enables seamless post-production workflows:</p>
+          <ul>
+            <li><strong>Adobe Premiere Pro</strong>: Direct asset access via Cloud Storage</li>
+            <li><strong>DaVinci Resolve</strong>: Metadata-enriched clips and EDL export</li>
+            <li><strong>Final Cut Pro</strong>: XML project files with shot ratings</li>
+          </ul>
+          <p>Each integration preserves game mechanics metadata for production tracking.</p>
+        </div>
+        
+        <div class="integration-card">
+          <div class="integration-heading">
+            <i class="fas fa-chart-line"></i>
+            Analytics & Dashboards
+          </div>
+          <p>Our data pipeline feeds customizable dashboards and analytics tools:</p>
+          <ul>
+            <li><strong>Looker Studio</strong>: Pre-built mission performance dashboards</li>
+            <li><strong>Tableau</strong>: Data connection via BigQuery connector</li>
+            <li><strong>Custom WebApps</strong>: Data access through BigQuery API</li>
+          </ul>
+          <p>Role-based access controls ensure appropriate data visibility.</p>
+        </div>
+        
+        <div class="integration-card">
+          <div class="integration-heading">
+            <i class="fas fa-dice-d20"></i>
+            Game Mechanics API
+          </div>
+          <p>Our custom Game Mechanics API processes telemetry data through D&D-style rules:</p>
+          <ul>
+            <li><strong>Skill Check Engine</strong>: Evaluates drone operations against difficulty targets</li>
+            <li><strong>XP Calculator</strong>: Awards experience based on mission completion and quality</li>
+            <li><strong>Loot Generator</strong>: Distributes rewards based on performance</li>
+          </ul>
+          <p>RESTful API endpoints enable extension to third-party gaming platforms.</p>
+        </div>
+      </div>
+      
+      <!-- Navigation buttons -->
+      <div class="slide-navigation">
+        <a href="slide2_project_security.html" class="nav-button prev">
+          <i class="fas fa-arrow-left"></i> Previous: Project Setup & Security
+        </a>
+        <a href="slide4_game_mechanics.html" class="nav-button next">
+          Next: Game Mechanics & UI <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </main>
+  
+  <!-- Chatbot container -->
+  <!-- Chatbot is dynamically created by chatbot scripts -->    <i class="fas fa-comment"></i>
+  </button>
+  
+  <!-- Scripts -->
+  <script src="../chatbot_commands.js"></script>
+  <script src="../chatbot_enhanced.js"></script>
+  <script src="../chatbot.js"></script>
+  <script src="../navbar.js"></script>
+<script src="navigation.js"></script>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Call functions from navbar.js
+      addFontAwesome();
+      addNavbarCSS();
+      createNavbar();
+      addNavButtons();
+    });
+  </script>
+</body>
+</html> 

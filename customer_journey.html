@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Black Armor AI | Customer Journey</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --gcp-blue: #4285F4;
+      --gcp-red: #DB4437;
+      --gcp-yellow: #F4B400;
+      --gcp-green: #0F9D58;
+      --gcp-purple: #A142F4;
+      --dark-text: #202124;
+      --light-text: #5f6368;
+      --bg-light: #f8f9fa;
+      --border-light: #dadce0;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      color: var(--dark-text);
+      background-color: white;
+      overflow-x: hidden;
+      padding: 20px;
+    }
+    
+    .page-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .page-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    .page-title {
+      color: var(--gcp-purple);
+      font-size: 2.5rem;
+      font-weight: 500;
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+    
+    .page-subtitle {
+      color: var(--light-text);
+      font-size: 1.4rem;
+      font-weight: 400;
+      margin-bottom: 20px;
+    }
+
+    .tool-overview {
+      text-align: center;
+      max-width: 820px;
+      margin: 0 auto 40px;
+      background-color: var(--bg-light);
+      padding: 25px;
+      border-radius: 14px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    }
+    
+    .overview-desc {
+      font-size: 1.15rem;
+      color: var(--light-text);
+      line-height: 1.7;
+    }
+    
+    /* Journey Timeline Styles */
+    .journey-timeline {
+      position: relative;
+      padding: 40px 0;
+    }
+    
+    .timeline-track {
+      position: absolute;
+      top: 40px;
+      height: 4px;
+      background-color: var(--border-light);
+      width: 100%;
+      z-index: 0;
+    }
+    
+    .timeline-progress {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      background: linear-gradient(90deg, var(--gcp-purple), var(--gcp-blue));
+      width: 75%;
+      border-radius: 2px;
+    }
+    
+    .timeline-phases {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .timeline-phase {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 18%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .timeline-phase:hover .phase-indicator {
+      transform: scale(1.1);
+      box-shadow: 0 8px 20px rgba(161, 66, 244, 0.3);
+    }
+    
+    .phase-indicator {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: white;
+      border: 3px solid var(--gcp-purple);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 15px;
+      font-size: 1.3rem;
+      color: var(--gcp-purple);
+      position: relative;
+      z-index: 1;
+      transition: all 0.3s ease;
+    }
+    
+    .active .phase-indicator {
+      background-color: var(--gcp-purple);
+      color: white;
+      box-shadow: 0 5px 15px rgba(161, 66, 244, 0.3);
+    }
+    
+    .completed .phase-indicator {
+      background-color: var(--gcp-purple);
+      color: white;
+    }
+    
+    .phase-title {
+      font-weight: 500;
+      font-size: 1.1rem;
+      margin-bottom: 5px;
+      color: var(--dark-text);
+      text-align: center;
+    }
+    
+    .active .phase-title {
+      color: var(--gcp-purple);
+    }
+    
+    .phase-desc {
+      font-size: 0.9rem;
+      color: var(--light-text);
+      text-align: center;
+      line-height: 1.4;
+    }
+    
+    /* Phase Details Section */
+    .phase-details {
+      margin: 50px 0;
+      background-color: white;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      padding: 30px;
+    }
+    
+    .phase-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--border-light);
+    }
+    
+    .phase-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: rgba(161, 66, 244, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: var(--gcp-purple);
+      margin-right: 20px;
+    }
+    
+    .phase-info {
+      flex-grow: 1;
+    }
+    
+    .phase-name {
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: var(--dark-text);
+      margin-bottom: 5px;
+    }
+    
+    .phase-duration {
+      font-size: 1rem;
+      color: var(--gcp-purple);
+    }
+    
+    .phase-content {
+      display: flex;
+      gap: 30px;
+    }
+    
+    .content-main {
+      flex: 2;
+    }
+    
+    .content-section {
+      margin-bottom: 25px;
+    }
+    
+    .section-title {
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: var(--dark-text);
+      margin-bottom: 12px;
+    }
+    
+    .section-desc {
+      font-size: 1rem;
+      color: var(--light-text);
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+    
+    .activity-list {
+      list-style: none;
+      margin-left: 10px;
+    }
+    
+    .activity-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 12px;
+      font-size: 1rem;
+      color: var(--dark-text);
+    }
+    
+    .activity-item i {
+      color: var(--gcp-purple);
+      margin-right: 10px;
+      margin-top: 4px;
+      font-size: 0.9rem;
+    }
+    
+    .milestone-list {
+      margin-top: 20px;
+    }
+    
+    .milestone-item {
+      display: flex;
+      align-items: center;
+      background-color: var(--bg-light);
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 15px;
+      transition: all 0.3s ease;
+    }
+    
+    .milestone-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+    
+    .milestone-check {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background-color: var(--gcp-green);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 15px;
+      flex-shrink: 0;
+    }
+    
+    .milestone-pending {
+      background-color: #e0e0e0;
+      color: var(--light-text);
+    }
+    
+    .milestone-text {
+      font-size: 0.95rem;
+      color: var(--dark-text);
+    }
+    
+    .content-sidebar {
+      flex: 1;
+    }
+    
+    .resource-card {
+      background-color: var(--bg-light);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .resource-title {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--dark-text);
+      margin-bottom: 15px;
+    }
+    
+    .resource-list {
+      list-style: none;
+    }
+    
+    .resource-item {
+      display: flex;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border-light);
+      transition: all 0.2s ease;
+    }
+    
+    .resource-item:last-child {
+      border-bottom: none;
+    }
+    
+    .resource-item:hover {
+      transform: translateX(5px);
+    }
+    
+    .resource-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      background-color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 12px;
+      color: var(--gcp-purple);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+      flex-shrink: 0;
+    }
+    
+    .resource-info {
+      flex-grow: 1;
+    }
+    
+    .resource-name {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--dark-text);
+      margin-bottom: 3px;
+    }
+    
+    .resource-type {
+      font-size: 0.8rem;
+      color: var(--light-text);
+    }
+    
+    .resource-link {
+      color: var(--gcp-blue);
+      font-size: 1rem;
+      margin-left: 10px;
+    }
+    
+    /* Navigation */
+    .journey-navigation {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+    
+    .nav-btn {
+      padding: 12px 25px;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      border: none;
+    }
+    
+    .nav-btn-primary {
+      background-color: var(--gcp-purple);
+      color: white;
+      box-shadow: 0 4px 10px rgba(161, 66, 244, 0.3);
+    }
+    
+    .nav-btn-primary:hover {
+      background-color: #8933e0;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(161, 66, 244, 0.4);
+    }
+    
+    .nav-btn-secondary {
+      background-color: var(--bg-light);
+      color: var(--dark-text);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+    
+    .nav-btn-secondary:hover {
+      background-color: #e6e6e6;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+    }
+    
+    .nav-btn i {
+      margin-right: 8px;
+    }
+    
+    .nav-btn.next-phase i {
+      margin-right: 0;
+      margin-left: 8px;
+    }
+    
+    /* Navigation Buttons */
+    .nav-buttons {
+      position: fixed;
+      bottom: 20px;
+     
+      display: flex;
+      gap: 10px;
+    }
+    
+    .nav-button {
+      background-color: var(--gcp-blue);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+      transition: all 0.2s ease;
+    }
+    
+    .nav-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 10px rgba(0,0,0,0.3);
+    }
+    
+    .nav-button:active {
+      transform: translateY(-1px);
+      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+    }
+    
+    .home-button {
+      background-color: var(--gcp-green);
+    }
+    
+    .back-button {
+      background-color: var(--gcp-yellow);
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .timeline-phases {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 30px;
+      }
+      
+      .timeline-track {
+        width: 4px;
+        height: 100%;
+        left: 24px;
+        top: 0;
+      }
+      
+      .timeline-progress {
+        width: 4px;
+        height: 75%;
+      }
+      
+      .timeline-phase {
+        width: 100%;
+        flex-direction: row;
+        align-items: flex-start;
+      }
+      
+      .phase-indicator {
+        margin-right: 15px;
+        margin-bottom: 0;
+      }
+      
+      .phase-info {
+        text-align: left;
+      }
+      
+      .phase-content {
+        flex-direction: column;
+      }
+    }
+  </style>
+<style>
+  /* Custom chatbot positioning for this page */
+  #chatbot-toggle {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1000 !important;
+  }
+  
+  #chatbot-container {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1001 !important;
+    width: 350px !important;
+    max-height: 500px !important;
+  }
+</style><link rel="stylesheet" href="chatbot.css">
+<link rel="stylesheet" href="navbar.css">
+<script src="navbar.js"></script>
+</head>
+<body>
+  <div class="page-container">
+    <div class="slide-header">
+      <h1 class="slide-title">Customer Journey Map</h1>
+      <p class="slide-subtitle">Implementation lifecycle for Black Armor AI</p>
+      
+      <!-- Sales Journey Context Banner -->
+      <div style="background-color: rgba(161, 66, 244, 0.1); color: var(--gcp-purple); padding: 10px 15px; border-radius: 8px; margin: 15px auto; max-width: 700px; display: flex; align-items: center;">
+        <i class="fas fa-route" style="margin-right: 10px;"></i>
+        <span style="font-size: 0.9rem;">
+          <strong>Sales Journey:</strong> Timeline validation tool - Deal Qualification phase (90% complete)
+        </span>
+      </div>
+    </div>
+    
+    <div class="tool-overview">
+      <p class="overview-desc">
+        This interactive journey map outlines the key phases of implementing Black Armor AI's drone-based security solution with Google Cloud. Track your progress, access phase-specific resources, and ensure a successful implementation.
+      </p>
+    </div>
+    
+    <div class="journey-timeline">
+      <div class="timeline-track">
+        <div class="timeline-progress"></div>
+      </div>
+      
+      <div class="timeline-phases">
+        <div class="timeline-phase completed" data-phase="discovery">
+          <div class="phase-indicator">
+            <i class="fas fa-search"></i>
+          </div>
+          <div class="phase-info">
+            <h3 class="phase-title">Discovery</h3>
+            <p class="phase-desc">Initial assessment and planning</p>
+          </div>
+        </div>
+        
+        <div class="timeline-phase completed" data-phase="design">
+          <div class="phase-indicator">
+            <i class="fas fa-pencil-ruler"></i>
+          </div>
+          <div class="phase-info">
+            <h3 class="phase-title">Design</h3>
+            <p class="phase-desc">Solution architecture and planning</p>
+          </div>
+        </div>
+        
+        <div class="timeline-phase active" data-phase="implementation">
+          <div class="phase-indicator">
+            <i class="fas fa-cogs"></i>
+          </div>
+          <div class="phase-info">
+            <h3 class="phase-title">Implementation</h3>
+            <p class="phase-desc">Deployment and integration</p>
+          </div>
+        </div>
+        
+        <div class="timeline-phase" data-phase="validation">
+          <div class="phase-indicator">
+            <i class="fas fa-check-double"></i>
+          </div>
+          <div class="phase-info">
+            <h3 class="phase-title">Validation</h3>
+            <p class="phase-desc">Testing and optimization</p>
+          </div>
+        </div>
+        
+        <div class="timeline-phase" data-phase="operation">
+          <div class="phase-indicator">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <div class="phase-info">
+            <h3 class="phase-title">Operation</h3>
+            <p class="phase-desc">Full operational capability</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="phase-details">
+      <div class="phase-header">
+        <div class="phase-icon">
+          <i class="fas fa-cogs"></i>
+        </div>
+        <div class="phase-info">
+          <h3 class="phase-name">Implementation Phase</h3>
+          <div class="phase-duration">Weeks 5-10 | Currently in progress</div>
+        </div>
+      </div>
+      
+      <div class="phase-content">
+        <div class="content-main">
+          <div class="content-section">
+            <h4 class="section-title">Phase Overview</h4>
+            <p class="section-desc">
+              The Implementation phase focuses on deploying the Black Armor AI drone-based security solution in your environment. This includes setting up the Google Cloud infrastructure, configuring hardware components, implementing AI models, and integrating with existing systems.
+            </p>
+          </div>
+          
+          <div class="content-section">
+            <h4 class="section-title">Key Activities</h4>
+            <ul class="activity-list">
+              <li class="activity-item">
+                <i class="fas fa-check-circle"></i>
+                <span>Google Cloud environment setup and configuration</span>
+              </li>
+              <li class="activity-item">
+                <i class="fas fa-check-circle"></i>
+                <span>Drone hardware deployment and calibration</span>
+              </li>
+              <li class="activity-item">
+                <i class="fas fa-check-circle"></i>
+                <span>Network infrastructure configuration and testing</span>
+              </li>
+              <li class="activity-item">
+                <i class="fas fa-spinner fa-pulse"></i>
+                <span>AI model deployment and initial training</span>
+              </li>
+              <li class="activity-item">
+                <i class="far fa-circle"></i>
+                <span>Integration with existing security systems</span>
+              </li>
+              <li class="activity-item">
+                <i class="far fa-circle"></i>
+                <span>Security operations dashboard setup</span>
+              </li>
+              <li class="activity-item">
+                <i class="far fa-circle"></i>
+                <span>Initial operator training and onboarding</span>
+              </li>
+            </ul>
+          </div>
+          
+          <div class="content-section">
+            <h4 class="section-title">Implementation Milestones</h4>
+            <div class="milestone-list">
+              <div class="milestone-item">
+                <div class="milestone-check">
+                  <i class="fas fa-check"></i>
+                </div>
+                <div class="milestone-text">Google Cloud environment fully provisioned and configured</div>
+              </div>
+              <div class="milestone-item">
+                <div class="milestone-check">
+                  <i class="fas fa-check"></i>
+                </div>
+                <div class="milestone-text">Drone fleet deployed and base station installation complete</div>
+              </div>
+              <div class="milestone-item">
+                <div class="milestone-check milestone-pending">
+                  <i class="fas fa-hourglass-half"></i>
+                </div>
+                <div class="milestone-text">AI models trained with site-specific data (80% complete)</div>
+              </div>
+              <div class="milestone-item">
+                <div class="milestone-check milestone-pending">
+                  <i class="fas fa-hourglass-half"></i>
+                </div>
+                <div class="milestone-text">Integration with existing security systems (40% complete)</div>
+              </div>
+              <div class="milestone-item">
+                <div class="milestone-check milestone-pending">
+                  <i class="fas fa-hourglass-half"></i>
+                </div>
+                <div class="milestone-text">Security operations dashboard deployed and configured</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="content-sidebar">
+          <div class="resource-card">
+            <h4 class="resource-title">Implementation Resources</h4>
+            <ul class="resource-list">
+              <li class="resource-item">
+                <div class="resource-icon">
+                  <i class="fas fa-file-pdf"></i>
+                </div>
+                <div class="resource-info">
+                  <div class="resource-name">Implementation Guide</div>
+                  <div class="resource-type">PDF Document</div>
+                </div>
+                <a href="#" class="resource-link">
+                  <i class="fas fa-download"></i>
+                </a>
+              </li>
+              <li class="resource-item">
+                <div class="resource-icon">
+                  <i class="fas fa-file-code"></i>
+                </div>
+                <div class="resource-info">
+                  <div class="resource-name">GCP Deployment Scripts</div>
+                  <div class="resource-type">GitHub Repository</div>
+                </div>
+                <a href="#" class="resource-link">
+                  <i class="fas fa-external-link-alt"></i>
+                </a>
+              </li>
+              <li class="resource-item">
+                <div class="resource-icon">
+                  <i class="fas fa-video"></i>
+                </div>
+                <div class="resource-info">
+                  <div class="resource-name">Drone Setup Tutorial</div>
+                  <div class="resource-type">Video Tutorial</div>
+                </div>
+                <a href="#" class="resource-link">
+                  <i class="fas fa-play"></i>
+                </a>
+              </li>
+              <li class="resource-item">
+                <div class="resource-icon">
+                  <i class="fas fa-file-alt"></i>
+                </div>
+                <div class="resource-info">
+                  <div class="resource-name">Integration Checklist</div>
+                  <div class="resource-type">Document</div>
+                </div>
+                <a href="#" class="resource-link">
+                  <i class="fas fa-download"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+          
+          <div class="resource-card">
+            <h4 class="resource-title">Implementation Team</h4>
+            <ul class="resource-list">
+              <li class="resource-item">
+                <div class="resource-icon">
+                  <i class="fas fa-user-tie"></i>
+                </div>
+                <div class="resource-info">
+                  <div class="resource-name">Alex Chen</div>
+                  <div class="resource-type">Project Manager</div>
+                </div>
+                <a href="#" class="resource-link">
+                  <i class="fas fa-envelope"></i>
+                </a>
+              </li>
+              <li class="resource-item">
+                <div class="resource-icon">
+                  <i class="fas fa-user-cog"></i>
+                </div>
+                <div class="resource-info">
+                  <div class="resource-name">Sarah Johnson</div>
+                  <div class="resource-type">Technical Lead</div>
+                </div>
+                <a href="#" class="resource-link">
+                  <i class="fas fa-envelope"></i>
+                </a>
+              </li>
+              <li class="resource-item">
+                <div class="resource-icon">
+                  <i class="fas fa-headset"></i>
+                </div>
+                <div class="resource-info">
+                  <div class="resource-name">Support Team</div>
+                  <div class="resource-type">24/7 Support</div>
+                </div>
+                <a href="#" class="resource-link">
+                  <i class="fas fa-phone"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="journey-navigation">
+        <button class="nav-btn nav-btn-secondary previous-phase">
+          <i class="fas fa-arrow-left"></i> Back to Design
+        </button>
+        <button class="nav-btn nav-btn-primary next-phase">
+          Continue to Validation <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Navigation Buttons -->
+  <div class="nav-buttons">
+    <button class="nav-button home-button" title="Home" onclick="window.location.href='client_presentations/Executive_Briefing.html'">
+      <i class="fas fa-home"></i>
+    </button>
+    <button class="nav-button back-button" title="Back" id="backButton">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+  </div>
+  
+  <script>
+    document.getElementById('backButton').addEventListener('click', function() {
+      window.location.href = 'client_presentations/BANT_Framework.html';
+    });
+    
+    // Phase data for each timeline phase
+    const phaseData = {
+      'discovery': {
+        name: 'Discovery Phase',
+        duration: 'Weeks 1-4 | Completed',
+        icon: 'fas fa-search',
+        overview: 'The Discovery phase is the initial step in implementing Black Armor AI\'s drone-based security solution. This phase focuses on understanding your organization\'s specific security needs, assessing current infrastructure, and developing a tailored implementation strategy.',
+        activities: [
+          'Comprehensive security needs assessment',
+          'Site surveys and facility mapping',
+          'Current security infrastructure evaluation',
+          'Stakeholder interviews and requirement gathering',
+          'Threat modeling and risk assessment',
+          'Data collection strategy development'
+        ],
+        deliverables: [
+          'Detailed security assessment report',
+          'Site suitability analysis',
+          'Integration requirements document',
+          'Preliminary implementation roadmap',
+          'Project charter with defined objectives',
+          'Initial ROI projections'
+        ],
+        milestones: [
+          'Project kickoff',
+          'Requirements sign-off',
+          'Implementation team formation',
+          'Initial budget approval',
+          'Stakeholder alignment confirmation',
+          'Technology compatibility verification'
+        ]
+      },
+      'planning': {
+        name: 'Planning Phase',
+        duration: 'Weeks 5-8 | In Progress',
+        icon: 'fas fa-clipboard-list',
+        overview: 'The Planning phase builds on the insights gained during Discovery to create a detailed implementation plan. This phase focuses on technical design, resource allocation, and establishing the project management framework to ensure successful deployment.',
+        activities: [
+          'Detailed solution architecture design',
+          'Flight path and coverage planning',
+          'Technical integration planning',
+          'Resource allocation and team assignment',
+          'Timeline and milestone development',
+          'Risk management planning',
+          'Budget finalization and approval'
+        ],
+        deliverables: [
+          'Detailed implementation plan',
+          'Solution architecture diagram',
+          'Technical specification document',
+          'Hardware and software requirements list',
+          'Compliance and regulatory documentation',
+          'Finalized project schedule',
+          'Approved budget and resource plan'
+        ],
+        milestones: [
+          'Architecture design approval',
+          'Implementation plan sign-off',
+          'Vendor agreements finalized',
+          'Regulatory compliance confirmed',
+          'Project schedule baseline established',
+          'Resource plan approved'
+        ]
+      },
+      'implementation': {
+        name: 'Implementation Phase',
+        duration: 'Weeks 9-16 | Upcoming',
+        icon: 'fas fa-tools',
+        overview: 'The Implementation phase is where the solution comes to life. During this phase, hardware is installed, software is configured, and all technical components are integrated to create a functioning drone-based security system.',
+        activities: [
+          'Hardware procurement and deployment',
+          'Drone base station installation',
+          'Software installation and configuration',
+          'Integration with existing security systems',
+          'Customization of AI analytics models',
+          'Testing of all system components',
+          'User interface configuration'
+        ],
+        deliverables: [
+          'Installed and configured hardware',
+          'Operational drone fleet',
+          'Functional monitoring dashboard',
+          'Integrated alert system',
+          'Test results documentation',
+          'System integration report',
+          'Technical documentation package'
+        ],
+        milestones: [
+          'Hardware deployment complete',
+          'Software configuration complete',
+          'Integration testing successful',
+          'Initial drone flight tests completed',
+          'Security control room setup complete',
+          'System acceptance testing passed'
+        ]
+      },
+      'testing': {
+        name: 'Testing & Training Phase',
+        duration: 'Weeks 17-20 | Upcoming',
+        icon: 'fas fa-vial',
+        overview: 'The Testing & Training phase ensures the system functions as designed and prepares your team to operate it effectively. This phase includes rigorous testing of all system components and comprehensive training for security personnel.',
+        activities: [
+          'Comprehensive system testing',
+          'User acceptance testing',
+          'Performance optimization',
+          'Security personnel training',
+          'Administrator training',
+          'Emergency response drills',
+          'System fine-tuning based on feedback'
+        ],
+        deliverables: [
+          'Test results and validation report',
+          'User acceptance sign-off',
+          'Training materials and documentation',
+          'Trained security personnel',
+          'Trained system administrators',
+          'Performance baseline measurements',
+          'System optimization recommendations'
+        ],
+        milestones: [
+          'System acceptance testing completed',
+          'Performance criteria met',
+          'Security team training completed',
+          'Administrator training completed',
+          'Emergency response procedures validated',
+          'Handover readiness confirmed'
+        ]
+      },
+      'launch': {
+        name: 'Launch & Optimization Phase',
+        duration: 'Weeks 21-24 | Upcoming',
+        icon: 'fas fa-rocket',
+        overview: 'The Launch & Optimization phase marks the transition to active operation and focuses on refining the system for optimal performance. This phase establishes ongoing support processes and continuous improvement mechanisms.',
+        activities: [
+          'System go-live and cutover',
+          'Hypercare support period',
+          'Performance monitoring and tuning',
+          'Analytics dashboard refinement',
+          'Alert threshold optimization',
+          'Operational process finalization',
+          'Knowledge transfer completion'
+        ],
+        deliverables: [
+          'Fully operational security system',
+          'Optimization report and recommendations',
+          'System performance dashboard',
+          'Documented operational procedures',
+          'Support and maintenance plan',
+          'Final project documentation',
+          'Project closure report'
+        ],
+        milestones: [
+          'Production go-live achievement',
+          'Hypercare period completion',
+          'Performance targets achieved',
+          'Support transition completed',
+          'Project closure and acceptance',
+          'Transition to ongoing operations'
+        ]
+      }
+    };
+    
+    // Function to update content based on selected phase
+    function updatePhaseContent(phaseId) {
+      // Update active state for phase buttons
+      document.querySelectorAll('.phase-button').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      document.getElementById(`phase-${phaseId}`).classList.add('active');
+      
+      // Get the phase data
+      const phase = phaseData[phaseId];
+      
+      // Update the content
+      document.getElementById('phase-name').textContent = phase.name;
+      document.getElementById('phase-duration').textContent = phase.duration;
+      document.getElementById('phase-icon').className = phase.icon;
+      document.getElementById('phase-overview').textContent = phase.overview;
+      
+      // Update activities
+      const activitiesList = document.getElementById('activities-list');
+      activitiesList.innerHTML = '';
+      phase.activities.forEach(activity => {
+        const li = document.createElement('li');
+        li.innerHTML = `<i class="fas fa-check-circle"></i> ${activity}`;
+        activitiesList.appendChild(li);
+      });
+      
+      // Update deliverables
+      const deliverablesList = document.getElementById('deliverables-list');
+      deliverablesList.innerHTML = '';
+      phase.deliverables.forEach(deliverable => {
+        const li = document.createElement('li');
+        li.innerHTML = `<i class="fas fa-file-alt"></i> ${deliverable}`;
+        deliverablesList.appendChild(li);
+      });
+      
+      // Update milestones
+      const milestonesList = document.getElementById('milestones-list');
+      milestonesList.innerHTML = '';
+      phase.milestones.forEach(milestone => {
+        const li = document.createElement('li');
+        li.innerHTML = `<i class="fas fa-flag"></i> ${milestone}`;
+        milestonesList.appendChild(li);
+      });
+    }
+    
+    // Add event listeners to phase buttons
+    document.getElementById('phase-discovery').addEventListener('click', function() {
+      updatePhaseContent('discovery');
+    });
+    
+    document.getElementById('phase-planning').addEventListener('click', function() {
+      updatePhaseContent('planning');
+    });
+    
+    document.getElementById('phase-implementation').addEventListener('click', function() {
+      updatePhaseContent('implementation');
+    });
+    
+    document.getElementById('phase-testing').addEventListener('click', function() {
+      updatePhaseContent('testing');
+    });
+    
+    document.getElementById('phase-launch').addEventListener('click', function() {
+      updatePhaseContent('launch');
+    });
+    
+    // Set initial phase on load
+    document.addEventListener('DOMContentLoaded', function() {
+      updatePhaseContent('discovery');
+    });
+    
+    document.getElementById('downloadBtn').addEventListener('click', function() {
+      alert('Generating detailed timeline PDF! In a real implementation, this would create a comprehensive project timeline document for sharing with stakeholders.');
+      
+      // Add a small delay before redirecting back to the main assessment page
+      setTimeout(function() {
+        window.location.href = 'client_presentations/BANT_Framework.html';
+      }, 2000);
+    });
+  </script>
+<script src="chatbot_commands.js"></script>
+<script src="0
+<script src="global_nav.js"></script>
+  <!-- Chatbot Container -->
+  <!-- Chatbot is dynamically created by chatbot scripts -->    <i class="fas fa-comment"></i>
+  </button>
+</body>
+</html> 

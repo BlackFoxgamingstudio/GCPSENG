@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Black Armor AI | Conclusion & Next Steps</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --gcp-blue: #4285F4;
+      --gcp-red: #DB4437;
+      --gcp-yellow: #F4B400;
+      --gcp-green: #0F9D58;
+      --gcp-purple: #A142F4;
+      --dark-text: #202124;
+      --light-text: #5f6368;
+      --bg-light: #f8f9fa;
+      --border-light: #dadce0;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      color: var(--dark-text);
+      background-color: white;
+      overflow-x: hidden;
+      padding: 20px;
+    }
+    
+    .slide-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .slide-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    .slide-title {
+      color: var(--gcp-green);
+      font-size: 2.8rem;
+      font-weight: 500;
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+    
+    .slide-subtitle {
+      color: var(--light-text);
+      font-size: 1.4rem;
+      font-weight: 400;
+      margin-bottom: 20px;
+    }
+
+    .conclusion-overview {
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto 50px;
+      background-color: var(--bg-light);
+      padding: 30px;
+      border-radius: 14px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    }
+    
+    .overview-desc {
+      font-size: 1.2rem;
+      color: var(--dark-text);
+      line-height: 1.7;
+      font-weight: 500;
+    }
+    
+    /* Summary Section */
+    .benefits-summary {
+      margin-bottom: 60px;
+    }
+    
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+    
+    .summary-card {
+      background-color: white;
+      border-radius: 14px;
+      padding: 30px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      text-align: center;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .summary-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    }
+    
+    .summary-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+    }
+    
+    .business-card::before {
+      background-color: var(--gcp-red);
+    }
+    
+    .technical-card::before {
+      background-color: var(--gcp-blue);
+    }
+    
+    .implementation-card::before {
+      background-color: var(--gcp-green);
+    }
+    
+    .summary-icon {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background-color: var(--bg-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 1.8rem;
+    }
+    
+    .business-card .summary-icon {
+      color: var(--gcp-red);
+    }
+    
+    .technical-card .summary-icon {
+      color: var(--gcp-blue);
+    }
+    
+    .implementation-card .summary-icon {
+      color: var(--gcp-green);
+    }
+    
+    .summary-title {
+      font-size: 1.4rem;
+      font-weight: 500;
+      margin-bottom: 15px;
+      color: var(--dark-text);
+    }
+    
+    .summary-points {
+      list-style: none;
+      text-align: left;
+      margin-bottom: 20px;
+    }
+    
+    .summary-point {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+    
+    .business-card .summary-point i {
+      color: var(--gcp-red);
+    }
+    
+    .technical-card .summary-point i {
+      color: var(--gcp-blue);
+    }
+    
+    .implementation-card .summary-point i {
+      color: var(--gcp-green);
+    }
+    
+    .summary-point i {
+      margin-right: 10px;
+      margin-top: 4px;
+    }
+    
+    .summary-point-text {
+      font-size: 1rem;
+      color: var(--light-text);
+      line-height: 1.5;
+    }
+    
+    /* CTA Section */
+    .action-section {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    
+    .action-header {
+      margin-bottom: 40px;
+    }
+    
+    .action-title {
+      font-size: 2rem;
+      font-weight: 500;
+      color: var(--dark-text);
+      margin-bottom: 15px;
+    }
+    
+    .action-subtitle {
+      font-size: 1.2rem;
+      color: var(--light-text);
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+    
+    .action-steps {
+      display: flex;
+      gap: 25px;
+      justify-content: center;
+      margin-bottom: 40px;
+    }
+    
+    .action-step {
+      background-color: white;
+      border-radius: 14px;
+      padding: 30px;
+      width: 220px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+    
+    .action-step:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    }
+    
+    .step-number {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: var(--gcp-green);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 500;
+      margin-bottom: 15px;
+      font-size: 1.1rem;
+    }
+    
+    .step-title {
+      font-weight: 500;
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+      color: var(--dark-text);
+      text-align: center;
+    }
+    
+    .step-desc {
+      font-size: 0.9rem;
+      color: var(--light-text);
+      text-align: center;
+      line-height: 1.5;
+    }
+    
+    .main-cta {
+      margin-top: 30px;
+    }
+    
+    .cta-btn {
+      background-color: var(--gcp-green);
+      color: white;
+      border: none;
+      padding: 15px 40px;
+      border-radius: 40px;
+      font-size: 1.2rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      box-shadow: 0 6px 15px rgba(15, 157, 88, 0.3);
+      text-decoration: none;
+    }
+    
+    .cta-btn:hover {
+      background-color: #0b8548;
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(15, 157, 88, 0.4);
+    }
+    
+    .cta-btn i {
+      margin-right: 12px;
+      font-size: 1.3rem;
+    }
+    
+    /* Contact Section */
+    .contact-section {
+      background: linear-gradient(120deg, rgba(15, 157, 88, 0.05), rgba(66, 133, 244, 0.05));
+      border-radius: 14px;
+      padding: 40px;
+      margin-bottom: 40px;
+      text-align: center;
+    }
+    
+    .contact-header {
+      margin-bottom: 30px;
+    }
+    
+    .contact-title {
+      font-size: 1.8rem;
+      font-weight: 500;
+      color: var(--dark-text);
+      margin-bottom: 10px;
+    }
+    
+    .contact-subtitle {
+      font-size: 1.1rem;
+      color: var(--light-text);
+    }
+    
+    .contact-cards {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+    }
+    
+    .contact-card {
+      background-color: white;
+      border-radius: 10px;
+      padding: 25px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      width: 300px;
+      transition: all 0.3s ease;
+    }
+    
+    .contact-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    
+    .contact-name {
+      font-size: 1.2rem;
+      font-weight: 500;
+      margin-bottom: 5px;
+      color: var(--dark-text);
+    }
+    
+    .contact-role {
+      font-size: 0.9rem;
+      color: var(--gcp-green);
+      margin-bottom: 15px;
+      font-weight: 500;
+    }
+    
+    .contact-method {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+      color: var(--light-text);
+    }
+    
+    .contact-method i {
+      width: 25px;
+      margin-right: 10px;
+      color: var(--gcp-blue);
+    }
+    
+    .contact-link {
+      display: inline-block;
+      color: var(--gcp-blue);
+      text-decoration: none;
+      margin-top: 10px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    
+    .contact-link:hover {
+      color: var(--gcp-green);
+    }
+    
+    .contact-link i {
+      margin-left: 5px;
+      font-size: 0.9rem;
+    }
+    
+    /* Thank You Section */
+    .thank-you {
+      text-align: center;
+      margin: 60px 0 40px;
+    }
+    
+    .thank-you-title {
+      font-size: 2.5rem;
+      font-weight: 500;
+      color: var(--gcp-green);
+      margin-bottom: 15px;
+    }
+    
+    .thank-you-message {
+      font-size: 1.2rem;
+      color: var(--light-text);
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+    
+    /* Navigation CSS */
+    .nav-buttons {
+      position: fixed;
+      bottom: 20px;
+     
+      display: flex;
+      gap: 10px;
+    }
+    
+    .nav-button {
+      background-color: var(--gcp-blue);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+      transition: all 0.2s ease;
+    }
+    
+    .nav-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 10px rgba(0,0,0,0.3);
+    }
+    
+    .nav-button:active {
+      transform: translateY(-1px);
+      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+    }
+    
+    .home-button {
+      background-color: var(--gcp-green);
+    }
+    
+    .previous-button {
+      background-color: var(--gcp-yellow);
+    }
+    
+    /* Responsive */
+    @media (max-width: 992px) {
+      .summary-grid {
+        grid-template-columns: 1fr;
+        max-width: 500px;
+        margin: 0 auto;
+      }
+      
+      .action-steps {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .action-step {
+        width: 100%;
+        max-width: 300px;
+      }
+      
+      .contact-cards {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+<style>
+  /* Custom chatbot positioning for this page */
+  #chatbot-toggle {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1000 !important;
+  }
+  
+  #chatbot-container {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1001 !important;
+    width: 350px !important;
+    max-height: 500px !important;
+  }
+</style><link rel="stylesheet" href="../chatbot.css">
+<link rel="stylesheet" href="../navbar.css">
+<script src="../navbar.js"></script>
+</head>
+<body>
+  <div class="slide-container">
+    <header class="slide-header">
+      <h1 class="slide-title">Transform Your Security Operations</h1>
+      <h2 class="slide-subtitle">The Future of Intelligent Surveillance with Black Armor AI</h2>
+    </header>
+    
+    <div class="conclusion-overview">
+      <p class="overview-desc">
+        Black Armor AI represents a paradigm shift in security surveillance, leveraging Google Cloud's advanced AI capabilities to deliver unprecedented threat detection accuracy, operational efficiency, and cost savings. Partner with us to secure your future today.
+      </p>
+    </div>
+    
+    <section class="benefits-summary">
+      <div class="summary-grid">
+        <div class="summary-card business-card">
+          <div class="summary-icon">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <h3 class="summary-title">Business Impact</h3>
+          <ul class="summary-points">
+            <li class="summary-point">
+              <i class="fas fa-check-circle"></i>
+              <span class="summary-point-text">60% reduction in total cost of ownership compared to traditional solutions</span>
+            </li>
+            <li class="summary-point">
+              <i class="fas fa-check-circle"></i>
+              <span class="summary-point-text">85% improvement in threat detection accuracy with fewer false alarms</span>
+            </li>
+            <li class="summary-point">
+              <i class="fas fa-check-circle"></i>
+              <span class="summary-point-text">70% faster incident response time with real-time alerts and analysis</span>
+            </li>
+            <li class="summary-point">
+              <i class="fas fa-check-circle"></i>
+              <span class="summary-point-text">Rapid ROI with average 6-month payback period</span>
+            </li>
+          </ul>
+        </div>
+        
+        <div class="summary-card technical-card">
+          <div class="summary-icon">
+            <i class="fas fa-cloud"></i>
+          </div>
+          <h3 class="summary-title">Technical Excellence</h3>
+          <ul class="summary-points">
+            <li class="summary-point">
+              <i class="fas fa-check-circle"></i>
+              <span class="summary-point-text">Cloud-native architecture with auto-scaling to meet any demand</span>
+            </li>
+            <li class="summary-point">
+              <i class="fas fa-check-circle"></i>
+              <span class="summary-point-text">Advanced AI models trained specifically for security applications</span>
+            </li>
+            <li class="summary-point">
+              <i class="fas fa-check-circle"></i>
+              <span class="summary-point-text">End-to-end encryption and comprehensive security controls</span>
+            </li>
+            <li class="summary-point">
+              <i class="fas fa-check-circle"></i>
+              <span class="summary-point-text">Seamless integration with existing security infrastructure</span>
+            </li>
+          </ul>
+        </div>
+        
+        <div class="summary-card implementation-card">
+          <div class="summary-icon">
+            <i class="fas fa-rocket"></i>
+          </div>
+          <h3 class="summary-title">Proven Methodology</h3>
+          <ul class="summary-points">
+            <li class="summary-point">
+              <i class="fas fa-check-circle"></i>
+              <span class="summary-point-text">90-day implementation timeline with clearly defined milestones</span>
+            </li>
+            <li class="summary-point">
+              <i class="fas fa-check-circle"></i>
+              <span class="summary-point-text">Dedicated team of specialists for all aspects of deployment</span>
+            </li>
+            <li class="summary-point">
+              <i class="fas fa-check-circle"></i>
+              <span class="summary-point-text">Comprehensive training and knowledge transfer for your team</span>
+            </li>
+            <li class="summary-point">
+              <i class="fas fa-check-circle"></i>
+              <span class="summary-point-text">Ongoing support and continuous optimization services</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    
+    <section class="action-section">
+      <div class="action-header">
+        <h3 class="action-title">Start Your Security Transformation Today</h3>
+        <p class="action-subtitle">Begin your journey to next-generation security with these simple steps</p>
+      </div>
+      
+      <div class="action-steps">
+        <div class="action-step">
+          <div class="step-number">1</div>
+          <h4 class="step-title">Discovery Consultation</h4>
+          <p class="step-desc">Schedule a free consultation to discuss your specific security challenges and goals.</p>
+        </div>
+        
+        <div class="action-step">
+          <div class="step-number">2</div>
+          <h4 class="step-title">Custom Proposal</h4>
+          <p class="step-desc">Receive a tailored solution proposal with detailed ROI analysis for your organization.</p>
+        </div>
+        
+        <div class="action-step">
+          <div class="step-number">3</div>
+          <h4 class="step-title">Implementation Plan</h4>
+          <p class="step-desc">Collaborate on a detailed implementation roadmap with clear milestones and deliverables.</p>
+        </div>
+        
+        <div class="action-step">
+          <div class="step-number">4</div>
+          <h4 class="step-title">Deployment & Success</h4>
+          <p class="step-desc">Experience seamless deployment and immediate value from your new security platform.</p>
+        </div>
+      </div>
+      
+      <div class="main-cta">
+        <a href="#" class="cta-btn">
+          <i class="fas fa-handshake"></i>
+          Partner With Us
+        </a>
+      </div>
+    </section>
+    
+    <section class="contact-section">
+      <div class="contact-header">
+        <h3 class="contact-title">Your Google Cloud Team</h3>
+        <p class="contact-subtitle">Reach out to us with any questions or to schedule a demo</p>
+      </div>
+      
+      <div class="contact-cards">
+        <div class="contact-card">
+          <h4 class="contact-name">Alex Rivera</h4>
+          <div class="contact-role">Customer Engineer, Google Cloud</div>
+          <div class="contact-method">
+            <i class="fas fa-envelope"></i>
+            <span>alex.rivera@google.com</span>
+          </div>
+          <div class="contact-method">
+            <i class="fas fa-phone"></i>
+            <span>+1 (555) 123-4567</span>
+          </div>
+          <a href="#" class="contact-link">Schedule a meeting <i class="fas fa-arrow-right"></i></a>
+        </div>
+        
+        <div class="contact-card">
+          <h4 class="contact-name">Sarah Johnson</h4>
+          <div class="contact-role">Account Executive, Google Cloud</div>
+          <div class="contact-method">
+            <i class="fas fa-envelope"></i>
+            <span>sarah.johnson@google.com</span>
+          </div>
+          <div class="contact-method">
+            <i class="fas fa-phone"></i>
+            <span>+1 (555) 987-6543</span>
+          </div>
+          <a href="#" class="contact-link">Schedule a meeting <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </section>
+    
+    <div class="thank-you">
+      <h3 class="thank-you-title">Thank You</h3>
+      <p class="thank-you-message">We appreciate your time and interest in Black Armor AI. We're excited about the opportunity to transform your security operations with our cutting-edge technology built on Google Cloud.</p>
+    </div>
+  </div>
+  
+  <!-- Navigation Buttons -->
+  <div class="nav-buttons">
+    <button class="nav-button home-button" title="Home" onclick="window.location.href='index.html'">
+      <i class="fas fa-home"></i>
+    </button>
+    <button class="nav-button previous-button" title="Previous" onclick="window.location.href='client_presentations/Financial_Impact.html'">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+    <button class="nav-button" title="Next" onclick="window.location.href='client_presentations/Operational_Integration.html'">
+      <i class="fas fa-arrow-right"></i>
+    </button>
+  </div>
+  
+  <!-- Sales Journey Progress -->
+  <div style="position: fixed; bottom: 80px; left: 0; right: 0; text-align: center;">
+    <div style="display: inline-block; background-color: var(--bg-light); padding: 10px 20px; border-radius: 30px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+      <div style="font-size: 0.9rem; color: var(--light-text); margin-bottom: 5px;">GCP Sales Journey Progress</div>
+      <div style="width: 300px; height: 10px; background-color: #e0e0e0; border-radius: 5px; overflow: hidden;">
+        <div style="width: 70%; height: 100%; background: linear-gradient(90deg, var(--gcp-blue), var(--gcp-green)); border-radius: 5px;"></div>
+      </div>
+      <div style="display: flex; justify-content: space-between; margin-top: 5px; font-size: 0.8rem; color: var(--light-text);">
+        <span>ROI & Summary</span>
+        <span>70%</span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Journey Phase Indicator -->
+  <div style="text-align: center; margin-top: 30px; margin-bottom: 60px;">
+    <div style="display: inline-block; background-color: rgba(15, 157, 88, 0.1); padding: 10px 20px; border-radius: 30px; color: var(--gcp-green);">
+      <i class="fas fa-dollar-sign"></i> Sales Phase: ROI & Conclusion
+    </div>
+    <p style="color: var(--light-text); margin-top: 10px; font-size: 0.9rem;">
+      Summarizing the investment value and providing clear next steps
+    </p>
+  </div>
+
+  <script>
+    document.getElementById('prevButton').addEventListener('click', function() {
+      window.location.href = '../client_presentations/Financial_Impact.html';
+    });
+    
+    document.getElementById('nextButton').addEventListener('click', function() {
+      window.location.href = '../client_presentations/Operational_Integration.html';
+    });
+  </script>
+<script src="../chatbot_commands.js"></script>
+<script src="0
+
+  <!-- Chatbot Container -->
+  <!-- Chatbot is dynamically created by chatbot scripts -->    <i class="fas fa-comment"></i>
+  </button>
+</body>
+</html> 

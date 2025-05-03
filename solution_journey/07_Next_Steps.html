@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neo AI Writers' Room | Slide 7</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --gcp-blue: #4285F4;
+      --gcp-red: #DB4437;
+      --gcp-yellow: #F4B400;
+      --gcp-green: #0F9D58;
+      --gcp-purple: #A142F4;
+      --dark-text: #202124;
+      --light-text: #5f6368;
+      --bg-light: #f8f9fa;
+      --border-light: #dadce0;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      color: var(--dark-text);
+      background-color: white;
+      overflow-x: hidden;
+      padding: 20px;
+    }
+    
+    .slide-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .slide-header {
+      text-align: center;
+      margin-bottom: 30px;
+      position: relative;
+    }
+    
+    .slide-title {
+      color: var(--gcp-blue);
+      font-size: 2.8rem;
+      font-weight: 500;
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+    
+    .slide-subtitle {
+      color: var(--light-text);
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-bottom: 20px;
+    }
+    
+    .main-content {
+      display: flex;
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+    
+    .next-steps {
+      width: 60%;
+    }
+    
+    .gcp-advantages {
+      width: 40%;
+    }
+    
+    .section-container {
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      overflow: hidden;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .section-header {
+      padding: 15px 20px;
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: white;
+    }
+    
+    .next-steps .section-header {
+      background-color: var(--gcp-blue);
+    }
+    
+    .gcp-advantages .section-header {
+      background-color: var(--gcp-green);
+    }
+    
+    .section-content {
+      padding: 25px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .steps-container {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+    
+    .step-card {
+      display: flex;
+      gap: 15px;
+      align-items: flex-start;
+      transition: transform 0.2s ease;
+      cursor: pointer;
+      padding: 5px;
+      border-radius: 8px;
+    }
+    
+    .step-card:hover {
+      transform: translateY(-5px);
+      background-color: var(--bg-light);
+    }
+    
+    .step-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: var(--bg-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      color: var(--gcp-blue);
+      flex-shrink: 0;
+    }
+    
+    .step-card:nth-child(2) .step-icon {
+      color: var(--gcp-green);
+    }
+    
+    .step-card:nth-child(3) .step-icon {
+      color: var(--gcp-purple);
+    }
+    
+    .step-card:nth-child(4) .step-icon {
+      color: var(--gcp-yellow);
+    }
+    
+    .step-content {
+      flex: 1;
+    }
+    
+    .step-title {
+      font-weight: 500;
+      font-size: 1.1rem;
+      margin-bottom: 5px;
+      color: var(--dark-text);
+    }
+    
+    .step-desc {
+      font-size: 0.9rem;
+      color: var(--light-text);
+      line-height: 1.4;
+    }
+    
+    .action-btn {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 5px 12px;
+      background-color: rgba(66, 133, 244, 0.1);
+      color: var(--gcp-blue);
+      font-size: 0.8rem;
+      font-weight: 500;
+      border-radius: 15px;
+      text-decoration: none;
+    }
+    
+    .advantage-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .advantage-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    
+    .advantage-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background-color: rgba(15, 157, 88, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      color: var(--gcp-green);
+      flex-shrink: 0;
+    }
+    
+    .advantage-item:nth-child(2) .advantage-icon {
+      background-color: rgba(66, 133, 244, 0.1);
+      color: var(--gcp-blue);
+    }
+    
+    .advantage-item:nth-child(3) .advantage-icon {
+      background-color: rgba(219, 68, 55, 0.1);
+      color: var(--gcp-red);
+    }
+    
+    .advantage-item:nth-child(4) .advantage-icon {
+      background-color: rgba(244, 180, 0, 0.1);
+      color: var(--gcp-yellow);
+    }
+    
+    .advantage-item:nth-child(5) .advantage-icon {
+      background-color: rgba(161, 66, 244, 0.1);
+      color: var(--gcp-purple);
+    }
+    
+    .advantage-content {
+      flex: 1;
+    }
+    
+    .advantage-title {
+      font-weight: 500;
+      font-size: 0.95rem;
+      margin-bottom: 3px;
+      color: var(--dark-text);
+    }
+    
+    .advantage-desc {
+      font-size: 0.85rem;
+      color: var(--light-text);
+      line-height: 1.4;
+    }
+    
+    .comparison-table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+    }
+    
+    .comparison-table th {
+      text-align: left;
+      padding: 10px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--dark-text);
+      border-bottom: 2px solid var(--border-light);
+    }
+    
+    .comparison-table td {
+      padding: 12px 10px;
+      font-size: 0.85rem;
+      border-bottom: 1px solid var(--border-light);
+      color: var(--light-text);
+    }
+    
+    .comparison-table tr:last-child td {
+      border-bottom: none;
+    }
+    
+    .check-icon {
+      color: var(--gcp-green);
+    }
+    
+    .limited-icon {
+      color: var(--gcp-yellow);
+    }
+    
+    .missing-icon {
+      color: var(--gcp-red);
+    }
+    
+    .cta-container {
+      text-align: center;
+      margin-top: 40px;
+      margin-bottom: 30px;
+    }
+    
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      background-color: var(--gcp-blue);
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 500;
+      padding: 12px 30px;
+      border-radius: 30px;
+      text-decoration: none;
+      box-shadow: 0 4px 8px rgba(66, 133, 244, 0.3);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(66, 133, 244, 0.4);
+    }
+    
+    .cta-icon {
+      margin-right: 10px;
+      font-size: 1.2rem;
+    }
+    
+    .partner-logos {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 40px;
+      margin-bottom: 20px;
+    }
+    
+    .partner-logo {
+      height: 40px;
+      opacity: 0.7;
+      transition: opacity 0.2s ease;
+    }
+    
+    .partner-logo:hover {
+      opacity: 1;
+    }
+    
+    .technical-footer {
+      background-color: var(--bg-light);
+      padding: 10px 20px;
+      font-size: 0.75rem;
+      color: var(--light-text);
+      text-align: center;
+      border-radius: 4px;
+    }
+    
+    .technical-footer .highlight {
+      color: var(--gcp-blue);
+      font-weight: 500;
+    }
+    
+    /* Animation */
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    
+    .fade-in {
+      opacity: 0;
+      animation: fadeIn 0.8s forwards;
+    }
+    
+    .delay-1 {
+      animation-delay: 0.1s;
+    }
+    
+    .delay-2 {
+      animation-delay: 0.2s;
+    }
+    
+    .delay-3 {
+      animation-delay: 0.3s;
+    }
+    
+    .delay-4 {
+      animation-delay: 0.4s;
+    }
+    
+    .delay-5 {
+      animation-delay: 0.5s;
+    }
+  </style>
+<style>
+  /* Custom chatbot positioning for this page */
+  #chatbot-toggle {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1000 !important;
+  }
+  
+  #chatbot-container {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1001 !important;
+    width: 350px !important;
+    max-height: 500px !important;
+  }
+</style>
+<link rel="stylesheet" href="../chatbot.css">
+<link rel="stylesheet" href="../navbar.css">
+</head>
+<body>
+  <div class="slide-container">
+    <div class="slide-header">
+      <h1 class="slide-title">Start Your Content Intelligence Journey</h1>
+      <h2 class="slide-subtitle">From Concept to Production in 90 Days</h2>
+    </div>
+    
+    <div class="main-content">
+      <div class="next-steps">
+        <div class="section-container">
+          <div class="section-header">
+            Next Steps & Action Plan
+          </div>
+          <div class="section-content">
+            <div class="steps-container">
+              <div class="step-card fade-in delay-1">
+                <div class="step-icon">
+                  <i class="fas fa-chalkboard-teacher"></i>
+                </div>
+                <div class="step-content">
+                  <div class="step-title">Discovery Workshop</div>
+                  <div class="step-desc">
+                    Schedule a 2-day deep dive with our solution architects to assess your specific content needs, technical environment, and business objectives. We'll customize the Neo AI solution to align with your unique requirements.
+                  </div>
+                  <a href="#" class="action-btn">Schedule Now</a>
+                </div>
+              </div>
+              
+              <div class="step-card fade-in delay-2">
+                <div class="step-icon">
+                  <i class="fas fa-flask"></i>
+                </div>
+                <div class="step-content">
+                  <div class="step-title">2-Week Technical POC</div>
+                  <div class="step-desc">
+                    Experience the power of Neo AI Writers' Room with your own content. Our engineering team will deploy a proof of concept in your GCP environment, processing up to 10 hours of your content for immediate evaluation.
+                  </div>
+                  <a href="#" class="action-btn">Request POC</a>
+                </div>
+              </div>
+              
+              <div class="step-card fade-in delay-3">
+                <div class="step-icon">
+                  <i class="fas fa-comments-dollar"></i>
+                </div>
+                <div class="step-content">
+                  <div class="step-title">GCP Migration Credits</div>
+                  <div class="step-desc">
+                    Qualify for up to $100,000 in GCP migration credits to offset implementation costs. Our team will help you apply for the Google Cloud incentive program and maximize your available credits.
+                  </div>
+                  <a href="#" class="action-btn">Check Eligibility</a>
+                </div>
+              </div>
+              
+              <div class="step-card fade-in delay-4">
+                <div class="step-icon">
+                  <i class="fas fa-rocket"></i>
+                </div>
+                <div class="step-content">
+                  <div class="step-title">Partner Ecosystem Support</div>
+                  <div class="step-desc">
+                    Access our network of certified implementation partners with deep expertise in media content workflows, machine learning operations, and Google Cloud integration services.
+                  </div>
+                  <a href="#" class="action-btn">View Partners</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="gcp-advantages">
+        <div class="section-container">
+          <div class="section-header">
+            The GCP Advantage
+          </div>
+          <div class="section-content">
+            <div class="advantage-list">
+              <div class="advantage-item fade-in delay-1">
+                <div class="advantage-icon">
+                  <i class="fas fa-brain"></i>
+                </div>
+                <div class="advantage-content">
+                  <div class="advantage-title">Industry-Leading AI/ML</div>
+                  <div class="advantage-desc">
+                    Access to Google's cutting-edge AI through Vertex AI, with pre-trained models for speech, vision, and language understanding.
+                  </div>
+                </div>
+              </div>
+              
+              <div class="advantage-item fade-in delay-2">
+                <div class="advantage-icon">
+                  <i class="fas fa-server"></i>
+                </div>
+                <div class="advantage-content">
+                  <div class="advantage-title">Serverless Architecture</div>
+                  <div class="advantage-desc">
+                    Zero-management scaling with Cloud Run and Cloud Functions, automatically handling demand spikes.
+                  </div>
+                </div>
+              </div>
+              
+              <div class="advantage-item fade-in delay-3">
+                <div class="advantage-icon">
+                  <i class="fas fa-network-wired"></i>
+                </div>
+                <div class="advantage-content">
+                  <div class="advantage-title">Global Network</div>
+                  <div class="advantage-desc">
+                    Low-latency content delivery worldwide through Google's private fiber network and edge locations.
+                  </div>
+                </div>
+              </div>
+              
+              <div class="advantage-item fade-in delay-4">
+                <div class="advantage-icon">
+                  <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="advantage-content">
+                  <div class="advantage-title">Enterprise Security</div>
+                  <div class="advantage-desc">
+                    Industry-leading security with IAM, VPC Service Controls, and end-to-end encryption.
+                  </div>
+                </div>
+              </div>
+              
+              <div class="advantage-item fade-in delay-5">
+                <div class="advantage-icon">
+                  <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="advantage-content">
+                  <div class="advantage-title">Predictable Pricing</div>
+                  <div class="advantage-desc">
+                    Pay-as-you-go model with no upfront costs and discounts for committed use.
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <table class="comparison-table">
+              <thead>
+                <tr>
+                  <th width="40%">Capability</th>
+                  <th width="30%">GCP</th>
+                  <th width="30%">Others</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>End-to-end ML Ops</td>
+                  <td><i class="fas fa-check check-icon"></i></td>
+                  <td><i class="fas fa-minus limited-icon"></i></td>
+                </tr>
+                <tr>
+                  <td>Serverless Content Processing</td>
+                  <td><i class="fas fa-check check-icon"></i></td>
+                  <td><i class="fas fa-minus limited-icon"></i></td>
+                </tr>
+                <tr>
+                  <td>Speech/Vision/NLP APIs</td>
+                  <td><i class="fas fa-check check-icon"></i></td>
+                  <td><i class="fas fa-check check-icon"></i></td>
+                </tr>
+                <tr>
+                  <td>Multi-modal AI Analysis</td>
+                  <td><i class="fas fa-check check-icon"></i></td>
+                  <td><i class="fas fa-times missing-icon"></i></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="cta-container">
+      <a href="#" class="cta-btn">
+        <i class="fas fa-calendar-check cta-icon"></i>
+        Schedule Your Discovery Workshop
+      </a>
+    </div>
+    
+    <div class="partner-logos">
+      <img src="https://storage.googleapis.com/gweb-cloudblog-publish/images/mongodb.max-600x600.png" alt="MongoDB" class="partner-logo">
+      <img src="https://storage.googleapis.com/gweb-cloudblog-publish/images/confluent.max-600x600.png" alt="Confluent" class="partner-logo">
+      <img src="https://storage.googleapis.com/gweb-cloudblog-publish/original_images/databricks.png" alt="Databricks" class="partner-logo">
+      <img src="https://storage.googleapis.com/gweb-cloudblog-publish/original_images/elastic.png" alt="Elastic" class="partner-logo">
+    </div>
+    
+    <div class="technical-footer">
+      Powered by <span class="highlight">Google Cloud Platform</span> | Implementation support from <span class="highlight">Certified Partners</span> | <span class="highlight">24/7 Enterprise Support</span> available
+    </div>
+  </div>
+  
+  <!-- Navigation CSS -->
+  
+  
+
+
+<script src="../chatbot_commands.js"></script>
+<script src="0
+<script src="../global_nav.js"></script>
+<script src="../navbar.js"></script>
+  <!-- Chatbot Container -->
+  <!-- Chatbot is dynamically created by chatbot scripts -->    <i class="fas fa-comment"></i>
+  </button>
+</body>
+</html> 

@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neo AI Writers' Room | Slide 4</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <!-- Mermaid.js for diagrams -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  
+  <style>
+    :root {
+      --gcp-blue: #4285F4;
+      --gcp-red: #DB4437;
+      --gcp-yellow: #F4B400;
+      --gcp-green: #0F9D58;
+      --gcp-purple: #A142F4;
+      --dark-text: #202124;
+      --light-text: #5f6368;
+      --bg-light: #f8f9fa;
+      --bg-lighter: #ffffff;
+      --code-bg: #f1f3f4;
+      --border-light: #dadce0;
+      
+      --blue-highlight: rgba(66, 133, 244, 0.1);
+      --yellow-highlight: rgba(244, 180, 0, 0.1);
+      --green-highlight: rgba(15, 157, 88, 0.1);
+      --red-highlight: rgba(219, 68, 55, 0.1);
+      --purple-highlight: rgba(161, 66, 244, 0.1);
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      color: var(--dark-text);
+      background-color: white;
+      overflow-x: hidden;
+      padding: 20px;
+    }
+    
+    .slide-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .slide-header {
+      text-align: center;
+      margin-bottom: 30px;
+      position: relative;
+    }
+    
+    .slide-title {
+      color: var(--gcp-blue);
+      font-size: 2.5rem;
+      font-weight: 500;
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+    
+    .slide-subtitle {
+      color: var(--light-text);
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-bottom: 20px;
+    }
+    
+    .content-comparison {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    
+    .raw-content, .enhanced-content {
+      width: 50%;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    
+    .section-header {
+      background-color: var(--gcp-blue);
+      color: white;
+      padding: 12px 20px;
+      font-size: 1.1rem;
+      font-weight: 500;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .raw-content .section-header {
+      background-color: var(--light-text);
+    }
+    
+    .content-wrapper {
+      padding: 20px;
+      background-color: var(--bg-lighter);
+      height: 520px;
+      overflow-y: auto;
+    }
+    
+    .transcript-segment {
+      padding: 15px;
+      background-color: var(--bg-light);
+      border-radius: 8px;
+      margin-bottom: 15px;
+      position: relative;
+    }
+    
+    .speaker {
+      font-weight: 500;
+      color: var(--gcp-blue);
+      margin-bottom: 5px;
+    }
+    
+    .raw-content .speaker {
+      color: var(--dark-text);
+    }
+    
+    .timestamp {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 0.8rem;
+      color: var(--light-text);
+    }
+    
+    .segment-text {
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+    
+    .raw-content .segment-text {
+      color: var(--dark-text);
+    }
+    
+    .enhanced-feature {
+      margin-top: 20px;
+      margin-bottom: 20px;
+      border-left: 3px solid var(--gcp-blue);
+      padding-left: 15px;
+    }
+    
+    .feature-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      font-weight: 500;
+      color: var(--dark-text);
+    }
+    
+    .feature-icon {
+      margin-right: 10px;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      color: white;
+      font-size: 0.8rem;
+    }
+    
+    .diagram-icon {
+      background-color: var(--gcp-purple);
+    }
+    
+    .search-icon {
+      background-color: var(--gcp-blue);
+    }
+    
+    .definition-icon {
+      background-color: var(--gcp-yellow);
+    }
+    
+    .fact-icon {
+      background-color: var(--gcp-green);
+    }
+    
+    .diagram-container {
+      padding: 15px;
+      background-color: white;
+      border-radius: 8px;
+      border: 1px solid var(--border-light);
+      margin-bottom: 15px;
+    }
+    
+    .search-results {
+      padding: 10px 15px;
+      background-color: var(--blue-highlight);
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+    
+    .search-title {
+      font-weight: 500;
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+      color: var(--gcp-blue);
+    }
+    
+    .search-item {
+      margin-bottom: 10px;
+      font-size: 0.85rem;
+      line-height: 1.4;
+    }
+    
+    .search-link {
+      color: var(--gcp-blue);
+      text-decoration: none;
+      display: block;
+      margin-bottom: 3px;
+      font-weight: 500;
+    }
+    
+    .search-snippet {
+      color: var(--light-text);
+    }
+    
+    .definition {
+      padding: 10px 15px;
+      background-color: var(--yellow-highlight);
+      border-radius: 8px;
+      margin-bottom: 15px;
+      font-size: 0.9rem;
+    }
+    
+    .definition-term {
+      font-weight: 500;
+      color: var(--gcp-yellow);
+      margin-bottom: 5px;
+    }
+    
+    .fact-check {
+      padding: 10px 15px;
+      background-color: var(--green-highlight);
+      border-radius: 8px;
+      margin-bottom: 15px;
+      font-size: 0.9rem;
+    }
+    
+    .fact-statement {
+      font-weight: 500;
+      color: var(--dark-text);
+      margin-bottom: 5px;
+    }
+    
+    .fact-verification {
+      display: flex;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+    
+    .verification-status {
+      margin-right: 10px;
+      color: var(--gcp-green);
+      font-weight: 500;
+    }
+    
+    .verification-sources {
+      margin-top: 5px;
+      font-size: 0.8rem;
+      color: var(--light-text);
+    }
+    
+    .source-link {
+      color: var(--gcp-blue);
+      text-decoration: none;
+    }
+    
+    .highlight {
+      background-color: rgba(66, 133, 244, 0.2);
+      padding: 0 3px;
+      border-radius: 3px;
+    }
+    
+    .enhanced-metrics {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+      gap: 20px;
+    }
+    
+    .metric-card {
+      flex: 1;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      padding: 20px;
+      text-align: center;
+    }
+    
+    .metric-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: var(--blue-highlight);
+      color: var(--gcp-blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 15px;
+      font-size: 1.5rem;
+    }
+    
+    .metric-card:nth-child(2) .metric-icon {
+      background-color: var(--yellow-highlight);
+      color: var(--gcp-yellow);
+    }
+    
+    .metric-card:nth-child(3) .metric-icon {
+      background-color: var(--green-highlight);
+      color: var(--gcp-green);
+    }
+    
+    .metric-card:nth-child(4) .metric-icon {
+      background-color: var(--red-highlight);
+      color: var(--gcp-red);
+    }
+    
+    .metric-value {
+      font-size: 2.5rem;
+      font-weight: 500;
+      color: var(--dark-text);
+      line-height: 1;
+      margin-bottom: 5px;
+    }
+    
+    .metric-label {
+      font-size: 0.85rem;
+      color: var(--light-text);
+    }
+    
+    .technical-footer {
+      background-color: var(--bg-light);
+      padding: 10px 20px;
+      font-size: 0.75rem;
+      color: var(--light-text);
+      text-align: center;
+      border-radius: 4px;
+      margin-top: 20px;
+    }
+    
+    .technical-footer .highlight {
+      color: var(--gcp-blue);
+      font-weight: 500;
+      background-color: transparent;
+      padding: 0;
+    }
+    
+    /* Highlighted content */
+    .highlighted-term {
+      border-bottom: 2px dashed var(--gcp-yellow);
+      position: relative;
+      cursor: help;
+    }
+    
+    .highlighted-fact {
+      border-bottom: 2px dashed var(--gcp-green);
+      position: relative;
+      cursor: help;
+    }
+    
+    /* Tooltips */
+    .tooltip {
+      position: absolute;
+      top: -10px;
+      transform: translateY(-100%);
+      left: 0;
+      background-color: white;
+      border-radius: 6px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      padding: 10px;
+      z-index: 10;
+      width: 250px;
+      font-size: 0.8rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    
+    .highlighted-term:hover .tooltip,
+    .highlighted-fact:hover .tooltip {
+      opacity: 1;
+    }
+    
+    /* Vertex AI service icon */
+    .ai-service {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 15px;
+      background-color: var(--bg-light);
+      padding: 3px 8px;
+      margin-left: 10px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--light-text);
+    }
+    
+    .ai-service i {
+      color: var(--gcp-green);
+      margin-right: 5px;
+    }
+    
+    /* Animation */
+    @keyframes pulseHighlight {
+      0% { opacity: 0.6; }
+      50% { opacity: 1; }
+      100% { opacity: 0.6; }
+    }
+    
+    .pulse-highlight {
+      animation: pulseHighlight 2s infinite;
+    }
+  </style>
+<style>
+  /* Custom chatbot positioning for this page */
+  #chatbot-toggle {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1000 !important;
+  }
+  
+  #chatbot-container {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1001 !important;
+    width: 350px !important;
+    max-height: 500px !important;
+  }
+</style>
+<link rel="stylesheet" href="../chatbot.css">
+<link rel="stylesheet" href="../navbar.css">
+</head>
+<body>
+  <div class="slide-container">
+    <div class="slide-header">
+      <h1 class="slide-title">Beyond Analytics: AI-Enhanced Content Production</h1>
+      <h2 class="slide-subtitle">From Raw Footage to Enriched Intelligence with GCP</h2>
+    </div>
+    
+    <div class="content-comparison">
+      <div class="raw-content">
+        <div class="section-header">
+          <span>Raw Transcript</span>
+          <span>3:45 - 4:30</span>
+        </div>
+        <div class="content-wrapper">
+          <div class="transcript-segment">
+            <div class="speaker">Sarah Chen (Host)</div>
+            <div class="timestamp">03:45</div>
+            <div class="segment-text">
+              So when we look at the processor architecture, we're seeing significant improvements in both performance and efficiency. The new 5nm process technology enables better transistor density while maintaining thermal efficiency.
+            </div>
+          </div>
+          
+          <div class="transcript-segment">
+            <div class="speaker">Dr. Alex Rivera (Guest)</div>
+            <div class="timestamp">03:58</div>
+            <div class="segment-text">
+              That's right. The 5nm process is a major leap forward. We're talking about approximately 1.8x transistor density compared to 7nm. This directly translates to performance gains in the 15-20% range while simultaneously reducing power consumption by about 30%. It's quite remarkable.
+            </div>
+          </div>
+          
+          <div class="transcript-segment">
+            <div class="speaker">Sarah Chen (Host)</div>
+            <div class="timestamp">04:18</div>
+            <div class="segment-text">
+              And how does this impact the actual battery life that users will experience? Because ultimately that's what consumers care about.
+            </div>
+          </div>
+          
+          <div class="transcript-segment">
+            <div class="speaker">Dr. Alex Rivera (Guest)</div>
+            <div class="timestamp">04:22</div>
+            <div class="segment-text">
+              Early benchmarks are showing approximately 4 hours additional battery life during mixed usage scenarios. The combination of more efficient silicon and better power management algorithms is really making a difference here.
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="enhanced-content">
+        <div class="section-header">
+          <span>AI-Enhanced Content</span>
+          <span>4 Enrichment Services</span>
+        </div>
+        <div class="content-wrapper">
+          <div class="transcript-segment">
+            <div class="speaker">Sarah Chen (Host)<span class="ai-service"><i class="fas fa-magic"></i>Speaker ID</span></div>
+            <div class="timestamp">03:45</div>
+            <div class="segment-text">
+              So when we look at the processor architecture, we're seeing significant improvements in both performance and efficiency. The new <span class="highlighted-term">5nm process technology<div class="tooltip"><strong>5nm Process Technology</strong>: Advanced semiconductor manufacturing process with transistor features measuring approximately 5 nanometers, enabling higher density and performance.</div></span> enables better transistor density while maintaining thermal efficiency.
+            </div>
+          </div>
+          
+          <!-- Diagram Enhancement -->
+          <div class="enhanced-feature">
+            <div class="feature-header">
+              <div class="feature-icon diagram-icon"><i class="fas fa-project-diagram"></i></div>
+              Automatic Diagram Generation
+            </div>
+            <div class="diagram-container">
+              <div class="mermaid">
+graph TD
+    A[5nm Process] --> B[1.8x Transistor Density]
+    A --> C[Power Reduction 30%]
+    A --> D[Performance Gain 15-20%]
+    D --> E[Application Speed]
+    C --> F[Battery Life +4hrs]
+    style A fill:#4285F4,stroke:#4285F4,color:white
+    style F fill:#0F9D58,stroke:#0F9D58,color:white
+              </div>
+            </div>
+          </div>
+          
+          <div class="transcript-segment">
+            <div class="speaker">Dr. Alex Rivera (Guest)<span class="ai-service"><i class="fas fa-magic"></i>Speaker ID</span></div>
+            <div class="timestamp">03:58</div>
+            <div class="segment-text">
+              That's right. The 5nm process is a major leap forward. We're talking about approximately 1.8x <span class="highlighted-term">transistor density<div class="tooltip"><strong>Transistor Density</strong>: The number of transistors that can fit into a given physical space on a semiconductor chip, measured in transistors per square millimeter.</div></span> compared to 7nm. This directly translates to performance gains in the 15-20% range while simultaneously reducing power consumption by about 30%. It's quite remarkable.
+            </div>
+          </div>
+          
+          <!-- Search Results Enhancement -->
+          <div class="enhanced-feature">
+            <div class="feature-header">
+              <div class="feature-icon search-icon"><i class="fas fa-search"></i></div>
+              Relevant Search Results
+            </div>
+            <div class="search-results">
+              <div class="search-title">Related to: 5nm processor technology</div>
+              <div class="search-item">
+                <a href="#" class="search-link">TSMC's 5nm Technology Delivers Density and Power Improvements</a>
+                <div class="search-snippet">TSMC's 5nm process node (N5) delivers a 15% performance gain or a 30% power reduction... with about 1.8x logic density...</div>
+              </div>
+              <div class="search-item">
+                <a href="#" class="search-link">Semiconductor Roadmap: From 7nm to 5nm and Beyond</a>
+                <div class="search-snippet">The industry transition to 5nm represents one of the most significant advances in recent years, with major implications for mobile and edge computing...</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="transcript-segment">
+            <div class="speaker">Sarah Chen (Host)</div>
+            <div class="timestamp">04:18</div>
+            <div class="segment-text">
+              And how does this impact the actual battery life that users will experience? Because ultimately that's what consumers care about.
+            </div>
+          </div>
+          
+          <!-- Definition Enhancement -->
+          <div class="enhanced-feature">
+            <div class="feature-header">
+              <div class="feature-icon definition-icon"><i class="fas fa-book"></i></div>
+              Terminology Definitions
+            </div>
+            <div class="definition">
+              <div class="definition-term">Glossary: Processor Technology Terms</div>
+              <ul style="margin-left: 20px; margin-top: 5px;">
+                <li><strong>5nm process</strong>: Advanced semiconductor manufacturing technology with features approximately 5 nanometers in size</li>
+                <li><strong>Transistor density</strong>: Number of transistors per unit area, key indicator of semiconductor advancement</li>
+                <li><strong>Power management algorithms</strong>: Software that controls how a device uses power to optimize battery life</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="transcript-segment">
+            <div class="speaker">Dr. Alex Rivera (Guest)</div>
+            <div class="timestamp">04:22</div>
+            <div class="segment-text">
+              Early benchmarks are showing approximately <span class="highlighted-fact">4 hours additional battery life during mixed usage scenarios<div class="tooltip"><strong>Fact Check</strong>: ✓ Verified (High Confidence)<br>Multiple published benchmarks confirm 3.5-4.5 hour battery life improvements with 5nm processors in mobile devices.</div></span>. The combination of more efficient silicon and better power management algorithms is really making a difference here.
+            </div>
+          </div>
+          
+          <!-- Fact Check Enhancement -->
+          <div class="enhanced-feature">
+            <div class="feature-header">
+              <div class="feature-icon fact-icon"><i class="fas fa-check"></i></div>
+              Fact Checking with Citations
+            </div>
+            <div class="fact-check">
+              <div class="fact-statement">"4 hours additional battery life during mixed usage scenarios"</div>
+              <div class="fact-verification">
+                <div class="verification-status"><i class="fas fa-check-circle"></i> Verified</div>
+                <div>High Confidence (93%)</div>
+              </div>
+              <div class="verification-sources">
+                Sources: <a href="#" class="source-link">AnandTech Benchmark Report</a>, <a href="#" class="source-link">Battery Life Tests Database</a>, <a href="#" class="source-link">Mobile Tech Review</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="enhanced-metrics">
+      <div class="metric-card">
+        <div class="metric-icon">
+          <i class="fas fa-sitemap"></i>
+        </div>
+        <div class="metric-value">85%</div>
+        <div class="metric-label">Auto-generated diagrams <br>accepted without edits</div>
+      </div>
+      
+      <div class="metric-card">
+        <div class="metric-icon">
+          <i class="fas fa-search"></i>
+        </div>
+        <div class="metric-value">12x</div>
+        <div class="metric-label">Increase in content <br>discoverability</div>
+      </div>
+      
+      <div class="metric-card">
+        <div class="metric-icon">
+          <i class="fas fa-check-double"></i>
+        </div>
+        <div class="metric-value">93%</div>
+        <div class="metric-label">Fact check accuracy <br>verified by editors</div>
+      </div>
+      
+      <div class="metric-card">
+        <div class="metric-icon">
+          <i class="fas fa-tachometer-alt"></i>
+        </div>
+        <div class="metric-value">2.7s</div>
+        <div class="metric-label">Average enrichment <br>processing time</div>
+      </div>
+    </div>
+    
+    <div class="technical-footer">
+      Content enhancement powered by <span class="highlight">Vertex AI</span> | Diagrams via <span class="highlight">Cloud Run</span> microservices | Fact-checking with <span class="highlight">RAG Pattern</span> | Information retrieval through <span class="highlight">Document AI</span>
+    </div>
+  </div>
+
+  <script>
+    // Initialize mermaid.js
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'neutral',
+      flowchart: { curve: 'basis' },
+      securityLevel: 'loose'
+    });
+    
+    // Simulate loading state and highlight current content
+    document.addEventListener('DOMContentLoaded', function() {
+      // Add highlight to specific terms
+      const terms = document.querySelectorAll('.highlighted-term, .highlighted-fact');
+      terms.forEach(term => {
+        term.classList.add('pulse-highlight');
+      });
+      
+      // Make transcript segments interactive
+      const segments = document.querySelectorAll('.transcript-segment');
+      segments.forEach(segment => {
+        segment.addEventListener('mouseover', function() {
+          this.style.backgroundColor = 'rgba(66, 133, 244, 0.05)';
+        });
+        
+        segment.addEventListener('mouseout', function() {
+          this.style.backgroundColor = '';
+        });
+        
+        segment.addEventListener('click', function() {
+          // Simulate highlighting the active segment
+          segments.forEach(s => s.style.boxShadow = 'none');
+          this.style.boxShadow = '0 0 0 2px var(--gcp-blue)';
+        });
+      });
+      
+      // Add interactivity to enhanced features
+      const features = document.querySelectorAll('.enhanced-feature');
+      features.forEach(feature => {
+        feature.addEventListener('mouseover', function() {
+          this.style.boxShadow = '0 3px 10px rgba(0,0,0,0.1)';
+        });
+        
+        feature.addEventListener('mouseout', function() {
+          this.style.boxShadow = 'none';
+        });
+      });
+    });
+  </script>
+  
+  <!-- Navigation CSS -->
+  
+  
+
+
+<script src="../chatbot_commands.js"></script>
+<script src="0
+<script src="../global_nav.js"></script>
+<script src="../navbar.js"></script>
+  <!-- Chatbot Container -->
+  <!-- Chatbot is dynamically created by chatbot scripts -->    <i class="fas fa-comment"></i>
+  </button>
+</body>
+</html> 

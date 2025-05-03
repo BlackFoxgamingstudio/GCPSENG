@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neo AI Writers' Room | Business Model Canvas</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --gcp-blue: #4285F4;
+      --gcp-red: #DB4437;
+      --gcp-yellow: #F4B400;
+      --gcp-green: #0F9D58;
+      --gcp-purple: #A142F4;
+      --dark-text: #202124;
+      --light-text: #5f6368;
+      --bg-light: #f8f9fa;
+      --border-light: #dadce0;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      color: var(--dark-text);
+      background-color: white;
+      overflow-x: hidden;
+      padding: 20px;
+    }
+    
+    .slide-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .slide-header {
+      text-align: center;
+      margin-bottom: 30px;
+      position: relative;
+    }
+    
+    .slide-title {
+      color: var(--gcp-blue);
+      font-size: 2.8rem;
+      font-weight: 500;
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+    
+    .slide-subtitle {
+      color: var(--light-text);
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-bottom: 20px;
+    }
+    
+    .bmc-container {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      grid-template-rows: repeat(6, 1fr);
+      gap: 10px;
+      height: 650px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 30px;
+    }
+    
+    .bmc-section {
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s ease;
+      cursor: pointer;
+    }
+    
+    .bmc-section:hover {
+      transform: scale(1.02);
+      z-index: 10;
+    }
+    
+    .bmc-title {
+      font-weight: 500;
+      margin-bottom: 10px;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+    }
+    
+    .bmc-icon {
+      margin-right: 8px;
+      font-size: 1.1rem;
+    }
+    
+    .bmc-content {
+      font-size: 0.9rem;
+      color: var(--light-text);
+      flex: 1;
+      overflow-y: auto;
+      line-height: 1.4;
+    }
+    
+    .bmc-content ul {
+      padding-left: 20px;
+      margin-top: 5px;
+    }
+    
+    .bmc-content li {
+      margin-bottom: 8px;
+    }
+    
+    .key-partners {
+      grid-area: 1 / 1 / 3 / 3;
+      background-color: rgba(161, 66, 244, 0.05);
+      border-left: 3px solid var(--gcp-purple);
+    }
+    
+    .key-activities {
+      grid-area: 1 / 3 / 3 / 5;
+      background-color: rgba(66, 133, 244, 0.05);
+      border-left: 3px solid var(--gcp-blue);
+    }
+    
+    .value-propositions {
+      grid-area: 1 / 5 / 4 / 7;
+      background-color: rgba(15, 157, 88, 0.05);
+      border-left: 3px solid var(--gcp-green);
+    }
+    
+    .customer-relationships {
+      grid-area: 1 / 7 / 3 / 9;
+      background-color: rgba(219, 68, 55, 0.05);
+      border-left: 3px solid var(--gcp-red);
+    }
+    
+    .customer-segments {
+      grid-area: 1 / 9 / 3 / 11;
+      background-color: rgba(244, 180, 0, 0.05);
+      border-left: 3px solid var(--gcp-yellow);
+    }
+    
+    .key-resources {
+      grid-area: 3 / 3 / 5 / 5;
+      background-color: rgba(66, 133, 244, 0.05);
+      border-left: 3px solid var(--gcp-blue);
+    }
+    
+    .channels {
+      grid-area: 3 / 7 / 5 / 9;
+      background-color: rgba(219, 68, 55, 0.05);
+      border-left: 3px solid var(--gcp-red);
+    }
+    
+    .customer-segments-extended {
+      grid-area: 3 / 9 / 5 / 11;
+      background-color: rgba(244, 180, 0, 0.05);
+      border-left: 3px solid var(--gcp-yellow);
+    }
+    
+    .cost-structure {
+      grid-area: 5 / 1 / 7 / 6;
+      background-color: rgba(66, 133, 244, 0.05);
+      border-left: 3px solid var(--gcp-blue);
+    }
+    
+    .revenue-streams {
+      grid-area: 5 / 6 / 7 / 11;
+      background-color: rgba(15, 157, 88, 0.05);
+      border-left: 3px solid var(--gcp-green);
+    }
+    
+    .bant-connection {
+      text-align: center;
+      padding: 25px;
+      background-color: var(--bg-light);
+      border-radius: 10px;
+      margin-bottom: 30px;
+    }
+    
+    .connection-title {
+      font-size: 1.5rem;
+      color: var(--gcp-blue);
+      margin-bottom: 15px;
+      font-weight: 500;
+    }
+    
+    .connection-desc {
+      font-size: 1rem;
+      color: var(--light-text);
+      max-width: 800px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+    
+    .mapping-container {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      margin: 25px 0;
+    }
+    
+    .mapping-item {
+      width: 200px;
+      text-align: center;
+      margin: 15px;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: transform 0.2s ease;
+    }
+    
+    .mapping-item:hover {
+      transform: translateY(-5px);
+    }
+    
+    .mapping-icon {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+    
+    .mapping-title {
+      font-weight: 500;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .mapping-from {
+      background-color: rgba(66, 133, 244, 0.1);
+      color: var(--gcp-blue);
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-right: 5px;
+    }
+    
+    .mapping-arrow {
+      margin: 0 5px;
+      color: var(--light-text);
+    }
+    
+    .mapping-to {
+      background-color: rgba(15, 157, 88, 0.1);
+      color: var(--gcp-green);
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-left: 5px;
+    }
+    
+    .mapping-desc {
+      font-size: 0.9rem;
+      color: var(--light-text);
+    }
+    
+    .cta-container {
+      text-align: center;
+      margin-top: 40px;
+    }
+    
+    .cta-btns {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+    
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      background-color: var(--gcp-blue);
+      color: white;
+      font-size: 1rem;
+      font-weight: 500;
+      padding: 10px 25px;
+      border-radius: 25px;
+      text-decoration: none;
+      box-shadow: 0 4px 8px rgba(66, 133, 244, 0.3);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(66, 133, 244, 0.4);
+    }
+    
+    .cta-icon {
+      margin-right: 8px;
+    }
+    
+    .cta-secondary {
+      background-color: white;
+      color: var(--gcp-blue);
+      border: 1px solid var(--gcp-blue);
+      box-shadow: none;
+    }
+    
+    .cta-secondary:hover {
+      background-color: rgba(66, 133, 244, 0.05);
+      box-shadow: none;
+    }
+    
+    /* Animation */
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    
+    .fade-in {
+      opacity: 0;
+      animation: fadeIn 0.8s forwards;
+    }
+    
+    .delay-1 {
+      animation-delay: 0.1s;
+    }
+    
+    .delay-2 {
+      animation-delay: 0.2s;
+    }
+    
+    .delay-3 {
+      animation-delay: 0.3s;
+    }
+    
+    .tag {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      font-weight: 500;
+      margin-right: 5px;
+      margin-bottom: 5px;
+    }
+    
+    .tag-gcp {
+      background-color: rgba(66, 133, 244, 0.1);
+      color: var(--gcp-blue);
+    }
+    
+    .tag-ml {
+      background-color: rgba(15, 157, 88, 0.1);
+      color: var(--gcp-green);
+    }
+    
+    .tag-data {
+      background-color: rgba(244, 180, 0, 0.1);
+      color: var(--gcp-yellow);
+    }
+    
+    .tag-content {
+      background-color: rgba(219, 68, 55, 0.1);
+      color: var(--gcp-red);
+    }
+    
+    .tag-partner {
+      background-color: rgba(161, 66, 244, 0.1);
+      color: var(--gcp-purple);
+    }
+  </style>
+<style>
+  /* Custom chatbot positioning for this page */
+  #chatbot-toggle {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1000 !important;
+  }
+  
+  #chatbot-container {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1001 !important;
+    width: 350px !important;
+    max-height: 500px !important;
+  }
+</style>
+<link rel="stylesheet" href="../chatbot.css">
+<link rel="stylesheet" href="../navbar.css">
+</head>
+<body>
+  <div class="slide-container">
+    <div class="slide-header">
+      <h1 class="slide-title">Neo AI Writers' Room</h1>
+      <h2 class="slide-subtitle">Business Model Canvas</h2>
+    </div>
+    
+    <div class="bmc-container">
+      <div class="bmc-section key-partners">
+        <h3 class="bmc-title"><i class="fas fa-handshake bmc-icon"></i> Key Partners</h3>
+        <div class="bmc-content">
+          <ul>
+            <li><span class="tag tag-gcp">Google Cloud</span> Platform infrastructure and AI services</li>
+            <li><span class="tag tag-partner">Media Production Studios</span> Content creation partners</li>
+            <li><span class="tag tag-partner">Post-Production Services</span> Editing and enhancement</li>
+            <li><span class="tag tag-ml">AI Research Institutions</span> For cutting-edge algorithms</li>
+            <li><span class="tag tag-data">Content Licensing Firms</span> For reference libraries</li>
+            <li><span class="tag tag-partner">System Integrators</span> For enterprise deployment</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="bmc-section key-activities">
+        <h3 class="bmc-title"><i class="fas fa-tasks bmc-icon"></i> Key Activities</h3>
+        <div class="bmc-content">
+          <ul>
+            <li><span class="tag tag-ml">AI Model Development</span> Content analysis algorithms</li>
+            <li><span class="tag tag-gcp">Cloud Infrastructure Management</span> Scalable processing</li>
+            <li><span class="tag tag-content">Content Analytics Engine</span> Multimodal insights</li>
+            <li><span class="tag tag-content">Workflow Integration</span> With existing tools</li>
+            <li><span class="tag tag-data">Data Privacy & Security</span> Enterprise-grade</li>
+            <li><span class="tag tag-content">UX Research & Development</span> Writer-focused</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="bmc-section value-propositions">
+        <h3 class="bmc-title"><i class="fas fa-gift bmc-icon"></i> Value Propositions</h3>
+        <div class="bmc-content">
+          <ul>
+            <li><span class="tag tag-content">10x Content Production Speed</span> Through AI assistance</li>
+            <li><span class="tag tag-ml">Multimodal Content Analysis</span> Speech, visual, and text</li>
+            <li><span class="tag tag-content">Automatic Content Enhancement</span> Grammar, citations, etc.</li>
+            <li><span class="tag tag-data">Real-time Insights Dashboard</span> Content metrics</li>
+            <li><span class="tag tag-content">Seamless Integration</span> With existing workflows</li>
+            <li><span class="tag tag-gcp">Enterprise-grade Security</span> Content protection</li>
+            <li><span class="tag tag-ml">Custom LLM Deployment</span> Domain-specific</li>
+            <li><span class="tag tag-data">Data Ownership & Privacy</span> No third-party sharing</li>
+            <li><span class="tag tag-content">Scalable Processing</span> From single user to enterprise</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="bmc-section customer-relationships">
+        <h3 class="bmc-title"><i class="fas fa-heart bmc-icon"></i> Customer Relationships</h3>
+        <div class="bmc-content">
+          <ul>
+            <li><span class="tag tag-partner">Dedicated Account Management</span> For enterprise</li>
+            <li><span class="tag tag-content">Self-service Portal</span> For individual creators</li>
+            <li><span class="tag tag-partner">Implementation Consultancy</span> For onboarding</li>
+            <li><span class="tag tag-content">24/7 Technical Support</span> Enterprise SLAs</li>
+            <li><span class="tag tag-content">User Community</span> Knowledge sharing</li>
+            <li><span class="tag tag-partner">Regular Training Webinars</span> Skill development</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="bmc-section customer-segments">
+        <h3 class="bmc-title"><i class="fas fa-users bmc-icon"></i> Customer Segments</h3>
+        <div class="bmc-content">
+          <ul>
+            <li><span class="tag tag-content">Media & Entertainment</span> Production companies</li>
+            <li><span class="tag tag-content">News Organizations</span> Editorial teams</li>
+            <li><span class="tag tag-content">Streaming Platforms</span> Content providers</li>
+            <li><span class="tag tag-content">Corporate Communications</span> Internal teams</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="bmc-section key-resources">
+        <h3 class="bmc-title"><i class="fas fa-cube bmc-icon"></i> Key Resources</h3>
+        <div class="bmc-content">
+          <ul>
+            <li><span class="tag tag-ml">Proprietary AI Models</span> Content intelligence</li>
+            <li><span class="tag tag-gcp">GCP Infrastructure</span> Scalable computing</li>
+            <li><span class="tag tag-content">UX Design Team</span> Writer-focused interface</li>
+            <li><span class="tag tag-ml">Data Science Team</span> Algorithm development</li>
+            <li><span class="tag tag-partner">Implementation Partners</span> Deployment network</li>
+            <li><span class="tag tag-content">Content Analysis IP</span> Proprietary methods</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="bmc-section channels">
+        <h3 class="bmc-title"><i class="fas fa-route bmc-icon"></i> Channels</h3>
+        <div class="bmc-content">
+          <ul>
+            <li><span class="tag tag-gcp">Google Cloud Marketplace</span> Primary distribution</li>
+            <li><span class="tag tag-partner">Partner Network</span> Implementation services</li>
+            <li><span class="tag tag-content">Industry Trade Shows</span> Demos and trials</li>
+            <li><span class="tag tag-content">Direct Sales Team</span> Enterprise accounts</li>
+            <li><span class="tag tag-content">Content Creation Workshops</span> User education</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="bmc-section customer-segments-extended">
+        <h3 class="bmc-title"><i class="fas fa-user-tag bmc-icon"></i> Buyer Personas</h3>
+        <div class="bmc-content">
+          <ul>
+            <li><span class="tag tag-content">Content Directors</span> Strategic vision</li>
+            <li><span class="tag tag-content">Technical Directors</span> Implementation</li>
+            <li><span class="tag tag-content">Writers & Producers</span> End users</li>
+            <li><span class="tag tag-content">IT Decision Makers</span> Infrastructure</li>
+            <li><span class="tag tag-content">Finance Leaders</span> ROI focused</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="bmc-section cost-structure">
+        <h3 class="bmc-title"><i class="fas fa-coins bmc-icon"></i> Cost Structure</h3>
+        <div class="bmc-content">
+          <ul>
+            <li><span class="tag tag-gcp">Cloud Infrastructure</span> Pay-as-you-go model with volume discounts</li>
+            <li><span class="tag tag-ml">AI Research & Development</span> Ongoing investment in models</li>
+            <li><span class="tag tag-content">Product Development</span> UX, features, integration</li>
+            <li><span class="tag tag-partner">Sales & Marketing</span> Channel development</li>
+            <li><span class="tag tag-content">Customer Success</span> Onboarding and support</li>
+            <li><span class="tag tag-partner">Partner Enablement</span> Training and certification</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="bmc-section revenue-streams">
+        <h3 class="bmc-title"><i class="fas fa-money-bill-wave bmc-icon"></i> Revenue Streams</h3>
+        <div class="bmc-content">
+          <ul>
+            <li><span class="tag tag-content">Subscription Model</span> Monthly/annual per-user licensing</li>
+            <li><span class="tag tag-content">Usage-based Pricing</span> Pay per processing hour/content volume</li>
+            <li><span class="tag tag-partner">Implementation Services</span> Customization and deployment</li>
+            <li><span class="tag tag-content">Premium Support Tiers</span> SLA-based services</li>
+            <li><span class="tag tag-ml">Custom AI Model Development</span> Industry-specific training</li>
+            <li><span class="tag tag-content">Enterprise Agreements</span> Volume-based discounts</li>
+            <li><span class="tag tag-gcp">GCP Co-sell Incentives</span> Shared revenue from cloud usage</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="bant-connection">
+      <h3 class="connection-title">BANT Framework & Business Model Canvas Integration</h3>
+      <p class="connection-desc">
+        The Business Model Canvas provides the strategic overview of Neo AI Writers' Room, while BANT sales data offers practical insights into customer engagement. When integrated, these frameworks create a powerful approach to selling our GCP-powered solution.
+      </p>
+      
+      <div class="mapping-container">
+        <div class="mapping-item fade-in delay-1" style="background-color: rgba(66, 133, 244, 0.05);">
+          <div class="mapping-icon" style="color: var(--gcp-blue)">
+            <i class="fas fa-dollar-sign"></i>
+          </div>
+          <div class="mapping-title">
+            <span class="mapping-from">Budget</span>
+            <span class="mapping-arrow">→</span>
+            <span class="mapping-to">Revenue Streams</span>
+          </div>
+          <p class="mapping-desc">
+            Customer budget insights inform our subscription tiers and pricing strategy
+          </p>
+        </div>
+        
+        <div class="mapping-item fade-in delay-2" style="background-color: rgba(219, 68, 55, 0.05);">
+          <div class="mapping-icon" style="color: var(--gcp-red)">
+            <i class="fas fa-user-tie"></i>
+          </div>
+          <div class="mapping-title">
+            <span class="mapping-from">Authority</span>
+            <span class="mapping-arrow">→</span>
+            <span class="mapping-to">Channels & Relationships</span>
+          </div>
+          <p class="mapping-desc">
+            Decision-maker profiles guide our communication and relationship strategies
+          </p>
+        </div>
+        
+        <div class="mapping-item fade-in delay-3" style="background-color: rgba(15, 157, 88, 0.05);">
+          <div class="mapping-icon" style="color: var(--gcp-green)">
+            <i class="fas fa-search"></i>
+          </div>
+          <div class="mapping-title">
+            <span class="mapping-from">Need</span>
+            <span class="mapping-arrow">→</span>
+            <span class="mapping-to">Value Propositions</span>
+          </div>
+          <p class="mapping-desc">
+            Customer pain points directly shape our core value propositions
+          </p>
+        </div>
+        
+        <div class="mapping-item fade-in delay-1" style="background-color: rgba(244, 180, 0, 0.05);">
+          <div class="mapping-icon" style="color: var(--gcp-yellow)">
+            <i class="fas fa-clock"></i>
+          </div>
+          <div class="mapping-title">
+            <span class="mapping-from">Timeline</span>
+            <span class="mapping-arrow">→</span>
+            <span class="mapping-to">Key Activities</span>
+          </div>
+          <p class="mapping-desc">
+            Customer timelines inform our implementation processes and priorities
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="cta-container">
+      <div class="cta-btns">
+        <a href="10_Customer_Journey.html" class="cta-btn">
+          <i class="fas fa-road cta-icon"></i>
+          View GCP Cloud Journey
+        </a>
+        <a href="08_BANT_Assessment.html" class="cta-btn cta-secondary">
+          <i class="fas fa-file-alt cta-icon"></i>
+          View BANT Analysis
+        </a>
+      </div>
+    </div>
+    
+  </div>
+  <script>
+    // Redirect to the new BMC slide
+  </script>
+  
+  <!-- Navigation CSS -->
+  
+  
+
+
+<script src="../chatbot_commands.js"></script>
+<script src="0
+<script src="../global_nav.js"></script>
+<script src="../navbar.js"></script>
+  <!-- Chatbot Container -->
+  <!-- Chatbot is dynamically created by chatbot scripts -->    <i class="fas fa-comment"></i>
+  </button>
+</body>
+</html> 

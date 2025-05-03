@@ -1,0 +1,2047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Black Armor AI | Migration Journey Map</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --gcp-blue: #4285F4;
+      --gcp-red: #DB4437;
+      --gcp-yellow: #F4B400;
+      --gcp-green: #0F9D58;
+      --gcp-purple: #A142F4;
+      --dark-text: #202124;
+      --light-text: #5f6368;
+      --bg-light: #f8f9fa;
+      --border-light: #dadce0;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      color: var(--dark-text);
+      background-color: white;
+      overflow-x: hidden;
+      padding: 20px;
+    }
+    
+    .page-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .page-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    .page-title {
+      color: var(--gcp-blue);
+      font-size: 2.5rem;
+      font-weight: 500;
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+    
+    .page-subtitle {
+      color: var(--light-text);
+      font-size: 1.4rem;
+      font-weight: 400;
+      margin-bottom: 20px;
+    }
+
+    .tool-overview {
+      text-align: center;
+      max-width: 820px;
+      margin: 0 auto 40px;
+      background-color: var(--bg-light);
+      padding: 25px;
+      border-radius: 14px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    }
+    
+    .overview-desc {
+      font-size: 1.15rem;
+      color: var(--light-text);
+      line-height: 1.7;
+    }
+    
+    /* Journey Map Styles */
+    .journey-map-container {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      margin-bottom: 40px;
+      overflow: hidden;
+      padding: 30px;
+    }
+    
+    .journey-header {
+      margin-bottom: 30px;
+    }
+    
+    .journey-title {
+      font-size: 1.4rem;
+      font-weight: 500;
+      color: var(--dark-text);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .journey-title i {
+      color: var(--gcp-blue);
+      margin-right: 10px;
+    }
+    
+    .journey-desc {
+      color: var(--light-text);
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+    
+    .journey-phases {
+      display: flex;
+      position: relative;
+      margin-bottom: 40px;
+    }
+    
+    .journey-line {
+      position: absolute;
+      top: 45px;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background-color: var(--gcp-blue);
+      z-index: 0;
+    }
+    
+    .phase {
+      flex: 1;
+      text-align: center;
+      padding: 0 10px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .phase-dot {
+      width: 25px;
+      height: 25px;
+      background-color: var(--gcp-blue);
+      border-radius: 50%;
+      margin: 0 auto 15px;
+      position: relative;
+      z-index: 2;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .phase-dot::after {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      right: -10px;
+      bottom: -10px;
+      border-radius: 50%;
+      border: 2px solid var(--gcp-blue);
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+    
+    .phase-dot:hover, .phase-dot.active {
+      transform: scale(1.2);
+    }
+    
+    .phase-dot:hover::after, .phase-dot.active::after {
+      opacity: 1;
+    }
+    
+    .phase-title {
+      font-weight: 500;
+      font-size: 1.1rem;
+      color: var(--dark-text);
+      margin-bottom: 5px;
+    }
+    
+    .phase-duration {
+      font-size: 0.85rem;
+      color: var(--light-text);
+    }
+    
+    .phase-details {
+      display: none;
+      background-color: var(--bg-light);
+      border-radius: 10px;
+      padding: 25px;
+      margin-bottom: 30px;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .phase-details.active {
+      display: block;
+    }
+    
+    .details-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .details-title {
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: var(--gcp-blue);
+    }
+    
+    .details-duration {
+      background-color: var(--gcp-blue);
+      color: white;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+    }
+    
+    .details-content {
+      display: flex;
+      gap: 30px;
+    }
+    
+    .details-description {
+      flex: 1;
+    }
+    
+    .description-title {
+      font-weight: 500;
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+    
+    .description-text {
+      color: var(--light-text);
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+    
+    .details-tasks {
+      flex: 1;
+    }
+    
+    .tasks-title {
+      font-weight: 500;
+      font-size: 1.1rem;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .tasks-title i {
+      margin-right: 8px;
+      color: var(--gcp-green);
+    }
+    
+    .task-list {
+      list-style: none;
+    }
+    
+    .task-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+      background-color: white;
+      padding: 12px 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+    }
+    
+    .task-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    
+    .task-checkbox {
+      margin-right: 12px;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+    
+    .task-text {
+      flex: 1;
+      font-size: 0.95rem;
+    }
+    
+    .task-owner {
+      background-color: var(--bg-light);
+      padding: 3px 10px;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      color: var(--light-text);
+    }
+    
+    .stakeholder-section {
+      margin-top: 30px;
+    }
+    
+    .stakeholders-title {
+      font-weight: 500;
+      font-size: 1.1rem;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .stakeholders-title i {
+      margin-right: 8px;
+      color: var(--gcp-purple);
+    }
+    
+    .stakeholder-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    
+    .stakeholder-item {
+      background-color: white;
+      padding: 10px 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      display: flex;
+      align-items: center;
+      font-size: 0.9rem;
+    }
+    
+    .stakeholder-item i {
+      margin-right: 8px;
+      color: var(--gcp-purple);
+    }
+    
+    /* Role-Based Section Styles */
+    .role-based-section {
+      margin-top: 40px;
+      background-color: var(--bg-light);
+      border-radius: 10px;
+      padding: 25px;
+    }
+    
+    .role-based-title {
+      font-weight: 500;
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .role-based-title i {
+      margin-right: 8px;
+      color: var(--gcp-yellow);
+    }
+    
+    .role-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    
+    .role-card {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+      overflow: hidden;
+      transition: all 0.3s ease;
+      position: relative;
+      transform-origin: center;
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .role-card.filtered-out {
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+    }
+    
+    .role-actions {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .role-card:hover .role-actions {
+      opacity: 1;
+    }
+    
+    .role-action-btn {
+      background-color: var(--gcp-blue);
+      color: white;
+      border: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 0.9rem;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      position: relative;
+    }
+    
+    .role-action-menu {
+      position: absolute;
+      bottom: 40px;
+      right: 0;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 3px 15px rgba(0,0,0,0.15);
+      min-width: 180px;
+      padding: 8px 0;
+      display: none;
+      z-index: 10;
+      transform: translateY(10px);
+      opacity: 0;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+    
+    .role-action-menu.show {
+      display: block;
+      transform: translateY(0);
+      opacity: 1;
+    }
+    
+    .role-action-item {
+      padding: 8px 15px;
+      font-size: 0.9rem;
+      color: var(--dark-text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      transition: background-color 0.2s ease;
+    }
+    
+    .role-action-item:hover {
+      background-color: var(--bg-light);
+      color: var(--gcp-blue);
+    }
+    
+    .role-action-item i {
+      margin-right: 8px;
+      font-size: 0.85rem;
+      color: var(--gcp-blue);
+    }
+    
+    .role-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+    }
+    
+    .role-header {
+      background-color: var(--gcp-blue);
+      color: white;
+      padding: 15px;
+      display: flex;
+      align-items: center;
+    }
+    
+    /* Role card color variations */
+    .role-card.ceo .role-header { background-color: var(--gcp-red); }
+    .role-card.cfo .role-header { background-color: var(--gcp-green); }
+    .role-card.ciso .role-header { background-color: var(--gcp-purple); }
+    .role-card.it .role-header { background-color: var(--gcp-blue); }
+    .role-card.facilities .role-header { background-color: var(--gcp-yellow); }
+    .role-card.compliance .role-header { background-color: #9E9E9E; }
+    .role-card.implementation .role-header { background-color: #00ACC1; }
+    
+    .role-header i {
+      font-size: 1.2rem;
+      margin-right: 10px;
+    }
+    
+    .role-header h5 {
+      font-size: 1.1rem;
+      font-weight: 500;
+      margin: 0;
+    }
+    
+    .role-content {
+      padding: 15px;
+    }
+    
+    .role-description {
+      color: var(--light-text);
+      font-size: 0.9rem;
+      margin-bottom: 15px;
+      line-height: 1.5;
+    }
+    
+    .role-items {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .role-item {
+      display: flex;
+      align-items: flex-start;
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+    
+    .role-item i {
+      margin-right: 8px;
+      min-width: 16px;
+      margin-top: 3px;
+    }
+    
+    .role-item i.fa-check-circle {
+      color: var(--gcp-green);
+    }
+    
+    .role-item i.fa-exclamation-circle {
+      color: var(--gcp-red);
+    }
+    
+    .role-item i.fa-file-alt {
+      color: var(--gcp-blue);
+    }
+    
+    /* Selected role card and notification styles */
+    .role-card.selected {
+      border: 2px solid var(--gcp-blue);
+      box-shadow: 0 0 15px rgba(66, 133, 244, 0.4);
+    }
+    
+    .role-card.selected::after {
+      content: '✓';
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      width: 25px;
+      height: 25px;
+      background-color: var(--gcp-green);
+      color: white;
+      border-radius: 50%;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    
+    .notification {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(45deg, rgba(15, 157, 88, 0.95), rgba(0, 131, 79, 0.95));
+      color: white;
+      padding: 14px 25px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      font-size: 0.95rem;
+      z-index: 1000;
+      opacity: 1;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      animation: slideUp 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    
+    @keyframes slideUp {
+      0% { transform: translate(-50%, 20px); opacity: 0; }
+      100% { transform: translate(-50%, 0); opacity: 1; }
+    }
+    
+    .notification i {
+      margin-right: 12px;
+      background-color: rgba(255,255,255,0.2);
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+    
+    .report-section h5 i {
+      margin-right: 8px;
+      color: var(--gcp-blue);
+    }
+    
+    .report-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .report-list li {
+      padding: 8px 12px;
+      background-color: white;
+      border-radius: 5px;
+      margin-bottom: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      display: flex;
+      align-items: flex-start;
+    }
+    
+    .report-list li i {
+      margin-right: 8px;
+      min-width: 16px;
+      margin-top: 3px;
+    }
+    
+    .empty-tasks {
+      color: var(--light-text);
+      font-style: italic;
+    }
+    
+    .report-actions {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+    }
+    
+    /* Print styles */
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      
+      .report-modal, .report-modal * {
+        visibility: visible;
+      }
+      
+      .report-modal {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: auto;
+        background: white;
+        padding: 0;
+      }
+      
+      .report-close, .report-actions {
+        display: none !important;
+      }
+      
+      .report-body {
+        overflow: visible !important;
+        max-height: none !important;
+      }
+      
+      .report-role-section {
+        page-break-inside: avoid;
+      }
+    }
+    
+    /* Notification Styles */
+    .notification {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(45deg, rgba(15, 157, 88, 0.95), rgba(0, 131, 79, 0.95));
+      color: white;
+      padding: 14px 25px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      font-size: 0.95rem;
+      z-index: 1000;
+      opacity: 1;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      animation: slideUp 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    
+    @keyframes slideUp {
+      0% { transform: translate(-50%, 20px); opacity: 0; }
+      100% { transform: translate(-50%, 0); opacity: 1; }
+    }
+    
+    .notification i {
+      margin-right: 12px;
+      background-color: rgba(255,255,255,0.2);
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+    
+    /* Report Modal Styles */
+    .report-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0,0,0,0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+    }
+    
+    .report-modal .report-header {
+      background: linear-gradient(45deg, var(--gcp-blue), #3367d6);
+      color: white;
+      padding: 18px 24px;
+      border-radius: 10px 10px 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .report-modal .report-header h3 {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+    }
+    
+    .report-modal .report-close {
+      cursor: pointer;
+      font-size: 1.2rem;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: all 0.2s ease;
+    }
+    
+    .report-modal .report-close:hover {
+      background-color: rgba(255,255,255,0.2);
+      transform: rotate(90deg);
+    }
+    
+    .report-modal .report-body {
+      background-color: white;
+      border-radius: 0 0 10px 10px;
+      padding: 24px 28px;
+      max-height: 75vh;
+      overflow-y: auto;
+      width: 100%;
+      max-width: 900px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--gcp-blue) #f5f5f5;
+    }
+    
+    .report-modal .report-body::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    .report-modal .report-body::-webkit-scrollbar-track {
+      background: #f5f5f5;
+      border-radius: 4px;
+    }
+    
+    .report-modal .report-body::-webkit-scrollbar-thumb {
+      background-color: var(--gcp-blue);
+      border-radius: 4px;
+    }
+    
+    .report-intro {
+      color: var(--light-text);
+      margin-bottom: 25px;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      border-left: 3px solid var(--gcp-blue);
+      padding-left: 15px;
+      background-color: rgba(66, 133, 244, 0.05);
+      padding: 12px 15px;
+      border-radius: 0 8px 8px 0;
+    }
+    
+    .report-roles {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+    
+    .report-role-section {
+      border: none;
+      border-radius: 12px;
+      padding: 24px;
+      background-color: var(--bg-light);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      transition: all 0.3s ease;
+      border-top: 4px solid var(--gcp-blue);
+    }
+    
+    .report-role-section:hover {
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      transform: translateY(-2px);
+    }
+    
+    .report-role-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    
+    .report-role-header h4 {
+      margin: 0;
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: var(--dark-text);
+      display: flex;
+      align-items: center;
+    }
+    
+    .report-role-header h4::before {
+      content: '';
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      background-color: var(--gcp-blue);
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+    
+    .report-role-tasks {
+      background: linear-gradient(45deg, var(--gcp-green), #00897B);
+      color: white;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+    }
+    
+    .report-role-tasks::before {
+      content: '\f0ae';
+      font-family: 'Font Awesome 5 Free';
+      font-weight: 900;
+      margin-right: 6px;
+    }
+    
+    .report-role-desc {
+      color: var(--light-text);
+      margin-bottom: 20px;
+      font-size: 1rem;
+      line-height: 1.6;
+      background-color: white;
+      padding: 12px 15px;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05) inset;
+    }
+    
+    .report-section {
+      margin-bottom: 20px;
+    }
+    
+    .report-section h5 {
+      font-size: 1.05rem;
+      font-weight: 500;
+      margin: 0 0 15px 0;
+      display: flex;
+      align-items: center;
+      color: var(--gcp-blue);
+    }
+    
+    .report-section h5 i {
+      margin-right: 10px;
+      color: var(--gcp-blue);
+      background-color: rgba(66, 133, 244, 0.1);
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+    
+    .report-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .report-list li {
+      padding: 12px 15px;
+      background-color: white;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      display: flex;
+      align-items: flex-start;
+      transition: all 0.2s ease;
+      border-left: 3px solid transparent;
+    }
+    
+    .report-list li:hover {
+      transform: translateX(3px);
+      border-left-color: var(--gcp-blue);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    }
+    
+    .report-list li i {
+      margin-right: 10px;
+      min-width: 18px;
+      margin-top: 3px;
+      color: var(--gcp-green);
+    }
+    
+    .empty-tasks {
+      color: var(--light-text);
+      font-style: italic;
+      text-align: center;
+      padding: 15px;
+      background-color: rgba(0,0,0,0.02);
+      border-radius: 8px;
+    }
+    
+    .report-actions {
+      margin-top: 25px;
+      display: flex;
+      justify-content: center;
+    }
+    
+    .report-actions .btn {
+      transition: all 0.3s ease;
+    }
+    
+    .report-actions .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(66, 133, 244, 0.3);
+    }
+    
+    /* Role Action Menu */
+  </style>
+<style>
+  /* Custom chatbot positioning for this page */
+  #chatbot-toggle {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1000 !important;
+  }
+  
+  #chatbot-container {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1001 !important;
+    width: 350px !important;
+    max-height: 500px !important;
+  }
+</style><link rel="stylesheet" href="../chatbot.css">
+<link rel="stylesheet" href="../navbar.css">
+<script src="../navbar.js"></script>
+</head>
+<body>
+  <div class="page-container">
+    <div class="page-header">
+      <h1 class="page-title">Migration Journey Map</h1>
+      <p class="page-subtitle">Visualize your path to Black Armor AI implementation</p>
+      
+      <!-- Sales Journey Context Banner -->
+      <div style="background-color: rgba(66, 133, 244, 0.1); color: var(--gcp-blue); padding: 10px 15px; border-radius: 8px; margin: 15px auto; max-width: 700px; display: flex; align-items: center;">
+        <i class="fas fa-map-marked-alt" style="margin-right: 10px;"></i>
+        <span style="font-size: 0.9rem;">
+          <strong>Sales Journey:</strong> Implementation planning tool - Project Phase (60% complete)
+        </span>
+      </div>
+    </div>
+    
+    <div class="tool-overview">
+      <p class="overview-desc">
+        This interactive journey map helps visualize the migration path from traditional security systems to the Black Armor AI drone platform. Customize the phases, tasks, and stakeholders to fit your specific implementation needs and share with your team.
+      </p>
+    </div>
+    
+    <div class="journey-map-container">
+      <div class="journey-header">
+        <h2 class="journey-title"><i class="fas fa-route"></i> Migration Journey Phases</h2>
+        <p class="journey-desc">Click on each phase to view detailed tasks and information for that stage of your migration.</p>
+      </div>
+      
+      <div class="journey-phases">
+        <div class="journey-line"></div>
+        <div class="phase">
+          <div class="phase-dot active" data-phase="discovery"></div>
+          <div class="phase-title">Discovery</div>
+          <div class="phase-duration">Weeks 1-2</div>
+        </div>
+        <div class="phase">
+          <div class="phase-dot" data-phase="planning"></div>
+          <div class="phase-title">Planning</div>
+          <div class="phase-duration">Weeks 3-4</div>
+        </div>
+        <div class="phase">
+          <div class="phase-dot" data-phase="implementation"></div>
+          <div class="phase-title">Implementation</div>
+          <div class="phase-duration">Weeks 5-8</div>
+        </div>
+        <div class="phase">
+          <div class="phase-dot" data-phase="testing"></div>
+          <div class="phase-title">Testing</div>
+          <div class="phase-duration">Weeks 9-10</div>
+        </div>
+        <div class="phase">
+          <div class="phase-dot" data-phase="deployment"></div>
+          <div class="phase-title">Deployment</div>
+          <div class="phase-duration">Weeks 11-12</div>
+        </div>
+        <div class="phase">
+          <div class="phase-dot" data-phase="operations"></div>
+          <div class="phase-title">Operations</div>
+          <div class="phase-duration">Ongoing</div>
+        </div>
+      </div>
+      
+      <!-- Phase Details Sections -->
+      <div id="discovery-details" class="phase-details active">
+        <div class="details-header">
+          <h3 class="details-title">Discovery Phase</h3>
+          <div class="details-duration">Weeks 1-2</div>
+        </div>
+        <div class="details-content">
+          <div class="details-description">
+            <h4 class="description-title">Phase Overview</h4>
+            <p class="description-text">
+              The Discovery phase focuses on understanding your current security infrastructure, key requirements, and establishing baseline metrics. This information will shape the migration plan and success criteria for the Black Armor AI implementation.
+            </p>
+            <p class="description-text">
+              Key outputs include a comprehensive site assessment, technical environment documentation, and initial ROI calculations based on your specific security needs.
+            </p>
+          </div>
+          <div class="details-tasks">
+            <h4 class="tasks-title"><i class="fas fa-clipboard-check"></i> Key Tasks</h4>
+            <ul class="task-list">
+              <li class="task-item">
+                <input type="checkbox" class="task-checkbox">
+                <span class="task-text">Complete security infrastructure assessment</span>
+                <span class="task-owner">Security Team</span>
+              </li>
+              <li class="task-item">
+                <input type="checkbox" class="task-checkbox">
+                <span class="task-text">Document existing security policies and procedures</span>
+                <span class="task-owner">Compliance</span>
+              </li>
+              <li class="task-item">
+                <input type="checkbox" class="task-checkbox">
+                <span class="task-text">Identify key metrics for measuring success</span>
+                <span class="task-owner">Leadership</span>
+              </li>
+              <li class="task-item">
+                <input type="checkbox" class="task-checkbox">
+                <span class="task-text">Conduct site surveys for drone operations</span>
+                <span class="task-owner">BA Implementation</span>
+              </li>
+              <li class="task-item">
+                <input type="checkbox" class="task-checkbox">
+                <span class="task-text">Review IT infrastructure and integration points</span>
+                <span class="task-owner">IT Team</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="stakeholder-section">
+          <h4 class="stakeholders-title"><i class="fas fa-users"></i> Key Stakeholders</h4>
+          <div class="stakeholder-list">
+            <div class="stakeholder-item">
+              <i class="fas fa-user-shield"></i>
+              <span>CISO/Head of Security</span>
+            </div>
+            <div class="stakeholder-item">
+              <i class="fas fa-user-cog"></i>
+              <span>IT Director</span>
+            </div>
+            <div class="stakeholder-item">
+              <i class="fas fa-user-tie"></i>
+              <span>Facilities Manager</span>
+            </div>
+            <div class="stakeholder-item">
+              <i class="fas fa-user-check"></i>
+              <span>Compliance Officer</span>
+            </div>
+            <div class="stakeholder-item">
+              <i class="fas fa-user-graduate"></i>
+              <span>BA Implementation Lead</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Role-Based Section -->
+        <div class="role-based-section">
+          <h4 class="role-based-title"><i class="fas fa-user-tag"></i> Role-Based Responsibilities & Concerns</h4>
+          
+          <!-- Role filter bar -->
+          <div class="role-filter">
+            <span class="filter-label">Filter by: </span>
+            <div class="filter-options">
+              <button class="filter-button active" data-filter="all">All Roles</button>
+              <button class="filter-button" data-filter="executive">Executives</button>
+              <button class="filter-button" data-filter="security">Security</button>
+              <button class="filter-button" data-filter="technical">Technical</button>
+              <button class="filter-button" data-filter="operations">Operations</button>
+            </div>
+          </div>
+          
+          <div class="role-cards">
+            <!-- C-Level Executives -->
+            <div class="role-card ceo">
+              <div class="role-header">
+                <i class="fas fa-user-tie"></i>
+                <h5>CEO</h5>
+              </div>
+              <div class="role-content">
+                <p class="role-description">Steering committee involvement and project prioritization.</p>
+                <div class="role-items">
+                  <div class="role-item"><i class="fas fa-check-circle"></i> Review and approve implementation timeline</div>
+                  <div class="role-item"><i class="fas fa-exclamation-circle"></i> Concerned with risk mitigation strategy</div>
+                  <div class="role-item"><i class="fas fa-file-alt"></i> Requires project milestone summary</div>
+                </div>
+              </div>
+              <div class="role-assignment-indicator">0</div>
+              <div class="role-actions">
+                <button class="role-action-btn"><i class="fas fa-ellipsis-v"></i></button>
+                <div class="role-action-menu">
+                  <div class="role-action-item"><i class="fas fa-tasks"></i> Assign task</div>
+                  <div class="role-action-item"><i class="fas fa-file-alt"></i> Request document</div>
+                  <div class="role-action-item"><i class="fas fa-calendar-alt"></i> Schedule meeting</div>
+                  <div class="role-action-item"><i class="fas fa-comment"></i> Add comment</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="role-card cfo">
+              <div class="role-header">
+                <i class="fas fa-chart-line"></i>
+                <h5>CFO</h5>
+              </div>
+              <div class="role-content">
+                <p class="role-description">Budget approval and financial planning for implementation.</p>
+                <div class="role-items">
+                  <div class="role-item"><i class="fas fa-check-circle"></i> Approve phased expenditure plan</div>
+                  <div class="role-item"><i class="fas fa-exclamation-circle"></i> Focused on milestone-based payments</div>
+                  <div class="role-item"><i class="fas fa-file-alt"></i> Reviews detailed implementation costs</div>
+                </div>
+              </div>
+              <div class="role-actions">
+                <button class="role-action-btn"><i class="fas fa-ellipsis-v"></i></button>
+                <div class="role-action-menu">
+                  <div class="role-action-item"><i class="fas fa-tasks"></i> Assign task</div>
+                  <div class="role-action-item"><i class="fas fa-file-alt"></i> Request document</div>
+                  <div class="role-action-item"><i class="fas fa-calendar-alt"></i> Schedule meeting</div>
+                  <div class="role-action-item"><i class="fas fa-comment"></i> Add comment</div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Security and IT Leadership -->
+            <div class="role-card ciso">
+              <div class="role-header">
+                <i class="fas fa-shield-alt"></i>
+                <h5>CISO/Head of Security</h5>
+              </div>
+              <div class="role-content">
+                <p class="role-description">Security strategy alignment and risk management oversight.</p>
+                <div class="role-items">
+                  <div class="role-item"><i class="fas fa-check-circle"></i> Define security requirements and success metrics</div>
+                  <div class="role-item"><i class="fas fa-exclamation-circle"></i> Concerned with security effectiveness and compliance</div>
+                  <div class="role-item"><i class="fas fa-file-alt"></i> Reviews detailed security capabilities assessment</div>
+                </div>
+              </div>
+              <div class="role-actions">
+                <button class="role-action-btn"><i class="fas fa-ellipsis-v"></i></button>
+                <div class="role-action-menu">
+                  <div class="role-action-item"><i class="fas fa-tasks"></i> Assign task</div>
+                  <div class="role-action-item"><i class="fas fa-file-alt"></i> Request document</div>
+                  <div class="role-action-item"><i class="fas fa-calendar-alt"></i> Schedule meeting</div>
+                  <div class="role-action-item"><i class="fas fa-comment"></i> Add comment</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="role-card it">
+              <div class="role-header">
+                <i class="fas fa-server"></i>
+                <h5>IT Director</h5>
+              </div>
+              <div class="role-content">
+                <p class="role-description">Technical infrastructure oversight and integration planning.</p>
+                <div class="role-items">
+                  <div class="role-item"><i class="fas fa-check-circle"></i> Assess technical feasibility and network requirements</div>
+                  <div class="role-item"><i class="fas fa-exclamation-circle"></i> Focused on system integration and bandwidth</div>
+                  <div class="role-item"><i class="fas fa-file-alt"></i> Provides IT infrastructure documentation</div>
+                </div>
+              </div>
+              <div class="role-assignment-indicator">0</div>
+              <div class="role-actions">
+                <button class="role-action-btn"><i class="fas fa-ellipsis-v"></i></button>
+                <div class="role-action-menu">
+                  <div class="role-action-item"><i class="fas fa-tasks"></i> Assign task</div>
+                  <div class="role-action-item"><i class="fas fa-file-alt"></i> Request document</div>
+                  <div class="role-action-item"><i class="fas fa-calendar-alt"></i> Schedule meeting</div>
+                  <div class="role-action-item"><i class="fas fa-comment"></i> Add comment</div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Operational Stakeholders -->
+            <div class="role-card facilities">
+              <div class="role-header">
+                <i class="fas fa-building"></i>
+                <h5>Facilities Manager</h5>
+              </div>
+              <div class="role-content">
+                <p class="role-description">Physical site management and operational coordination.</p>
+                <div class="role-items">
+                  <div class="role-item"><i class="fas fa-check-circle"></i> Provide site layouts and access requirements</div>
+                  <div class="role-item"><i class="fas fa-exclamation-circle"></i> Concerned with operational disruption during implementation</div>
+                  <div class="role-item"><i class="fas fa-file-alt"></i> Contributes to site survey and assessment</div>
+                </div>
+              </div>
+              <div class="role-assignment-indicator">0</div>
+              <div class="role-actions">
+                <button class="role-action-btn"><i class="fas fa-ellipsis-v"></i></button>
+                <div class="role-action-menu">
+                  <div class="role-action-item"><i class="fas fa-tasks"></i> Assign task</div>
+                  <div class="role-action-item"><i class="fas fa-file-alt"></i> Request document</div>
+                  <div class="role-action-item"><i class="fas fa-calendar-alt"></i> Schedule meeting</div>
+                  <div class="role-action-item"><i class="fas fa-comment"></i> Add comment</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="role-card compliance">
+              <div class="role-header">
+                <i class="fas fa-clipboard-list"></i>
+                <h5>Compliance Officer</h5>
+              </div>
+              <div class="role-content">
+                <p class="role-description">Regulatory compliance validation and privacy oversight.</p>
+                <div class="role-items">
+                  <div class="role-item"><i class="fas fa-check-circle"></i> Review surveillance policies and data governance</div>
+                  <div class="role-item"><i class="fas fa-exclamation-circle"></i> Concerned with data protection and privacy laws</div>
+                  <div class="role-item"><i class="fas fa-file-alt"></i> Documents compliance requirements and gaps</div>
+                </div>
+              </div>
+              <div class="role-actions">
+                <button class="role-action-btn"><i class="fas fa-ellipsis-v"></i></button>
+                <div class="role-action-menu">
+                  <div class="role-action-item"><i class="fas fa-tasks"></i> Assign task</div>
+                  <div class="role-action-item"><i class="fas fa-file-alt"></i> Request document</div>
+                  <div class="role-action-item"><i class="fas fa-calendar-alt"></i> Schedule meeting</div>
+                  <div class="role-action-item"><i class="fas fa-comment"></i> Add comment</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="role-card implementation">
+              <div class="role-header">
+                <i class="fas fa-tasks"></i>
+                <h5>BA Implementation Lead</h5>
+              </div>
+              <div class="role-content">
+                <p class="role-description">Technical implementation oversight and project coordination.</p>
+                <div class="role-items">
+                  <div class="role-item"><i class="fas fa-check-circle"></i> Lead technical discovery and requirements gathering</div>
+                  <div class="role-item"><i class="fas fa-exclamation-circle"></i> Focused on implementation feasibility and timeline</div>
+                  <div class="role-item"><i class="fas fa-file-alt"></i> Creates technical discovery report</div>
+                </div>
+              </div>
+              <div class="role-actions">
+                <button class="role-action-btn"><i class="fas fa-ellipsis-v"></i></button>
+                <div class="role-action-menu">
+                  <div class="role-action-item"><i class="fas fa-tasks"></i> Assign task</div>
+                  <div class="role-action-item"><i class="fas fa-file-alt"></i> Request document</div>
+                  <div class="role-action-item"><i class="fas fa-calendar-alt"></i> Schedule meeting</div>
+                  <div class="role-action-item"><i class="fas fa-comment"></i> Add comment</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div id="planning-details" class="phase-details">
+        <div class="details-header">
+          <h3 class="details-title">Planning Phase</h3>
+          <div class="details-duration">Weeks 3-4</div>
+        </div>
+        <div class="details-content">
+          <div class="details-description">
+            <h4 class="description-title">Phase Overview</h4>
+            <p class="description-text">
+              The Planning phase focuses on designing the detailed migration approach, creating a comprehensive implementation plan, and securing organizational buy-in. This includes determining hardware requirements, defining integration points, and establishing the project timeline.
+            </p>
+            <p class="description-text">
+              Key outputs include a detailed implementation plan, resource allocation, and technical design documents for the Black Armor AI platform.
+            </p>
+          </div>
+          <div class="details-tasks">
+            <h4 class="tasks-title"><i class="fas fa-clipboard-check"></i> Key Tasks</h4>
+            <ul class="task-list">
+              <li class="task-item">
+                <input type="checkbox" class="task-checkbox">
+                <span class="task-text">Define drone deployment locations and coverage zones</span>
+                <span class="task-owner">BA Implementation</span>
+              </li>
+              <li class="task-item">
+                <input type="checkbox" class="task-checkbox">
+                <span class="task-text">Design network infrastructure for drone communication</span>
+                <span class="task-owner">IT Team</span>
+              </li>
+              <li class="task-item">
+                <input type="checkbox" class="task-checkbox">
+                <span class="task-text">Create data retention and privacy compliance framework</span>
+                <span class="task-owner">Compliance</span>
+              </li>
+              <li class="task-item">
+                <input type="checkbox" class="task-checkbox">
+                <span class="task-text">Design integration with existing security systems</span>
+                <span class="task-owner">BA Implementation</span>
+              </li>
+              <li class="task-item">
+                <input type="checkbox" class="task-checkbox">
+                <span class="task-text">Develop training plan for security personnel</span>
+                <span class="task-owner">HR/Training</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="stakeholder-section">
+          <h4 class="stakeholders-title"><i class="fas fa-users"></i> Key Stakeholders</h4>
+          <div class="stakeholder-list">
+            <div class="stakeholder-item">
+              <i class="fas fa-user-shield"></i>
+              <span>Security Operations Lead</span>
+            </div>
+            <div class="stakeholder-item">
+              <i class="fas fa-user-cog"></i>
+              <span>Network Engineer</span>
+            </div>
+            <div class="stakeholder-item">
+              <i class="fas fa-user-tie"></i>
+              <span>Project Manager</span>
+            </div>
+            <div class="stakeholder-item">
+              <i class="fas fa-user-check"></i>
+              <span>Compliance Officer</span>
+            </div>
+            <div class="stakeholder-item">
+              <i class="fas fa-user-graduate"></i>
+              <span>BA Solution Architect</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Role-Based Section -->
+        <div class="role-based-section">
+          <h4 class="role-based-title"><i class="fas fa-user-tag"></i> Role-Based Responsibilities & Concerns</h4>
+          
+          <!-- Role filter bar -->
+          <div class="role-filter">
+            <span class="filter-label">Filter by: </span>
+            <div class="filter-options">
+              <button class="filter-button active" data-filter="all">All Roles</button>
+              <button class="filter-button" data-filter="executive">Executives</button>
+              <button class="filter-button" data-filter="security">Security</button>
+              <button class="filter-button" data-filter="technical">Technical</button>
+              <button class="filter-button" data-filter="operations">Operations</button>
+            </div>
+          </div>
+          
+          <div class="role-cards">
+            <!-- C-Level Executives -->
+            <div class="role-card ceo">
+              <div class="role-header">
+                <i class="fas fa-user-tie"></i>
+                <h5>CEO</h5>
+              </div>
+              <div class="role-content">
+                <p class="role-description">Steering committee involvement and project prioritization.</p>
+                <div class="role-items">
+                  <div class="role-item"><i class="fas fa-check-circle"></i> Review and approve implementation timeline</div>
+                  <div class="role-item"><i class="fas fa-exclamation-circle"></i> Concerned with risk mitigation strategy</div>
+                  <div class="role-item"><i class="fas fa-file-alt"></i> Requires project milestone summary</div>
+                </div>
+              </div>
+              <div class="role-assignment-indicator">0</div>
+              <div class="role-actions">
+                <button class="role-action-btn"><i class="fas fa-ellipsis-v"></i></button>
+                <div class="role-action-menu">
+                  <div class="role-action-item"><i class="fas fa-tasks"></i> Assign task</div>
+                  <div class="role-action-item"><i class="fas fa-file-alt"></i> Request document</div>
+                  <div class="role-action-item"><i class="fas fa-calendar-alt"></i> Schedule meeting</div>
+                  <div class="role-action-item"><i class="fas fa-comment"></i> Add comment</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="role-card cfo">
+              <div class="role-header">
+                <i class="fas fa-chart-line"></i>
+                <h5>CFO</h5>
+              </div>
+              <div class="role-content">
+                <p class="role-description">Budget approval and financial planning for implementation.</p>
+                <div class="role-items">
+                  <div class="role-item"><i class="fas fa-check-circle"></i> Approve phased expenditure plan</div>
+                  <div class="role-item"><i class="fas fa-exclamation-circle"></i> Focused on milestone-based payments</div>
+                  <div class="role-item"><i class="fas fa-file-alt"></i> Reviews detailed implementation costs</div>
+                </div>
+              </div>
+              <div class="role-actions">
+                <button class="role-action-btn"><i class="fas fa-ellipsis-v"></i></button>
+                <div class="role-action-menu">
+                  <div class="role-action-item"><i class="fas fa-tasks"></i> Assign task</div>
+                  <div class="role-action-item"><i class="fas fa-file-alt"></i> Request document</div>
+                  <div class="role-action-item"><i class="fas fa-calendar-alt"></i> Schedule meeting</div>
+                  <div class="role-action-item"><i class="fas fa-comment"></i> Add comment</div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Security and IT Leadership -->
+            <div class="role-card ciso">
+              <div class="role-header">
+                <i class="fas fa-shield-alt"></i>
+                <h5>CISO/Head of Security</h5>
+              </div>
+              <div class="role-content">
+                <p class="role-description">Security strategy alignment and risk management oversight.</p>
+                <div class="role-items">
+                  <div class="role-item"><i class="fas fa-check-circle"></i> Define security requirements and success metrics</div>
+                  <div class="role-item"><i class="fas fa-exclamation-circle"></i> Concerned with security effectiveness and compliance</div>
+                  <div class="role-item"><i class="fas fa-file-alt"></i> Reviews detailed security capabilities assessment</div>
+                </div>
+              </div>
+              <div class="role-actions">
+                <button class="role-action-btn"><i class="fas fa-ellipsis-v"></i></button>
+                <div class="role-action-menu">
+                  <div class="role-action-item"><i class="fas fa-tasks"></i> Assign task</div>
+                  <div class="role-action-item"><i class="fas fa-file-alt"></i> Request document</div>
+                  <div class="role-action-item"><i class="fas fa-calendar-alt"></i> Schedule meeting</div>
+                  <div class="role-action-item"><i class="fas fa-comment"></i> Add comment</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="role-card it">
+              <div class="role-header">
+                <i class="fas fa-server"></i>
+                <h5>IT Director</h5>
+              </div>
+              <div class="role-content">
+                <p class="role-description">Technical infrastructure oversight and integration planning.</p>
+                <div class="role-items">
+                  <div class="role-item"><i class="fas fa-check-circle"></i> Assess technical feasibility and network requirements</div>
+                  <div class="role-item"><i class="fas fa-exclamation-circle"></i> Focused on system integration and bandwidth</div>
+                  <div class="role-item"><i class="fas fa-file-alt"></i> Provides IT infrastructure documentation</div>
+                </div>
+              </div>
+              <div class="role-assignment-indicator">0</div>
+              <div class="role-actions">
+                <button class="role-action-btn"><i class="fas fa-ellipsis-v"></i></button>
+                <div class="role-action-menu">
+                  <div class="role-action-item"><i class="fas fa-tasks"></i> Assign task</div>
+                  <div class="role-action-item"><i class="fas fa-file-alt"></i> Request document</div>
+                  <div class="role-action-item"><i class="fas fa-calendar-alt"></i> Schedule meeting</div>
+                  <div class="role-action-item"><i class="fas fa-comment"></i> Add comment</div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Operational Stakeholders -->
+            <div class="role-card facilities">
+              <div class="role-header">
+                <i class="fas fa-building"></i>
+                <h5>Facilities Manager</h5>
+              </div>
+              <div class="role-content">
+                <p class="role-description">Physical site management and operational coordination.</p>
+                <div class="role-items">
+                  <div class="role-item"><i class="fas fa-check-circle"></i> Provide site layouts and access requirements</div>
+                  <div class="role-item"><i class="fas fa-exclamation-circle"></i> Concerned with operational disruption during implementation</div>
+                  <div class="role-item"><i class="fas fa-file-alt"></i> Contributes to site survey and assessment</div>
+                </div>
+              </div>
+              <div class="role-assignment-indicator">0</div>
+              <div class="role-actions">
+                <button class="role-action-btn"><i class="fas fa-ellipsis-v"></i></button>
+                <div class="role-action-menu">
+                  <div class="role-action-item"><i class="fas fa-tasks"></i> Assign task</div>
+                  <div class="role-action-item"><i class="fas fa-file-alt"></i> Request document</div>
+                  <div class="role-action-item"><i class="fas fa-calendar-alt"></i> Schedule meeting</div>
+                  <div class="role-action-item"><i class="fas fa-comment"></i> Add comment</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="role-card compliance">
+              <div class="role-header">
+                <i class="fas fa-clipboard-list"></i>
+                <h5>Compliance Officer</h5>
+              </div>
+              <div class="role-content">
+                <p class="role-description">Regulatory compliance validation and privacy oversight.</p>
+                <div class="role-items">
+                  <div class="role-item"><i class="fas fa-check-circle"></i> Review surveillance policies and data governance</div>
+                  <div class="role-item"><i class="fas fa-exclamation-circle"></i> Concerned with data protection and privacy laws</div>
+                  <div class="role-item"><i class="fas fa-file-alt"></i> Documents compliance requirements and gaps</div>
+                </div>
+              </div>
+              <div class="role-actions">
+                <button class="role-action-btn"><i class="fas fa-ellipsis-v"></i></button>
+                <div class="role-action-menu">
+                  <div class="role-action-item"><i class="fas fa-tasks"></i> Assign task</div>
+                  <div class="role-action-item"><i class="fas fa-file-alt"></i> Request document</div>
+                  <div class="role-action-item"><i class="fas fa-calendar-alt"></i> Schedule meeting</div>
+                  <div class="role-action-item"><i class="fas fa-comment"></i> Add comment</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="role-card implementation">
+              <div class="role-header">
+                <i class="fas fa-tasks"></i>
+                <h5>BA Implementation Lead</h5>
+              </div>
+              <div class="role-content">
+                <p class="role-description">Implementation planning and resource allocation.</p>
+                <div class="role-items">
+                  <div class="role-item"><i class="fas fa-check-circle"></i> Create detailed implementation schedule</div>
+                  <div class="role-item"><i class="fas fa-exclamation-circle"></i> Focused on resource allocation and dependencies</div>
+                  <div class="role-item"><i class="fas fa-file-alt"></i> Develops technical implementation plan</div>
+                </div>
+              </div>
+              <div class="role-actions">
+                <button class="role-action-btn"><i class="fas fa-ellipsis-v"></i></button>
+                <div class="role-action-menu">
+                  <div class="role-action-item"><i class="fas fa-tasks"></i> Assign task</div>
+                  <div class="role-action-item"><i class="fas fa-file-alt"></i> Request document</div>
+                  <div class="role-action-item"><i class="fas fa-calendar-alt"></i> Schedule meeting</div>
+                  <div class="role-action-item"><i class="fas fa-comment"></i> Add comment</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Additional phase details sections would go here -->
+      
+      <div class="editable-area">
+        <h4 class="editable-title">Project Notes & Custom Requirements</h4>
+        <textarea class="notes-area" placeholder="Add your specific project notes, requirements or special considerations here..."></textarea>
+      </div>
+      
+      <div class="btn-container">
+        <button class="btn btn-secondary">
+          <i class="fas fa-save"></i> Save Journey Map
+        </button>
+        <button class="btn btn-primary" id="exportBtn">
+          <i class="fas fa-file-export"></i> Export as PDF
+        </button>
+        <button class="btn btn-secondary" id="generateReportBtn">
+          <i class="fas fa-file-alt"></i> Generate Role Report
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Navigation Buttons -->
+  <div class="nav-buttons">
+    <button class="nav-button home-button" title="Home" onclick="window.location.href='client_presentations/Executive_Briefing.html'">
+      <i class="fas fa-home"></i>
+    </button>
+    <button class="nav-button back-button" title="Back" id="backButton">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+  </div>
+  
+  <!-- Selection Summary -->
+  <div class="selection-summary" id="selection-summary">0 stakeholders selected</div>
+  
+  <script>
+    // Phase navigation
+    const phaseDots = document.querySelectorAll('.phase-dot');
+    const phaseDetails = document.querySelectorAll('.phase-details');
+    
+    phaseDots.forEach(dot => {
+      dot.addEventListener('click', function() {
+        // Remove active class from all dots and details
+        phaseDots.forEach(d => d.classList.remove('active'));
+        phaseDetails.forEach(detail => detail.classList.remove('active'));
+        
+        // Add active class to clicked dot
+        this.classList.add('active');
+        
+        // Show corresponding details
+        const phaseId = this.getAttribute('data-phase');
+        document.getElementById(`${phaseId}-details`).classList.add('active');
+      });
+    });
+    
+    // Make task items checkable
+    const taskCheckboxes = document.querySelectorAll('.task-checkbox');
+    taskCheckboxes.forEach(checkbox => {
+      checkbox.addEventListener('change', function() {
+        const taskItem = this.parentElement;
+        if (this.checked) {
+          taskItem.style.opacity = '0.6';
+          taskItem.querySelector('.task-text').style.textDecoration = 'line-through';
+        } else {
+          taskItem.style.opacity = '1';
+          taskItem.querySelector('.task-text').style.textDecoration = 'none';
+        }
+      });
+    });
+    
+    // Back button functionality
+    document.getElementById('backButton').addEventListener('click', function() {
+      window.location.href = '../client_presentations/BANT_Framework.html';
+    });
+    
+    // Export button functionality
+    document.getElementById('exportBtn').addEventListener('click', function() {
+      alert('Journey Map export feature would generate a PDF document of your customized migration plan in a live implementation.');
+      
+      // Simulate downloading a file
+      setTimeout(function() {
+        // Create an artificial download prompt
+        const link = document.createElement('a');
+        link.href = 'javascript:void(0)';
+        link.download = 'Black_Armor_AI_Migration_Journey.pdf';
+        link.dispatchEvent(new MouseEvent('click'));
+      }, 1000);
+    });
+    
+    // Ensure all role cards have action buttons initialized
+    document.querySelectorAll('.role-card').forEach(card => {
+      if (!card.querySelector('.role-actions')) {
+        // If a card doesn't have role actions, add them
+        const actionsDiv = document.createElement('div');
+        actionsDiv.className = 'role-actions';
+        actionsDiv.innerHTML = `
+          <button class="role-action-btn"><i class="fas fa-ellipsis-v"></i></button>
+          <div class="role-action-menu">
+            <div class="role-action-item"><i class="fas fa-tasks"></i> Assign task</div>
+            <div class="role-action-item"><i class="fas fa-file-alt"></i> Request document</div>
+            <div class="role-action-item"><i class="fas fa-calendar-alt"></i> Schedule meeting</div>
+            <div class="role-action-item"><i class="fas fa-comment"></i> Add comment</div>
+          </div>
+        `;
+        card.appendChild(actionsDiv);
+      }
+      
+      // Initialize task tracking
+      card.setAttribute('data-tasks', JSON.stringify([]));
+    });
+    
+    // Set role category data attributes for filtering
+    document.querySelectorAll('.role-card.ceo, .role-card.cfo').forEach(card => {
+      card.setAttribute('data-category', 'executive');
+    });
+    
+    document.querySelectorAll('.role-card.ciso, .role-card.compliance').forEach(card => {
+      card.setAttribute('data-category', 'security');
+    });
+    
+    document.querySelectorAll('.role-card.it, .role-card.implementation').forEach(card => {
+      card.setAttribute('data-category', 'technical');
+    });
+    
+    document.querySelectorAll('.role-card.facilities').forEach(card => {
+      card.setAttribute('data-category', 'operations');
+    });
+    
+    // Track tasks for each role
+    const roleTasks = {};
+    
+    // Filter functionality
+    const filterButtons = document.querySelectorAll('.filter-button');
+    filterButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        // Remove active class from all buttons
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        
+        // Add active class to clicked button
+        this.classList.add('active');
+        
+        // Get filter value
+        const filterValue = this.getAttribute('data-filter');
+        
+        // Filter the role cards
+        const roleCards = document.querySelectorAll('.role-card');
+        roleCards.forEach(card => {
+          if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
+            // Show cards that match the filter
+            card.classList.remove('filtered-out');
+            setTimeout(() => {
+              card.style.display = '';
+            }, 50);
+          } else {
+            // Hide cards that don't match the filter
+            card.classList.add('filtered-out');
+            setTimeout(() => {
+              card.style.display = 'none';
+            }, 300); // Match the transition duration
+          }
+        });
+      });
+    });
+    
+    // Handle task assignment indicator clicks
+    document.addEventListener('click', function(event) {
+      const indicator = event.target.closest('.role-assignment-indicator');
+      if (indicator) {
+        const roleCard = indicator.closest('.role-card');
+        const roleName = roleCard.querySelector('h5').textContent;
+        
+        // Remove any existing popups
+        document.querySelectorAll('.task-summary-popup').forEach(popup => popup.remove());
+        
+        // Create task summary popup
+        const popup = document.createElement('div');
+        popup.className = 'task-summary-popup';
+        
+        // Get tasks for this role
+        const tasks = JSON.parse(roleCard.getAttribute('data-tasks') || '[]');
+        
+        // Populate popup content
+        popup.innerHTML = `
+          <div class="task-summary-header">
+            <span><i class="fas fa-clipboard-list"></i> Tasks for ${roleName}</span>
+            <span class="task-summary-close"><i class="fas fa-times"></i></span>
+          </div>
+          ${tasks.length > 0 ? `
+            <ul class="task-summary-list">
+              ${tasks.map(task => `
+                <li class="task-summary-item">
+                  <i class="${task.type === 'task' ? 'fas fa-tasks' : 'fas fa-file-alt'}"></i>
+                  <span>${task.description}</span>
+                </li>
+              `).join('')}
+            </ul>
+          ` : `
+            <div class="task-summary-empty">No specific tasks assigned yet</div>
+          `}
+        `;
+        
+        roleCard.appendChild(popup);
+        
+        // Close popup when clicking the close button
+        popup.querySelector('.task-summary-close').addEventListener('click', function() {
+          popup.remove();
+        });
+        
+        // Close popup when clicking outside
+        document.addEventListener('click', function closePopup(e) {
+          if (!popup.contains(e.target) && e.target !== indicator) {
+            popup.remove();
+            document.removeEventListener('click', closePopup);
+          }
+        });
+      }
+    });
+    
+    // Role action menu functionality
+    // Use event delegation for better performance and to handle dynamically added elements
+    document.addEventListener('click', function(event) {
+      // Close all menus when clicking outside
+      if (!event.target.closest('.role-actions')) {
+        document.querySelectorAll('.role-action-menu').forEach(menu => {
+          menu.classList.remove('show');
+        });
+      }
+      
+      // Handle action button clicks
+      const actionButton = event.target.closest('.role-action-btn');
+      if (actionButton) {
+        event.stopPropagation();
+        
+        // Close other menus
+        document.querySelectorAll('.role-action-menu').forEach(menu => {
+          if (menu !== actionButton.nextElementSibling) {
+            menu.classList.remove('show');
+          }
+        });
+        
+        // Toggle this menu
+        actionButton.nextElementSibling.classList.toggle('show');
+      }
+      
+      // Handle action menu item clicks
+      const actionItem = event.target.closest('.role-action-item');
+      if (actionItem) {
+        const action = actionItem.textContent.trim();
+        const roleCard = actionItem.closest('.role-card');
+        const roleName = roleCard.querySelector('h5').textContent;
+        
+        // Close the menu
+        actionItem.closest('.role-action-menu').classList.remove('show');
+        
+        // Show notification
+        const notification = document.createElement('div');
+        notification.className = 'notification';
+        
+        // Track the tasks
+        const tasks = JSON.parse(roleCard.getAttribute('data-tasks') || '[]');
+        
+        // Update task counter for assign task action
+        if (action.includes('Assign task')) {
+          notification.innerHTML = `<i class="fas fa-tasks"></i> Task assigned to ${roleName}`;
+          
+          // Add the has-tasks class
+          roleCard.classList.add('has-tasks');
+          
+          // Update the counter
+          const indicator = roleCard.querySelector('.role-assignment-indicator');
+          let taskCount = parseInt(indicator.textContent) || 0;
+          taskCount++;
+          indicator.textContent = taskCount;
+          
+          // Add task to tracking
+          tasks.push({
+            type: 'task',
+            description: `Task #${taskCount} assigned to ${roleName}`
+          });
+          
+        } else if (action.includes('Request document')) {
+          notification.innerHTML = `<i class="fas fa-file-alt"></i> Document requested from ${roleName}`;
+          
+          // Add the has-tasks class
+          roleCard.classList.add('has-tasks');
+          
+          // Update the counter
+          const indicator = roleCard.querySelector('.role-assignment-indicator');
+          let taskCount = parseInt(indicator.textContent) || 0;
+          taskCount++;
+          indicator.textContent = taskCount;
+          
+          // Add document request to tracking
+          tasks.push({
+            type: 'document',
+            description: `Document requested from ${roleName}`
+          });
+          
+        } else if (action.includes('Schedule meeting')) {
+          notification.innerHTML = `<i class="fas fa-calendar-alt"></i> Meeting scheduled with ${roleName}`;
+        } else if (action.includes('Add comment')) {
+          notification.innerHTML = `<i class="fas fa-comment"></i> Comment added for ${roleName}`;
+        }
+        
+        // Save updated tasks
+        roleCard.setAttribute('data-tasks', JSON.stringify(tasks));
+        
+        document.body.appendChild(notification);
+        
+        // Remove notification after 2 seconds
+        setTimeout(() => {
+          notification.style.opacity = '0';
+          setTimeout(() => {
+            notification.remove();
+          }, 300);
+        }, 2000);
+      }
+    });
+    
+    // Make sure all role cards can be selected by clicking
+    document.querySelectorAll('.role-card').forEach(card => {
+      card.addEventListener('click', function(event) {
+        // Only trigger selection if not clicking on action buttons or menus
+        if (!event.target.closest('.role-actions') && !event.target.closest('.role-assignment-indicator')) {
+          this.classList.toggle('selected');
+          
+          if (this.classList.contains('selected')) {
+            const roleTitle = this.querySelector('h5').textContent;
+            
+            // Add visual check mark effect
+            const checkEffect = document.createElement('div');
+            checkEffect.className = 'selection-effect';
+            checkEffect.innerHTML = '<i class="fas fa-check"></i>';
+            this.appendChild(checkEffect);
+            
+            setTimeout(() => {
+              checkEffect.remove();
+            }, 800);
+            
+            // Show notification
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.innerHTML = `<i class="fas fa-check-circle"></i> ${roleTitle} selected for task assignment`;
+            document.body.appendChild(notification);
+            
+            // Remove notification after 2 seconds
+            setTimeout(() => {
+              notification.style.opacity = '0';
+              setTimeout(() => {
+                notification.remove();
+              }, 300);
+            }, 2000);
+          } else {
+            // If deselected, show notification
+            const roleTitle = this.querySelector('h5').textContent;
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.style.backgroundColor = 'rgba(219, 68, 55, 0.9)'; // Red color
+            notification.innerHTML = `<i class="fas fa-times-circle"></i> ${roleTitle} removed from selection`;
+            document.body.appendChild(notification);
+            
+            // Remove notification after 2 seconds
+            setTimeout(() => {
+              notification.style.opacity = '0';
+              setTimeout(() => {
+                notification.remove();
+              }, 300);
+            }, 2000);
+          }
+          
+          // Update selected count in summary
+          const selectedCount = document.querySelectorAll('.role-card.selected').length;
+          const selectionSummary = document.getElementById('selection-summary');
+          if (selectionSummary) {
+            selectionSummary.textContent = `${selectedCount} stakeholders selected`;
+            selectionSummary.style.display = selectedCount > 0 ? 'block' : 'none';
+          }
+        }
+      });
+    });
+    
+    // Generate role report
+    document.getElementById('generateReportBtn').addEventListener('click', function() {
+      // Get all selected roles or all roles if none selected
+      const selectedRoles = document.querySelectorAll('.role-card.selected');
+      const rolesToReport = selectedRoles.length > 0 ? selectedRoles : document.querySelectorAll('.role-card');
+      
+      // Create report modal
+      const modal = document.createElement('div');
+      modal.className = 'report-modal';
+      
+      // Generate report content
+      let reportContent = `
+        <div class="report-header">
+          <h3>Role Responsibility Report</h3>
+          <span class="report-close"><i class="fas fa-times"></i></span>
+        </div>
+        <div class="report-body">
+          <p class="report-intro">This report summarizes the responsibilities and assigned tasks for ${selectedRoles.length > 0 ? 'selected' : 'all'} stakeholders in the migration journey.</p>
+          <div class="report-roles">
+      `;
+      
+      // Add each role to the report
+      rolesToReport.forEach(role => {
+        const roleName = role.querySelector('h5').textContent;
+        const roleDesc = role.querySelector('.role-description').textContent;
+        const tasks = JSON.parse(role.getAttribute('data-tasks') || '[]');
+        const hasTasks = role.classList.contains('has-tasks');
+        const taskCount = role.querySelector('.role-assignment-indicator')?.textContent || '0';
+        
+        // Get the role items
+        const responsibilities = [];
+        role.querySelectorAll('.role-item').forEach(item => {
+          responsibilities.push(item.textContent.trim());
+        });
+        
+        reportContent += `
+          <div class="report-role-section">
+            <div class="report-role-header">
+              <h4>${roleName}</h4>
+              <span class="report-role-tasks">${taskCount} ${taskCount === '1' ? 'task' : 'tasks'} assigned</span>
+            </div>
+            <p class="report-role-desc">${roleDesc}</p>
+            
+            <div class="report-section">
+              <h5><i class="fas fa-clipboard-check"></i> Responsibilities</h5>
+              <ul class="report-list">
+                ${responsibilities.map(resp => `<li>${resp}</li>`).join('')}
+              </ul>
+            </div>
+            
+            ${hasTasks ? `
+              <div class="report-section">
+                <h5><i class="fas fa-tasks"></i> Assigned Tasks</h5>
+                <ul class="report-list">
+                  ${tasks.length > 0 ? 
+                    tasks.map(task => `<li><i class="${task.type === 'task' ? 'fas fa-tasks' : 'fas fa-file-alt'}"></i> ${task.description}</li>`).join('') : 
+                    '<li class="empty-tasks">No specific tasks assigned yet</li>'}
+                </ul>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      });
+      
+      reportContent += `
+          </div>
+          <div class="report-actions">
+            <button class="btn btn-primary" id="printReportBtn">
+              <i class="fas fa-print"></i> Print Report
+            </button>
+          </div>
+        </div>
+      `;
+      
+      modal.innerHTML = reportContent;
+      document.body.appendChild(modal);
+      
+      // Handle close button
+      modal.querySelector('.report-close').addEventListener('click', function() {
+        modal.remove();
+      });
+      
+      // Handle print button
+      modal.querySelector('#printReportBtn').addEventListener('click', function() {
+        window.print();
+      });
+      
+      // Close on outside click
+      modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+          modal.remove();
+        }
+      });
+    });
+  </script>
+<script src="../chatbot_commands.js"></script>
+<script src="0
+
+  <!-- Chatbot Container -->
+  <!-- Chatbot is dynamically created by chatbot scripts -->    <i class="fas fa-comment"></i>
+  </button>
+</body>
+</html> 

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neo AI Writers' Room | GCP Cloud Journey</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+
+<link rel="stylesheet" href="../chatbot.css">
+<link rel="stylesheet" href="../navbar.css">
+<style>
+  /* Custom chatbot positioning for this page */
+  #chatbot-toggle {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1000 !important;
+  }
+  
+  #chatbot-container {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1001 !important;
+    width: 350px !important;
+    max-height: 500px !important;
+  }
+</style></head>
+<body>
+  <div class="slide-container">
+    <div class="slide-header fade-in">
+      <h1 class="slide-title">GCP Cloud Journey</h1>
+      <h2 class="slide-subtitle">Neo AI Writers' Room Migration Path</h2>
+    </div>
+    
+    <div class="journey-overview slide-up" style="animation-delay: 0.2s;">
+      <p class="journey-desc">
+        The Neo AI Writers' Room implementation follows a structured migration path to Google Cloud Platform, ensuring a seamless transition while minimizing disruption to existing content workflows. Each stage builds on the previous one, culminating in a fully integrated, serverless content intelligence solution.
+      </p>
+    </div>
+    
+    <div class="journey-container">
+      <div class="journey-timeline">
+        <div class="timeline-line"></div>
+        <div class="timeline-progress" id="timeline-progress"></div>
+        
+        <div class="timeline-stages">
+          <div class="stage active">
+            <div class="stage-marker"></div>
+            <div class="stage-content">
+              <div class="stage-title">
+                <div class="stage-icon">
+                  <i class="fas fa-compass"></i>
+                </div>
+                Phase 1: Discovery & Planning
+              </div>
+              <div class="stage-subtitle">Days 1-14</div>
+              <p>Comprehensive assessment of current content workflows, technical environment, and business requirements to create a tailored implementation plan.</p>
+              
+              <div class="stage-milestones">
+                <div class="milestone">
+                  <div class="milestone-check complete">
+                    <i class="fas fa-check"></i>
+                  </div>
+                  <div class="milestone-content">
+                    <div class="milestone-title">Technical Assessment <span class="milestone-tag tag-complete">Complete</span></div>
+                    <div class="milestone-desc">Inventory of current systems, integration points, and content repositories</div>
+                  </div>
+                </div>
+                
+                <div class="milestone">
+                  <div class="milestone-check complete">
+                    <i class="fas fa-check"></i>
+                  </div>
+                  <div class="milestone-content">
+                    <div class="milestone-title">GCP Architecture Design <span class="milestone-tag tag-complete">Complete</span></div>
+                    <div class="milestone-desc">Cloud-native solution architecture with serverless components</div>
+                  </div>
+                </div>
+                
+                <div class="milestone">
+                  <div class="milestone-check complete">
+                    <i class="fas fa-check"></i>
+                  </div>
+                  <div class="milestone-content">
+                    <div class="milestone-title">Implementation Roadmap <span class="milestone-tag tag-complete">Complete</span></div>
+                    <div class="milestone-desc">Detailed timeline with milestones and resource allocation</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="stage active">
+            <div class="stage-marker"></div>
+            <div class="stage-content">
+              <div class="stage-title">
+                <div class="stage-icon">
+                  <i class="fas fa-cloud-upload-alt"></i>
+                </div>
+                Phase 2: Foundation & Migration
+              </div>
+              <div class="stage-subtitle">Days 15-45</div>
+              <p>Establishment of the core GCP infrastructure and initial migration of content repositories and processing workflows.</p>
+              
+              <div class="stage-milestones">
+                <div class="milestone">
+                  <div class="milestone-check complete">
+                    <i class="fas fa-check"></i>
+                  </div>
+                  <div class="milestone-content">
+                    <div class="milestone-title">GCP Environment Setup <span class="milestone-tag tag-complete">Complete</span></div>
+                    <div class="milestone-desc">VPC, IAM policies, security controls, and monitoring</div>
+                  </div>
+                </div>
+                
+                <div class="milestone">
+                  <div class="milestone-check complete">
+                    <i class="fas fa-check"></i>
+                  </div>
+                  <div class="milestone-content">
+                    <div class="milestone-title">Content Storage Migration <span class="milestone-tag tag-complete">Complete</span></div>
+                    <div class="milestone-desc">Transfer to Cloud Storage with appropriate access controls</div>
+                  </div>
+                </div>
+                
+                <div class="milestone">
+                  <div class="milestone-check in-progress">
+                    <i class="fas fa-sync-alt"></i>
+                  </div>
+                  <div class="milestone-content">
+                    <div class="milestone-title">Base AI Models Deployment <span class="milestone-tag tag-in-progress">In Progress</span></div>
+                    <div class="milestone-desc">Speech-to-text, vision, and language understanding models</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="stage">
+            <div class="stage-marker"></div>
+            <div class="stage-content">
+              <div class="stage-title">
+                <div class="stage-icon">
+                  <i class="fas fa-brain"></i>
+                </div>
+                Phase 3: Intelligence Layer
+              </div>
+              <div class="stage-subtitle">Days 46-75</div>
+              <p>Implementation of advanced AI processing capabilities and custom models tailored to content-specific requirements.</p>
+              
+              <div class="stage-milestones">
+                <div class="milestone">
+                  <div class="milestone-check in-progress">
+                    <i class="fas fa-sync-alt"></i>
+                  </div>
+                  <div class="milestone-content">
+                    <div class="milestone-title">Custom Model Training <span class="milestone-tag tag-in-progress">In Progress</span></div>
+                    <div class="milestone-desc">Domain-specific LLMs and content classification models</div>
+                  </div>
+                </div>
+                
+                <div class="milestone">
+                  <div class="milestone-check pending">
+                    <i class="fas fa-clock"></i>
+                  </div>
+                  <div class="milestone-content">
+                    <div class="milestone-title">Multi-modal Analysis Pipeline <span class="milestone-tag tag-pending">Pending</span></div>
+                    <div class="milestone-desc">Integration of speech, text, and visual analysis</div>
+                  </div>
+                </div>
+                
+                <div class="milestone">
+                  <div class="milestone-check pending">
+                    <i class="fas fa-clock"></i>
+                  </div>
+                  <div class="milestone-content">
+                    <div class="milestone-title">Event-driven Workflows <span class="milestone-tag tag-pending">Pending</span></div>
+                    <div class="milestone-desc">Pub/Sub triggers and Cloud Functions automation</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="stage">
+            <div class="stage-marker"></div>
+            <div class="stage-content">
+              <div class="stage-title">
+                <div class="stage-icon">
+                  <i class="fas fa-rocket"></i>
+                </div>
+                Phase 4: Production & Scale
+              </div>
+              <div class="stage-subtitle">Days 76-90</div>
+              <p>Final integration, user acceptance testing, and production deployment with ongoing optimization and expansion plans.</p>
+              
+              <div class="stage-milestones">
+                <div class="milestone">
+                  <div class="milestone-check pending">
+                    <i class="fas fa-clock"></i>
+                  </div>
+                  <div class="milestone-content">
+                    <div class="milestone-title">User Interface Deployment <span class="milestone-tag tag-pending">Pending</span></div>
+                    <div class="milestone-desc">Web interface and API endpoints for integration</div>
+                  </div>
+                </div>
+                
+                <div class="milestone">
+                  <div class="milestone-check pending">
+                    <i class="fas fa-clock"></i>
+                  </div>
+                  <div class="milestone-content">
+                    <div class="milestone-title">User Acceptance Testing <span class="milestone-tag tag-pending">Pending</span></div>
+                    <div class="milestone-desc">Validation with editorial and production teams</div>
+                  </div>
+                </div>
+                
+                <div class="milestone">
+                  <div class="milestone-check pending">
+                    <i class="fas fa-clock"></i>
+                  </div>
+                  <div class="milestone-content">
+                    <div class="milestone-title">Production Deployment <span class="milestone-tag tag-pending">Pending</span></div>
+                    <div class="milestone-desc">Full production release with monitoring and support</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="gcp-services pop-in" style="animation-delay: 0.4s;">
+      <h3 class="services-title">Key GCP Services by Implementation Phase</h3>
+      
+      <div class="services-container">
+        <div class="service-card">
+          <div class="service-header">
+            <div class="service-icon" style="background-color: var(--gcp-blue);">
+              <i class="fas fa-database"></i>
+            </div>
+            <div class="service-title">Cloud Storage</div>
+          </div>
+          <div class="service-desc">
+            Scalable object storage for all content assets with fine-grained access control and global availability.
+          </div>
+          <div class="service-phase">Phase 1-2</div>
+        </div>
+        
+        <div class="service-card">
+          <div class="service-header">
+            <div class="service-icon" style="background-color: var(--gcp-green);">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+            <div class="service-title">Identity & Access</div>
+          </div>
+          <div class="service-desc">
+            IAM controls for resource security, user authentication, and granular permission management.
+          </div>
+          <div class="service-phase">Phase 1-2</div>
+        </div>
+        
+        <div class="service-card">
+          <div class="service-header">
+            <div class="service-icon" style="background-color: var(--gcp-yellow);">
+              <i class="fas fa-microphone"></i>
+            </div>
+            <div class="service-title">Speech-to-Text</div>
+          </div>
+          <div class="service-desc">
+            High-accuracy transcription with speaker diarization and custom vocabulary for media content.
+          </div>
+          <div class="service-phase">Phase 2</div>
+        </div>
+        
+        <div class="service-card">
+          <div class="service-header">
+            <div class="service-icon" style="background-color: var(--gcp-red);">
+              <i class="fas fa-eye"></i>
+            </div>
+            <div class="service-title">Vision AI</div>
+          </div>
+          <div class="service-desc">
+            Advanced image and video analysis for visual content metadata extraction and comprehension.
+          </div>
+          <div class="service-phase">Phase 2</div>
+        </div>
+        
+        <div class="service-card">
+          <div class="service-header">
+            <div class="service-icon" style="background-color: var(--gcp-purple);">
+              <i class="fas fa-code"></i>
+            </div>
+            <div class="service-title">Cloud Functions</div>
+          </div>
+          <div class="service-desc">
+            Serverless compute for event-driven processing workflows with minimal operational overhead.
+          </div>
+          <div class="service-phase">Phase 2-3</div>
+        </div>
+        
+        <div class="service-card">
+          <div class="service-header">
+            <div class="service-icon" style="background-color: var(--gcp-blue);">
+              <i class="fas fa-sync-alt"></i>
+            </div>
+            <div class="service-title">Pub/Sub</div>
+          </div>
+          <div class="service-desc">
+            Real-time messaging service for asynchronous event-driven architecture and workflow orchestration.
+          </div>
+          <div class="service-phase">Phase 3</div>
+        </div>
+        
+        <div class="service-card">
+          <div class="service-header">
+            <div class="service-icon" style="background-color: var(--gcp-green);">
+              <i class="fas fa-brain"></i>
+            </div>
+            <div class="service-title">Vertex AI</div>
+          </div>
+          <div class="service-desc">
+            Unified ML platform for custom model training, tuning, and deployment with advanced AI capabilities.
+          </div>
+          <div class="service-phase">Phase 3</div>
+        </div>
+        
+        <div class="service-card">
+          <div class="service-header">
+            <div class="service-icon" style="background-color: var(--gcp-yellow);">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <div class="service-title">BigQuery</div>
+          </div>
+          <div class="service-desc">
+            Serverless data warehouse for content analytics, insights generation, and performance metrics.
+          </div>
+          <div class="service-phase">Phase 3-4</div>
+        </div>
+        
+        <div class="service-card">
+          <div class="service-header">
+            <div class="service-icon" style="background-color: var(--gcp-red);">
+              <i class="fas fa-server"></i>
+            </div>
+            <div class="service-title">Cloud Run</div>
+          </div>
+          <div class="service-desc">
+            Fully managed compute platform for containerized applications with auto-scaling capabilities.
+          </div>
+          <div class="service-phase">Phase 4</div>
+        </div>
+        
+        <div class="service-card">
+          <div class="service-header">
+            <div class="service-icon" style="background-color: var(--gcp-purple);">
+              <i class="fas fa-tachometer-alt"></i>
+            </div>
+            <div class="service-title">Monitoring</div>
+          </div>
+          <div class="service-desc">
+            End-to-end observability and performance monitoring for all GCP services with alerting features.
+          </div>
+          <div class="service-phase">Phase 4</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="cta-container slide-up" style="animation-delay: 0.6s;">
+      <div class="cta-btns">
+        <a href="12_Business_Model_Framework.html" class="cta-btn">
+          <i class="fas fa-project-diagram cta-icon"></i>
+          Business Model Canvas
+        </a>
+        <a href="08_BANT_Assessment.html" class="cta-btn cta-secondary">
+          <i class="fas fa-file-alt cta-icon"></i>
+          View BANT Analysis
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="overlay" id="overlay"></div>
+  
+  <div class="timeline-detail-panel" id="detail-panel">
+    <div class="close-panel" id="close-panel">
+      <i class="fas fa-times"></i>
+    </div>
+    <div class="detail-content" id="detail-content">
+      <!-- Content will be dynamically populated -->
+    </div>
+  </div>
+  
+  
+  
+
+
+<script src="../chatbot_commands.js"></script>
+<script src="0
+<script src="../global_nav.js"></script>
+<script src="../navbar.js"></script>
+  <!-- Chatbot Container -->
+  <!-- Chatbot is dynamically created by chatbot scripts -->    <i class="fas fa-comment"></i>
+  </button>
+</body>
+</html> 

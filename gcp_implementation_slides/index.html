@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DroneAI GCP Implementation Guide</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../favicon.ico">
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="../navbar.css">
+  <link rel="stylesheet" href="../chatbot.css">
+
+  <style>
+    :root {
+      --gcp-blue: #4285F4;
+      --gcp-red: #DB4437;
+      --gcp-yellow: #F4B400;
+      --gcp-green: #0F9D58;
+      --gcp-purple: #A142F4;
+      --dark-text: #202124;
+      --light-text: #5f6368;
+      --bg-light: #f8f9fa;
+      --border-light: #dadce0;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      color: var(--dark-text);
+      background-color: var(--bg-light);
+      line-height: 1.6;
+    }
+    
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+    }
+    
+    h1, h2, h3 {
+      color: var(--dark-text);
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+    
+    h1 {
+      font-size: 2.5rem;
+      color: var(--gcp-green);
+      margin-bottom: 1.5rem;
+      text-align: center;
+      position: relative;
+      padding-bottom: 15px;
+    }
+    
+    h1::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 4px;
+      background-color: var(--gcp-green);
+      border-radius: 2px;
+    }
+    
+    p {
+      margin-bottom: 1rem;
+    }
+    
+    .intro-container {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 30px;
+      margin-bottom: 40px;
+      text-align: center;
+    }
+    
+    .intro-text {
+      max-width: 800px;
+      margin: 0 auto 30px;
+    }
+    
+    .slide-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+    
+    .slide-card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .slide-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    .slide-header {
+      background: linear-gradient(135deg, var(--gcp-blue), var(--gcp-green));
+      color: white;
+      padding: 20px;
+      font-size: 1.2rem;
+      font-weight: 500;
+    }
+    
+    .slide-header .number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      background-color: rgba(255,255,255,0.2);
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+    
+    .slide-content {
+      padding: 20px;
+      min-height: 150px;
+    }
+    
+    .slide-card p {
+      color: var(--light-text);
+      margin-bottom: 20px;
+    }
+    
+    .slide-footer {
+      padding: 15px 20px;
+      border-top: 1px solid var(--border-light);
+      text-align: right;
+    }
+    
+    .view-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background-color: var(--gcp-blue);
+      color: white;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+    
+    .view-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(66, 133, 244, 0.3);
+      text-decoration: none;
+      color: white;
+    }
+    
+    .banner {
+      margin-top: 40px;
+      background: linear-gradient(135deg, var(--gcp-purple), var(--gcp-blue));
+      color: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    
+    .banner h2 {
+      color: white;
+      margin-bottom: 15px;
+      border: none;
+    }
+    
+    .banner-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 15px;
+      padding: 10px 25px;
+      background-color: white;
+      color: var(--gcp-purple);
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+    
+    .banner-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(255,255,255,0.3);
+      color: var(--gcp-blue);
+      text-decoration: none;
+    }
+    
+    @media (max-width: 768px) {
+      main {
+        padding: 20px 15px 60px;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .slide-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+<style>
+  /* Custom chatbot positioning for this page */
+  #chatbot-toggle {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1000 !important;
+  }
+  
+  #chatbot-container {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1001 !important;
+    width: 350px !important;
+    max-height: 500px !important;
+  }
+</style></head>
+<body>
+  <!-- Main content -->
+  <main>
+    <div class="intro-container">
+      <h1>DroneAI GCP Implementation Guide</h1>
+      <div class="intro-text">
+        <p>This comprehensive implementation guide provides detailed steps to deploy the DroneAI solution on Google Cloud Platform. Following the D&D-style gamification approach, each slide takes you through the complete journey from initial setup to advanced optimization.</p>
+        <p>The guide integrates BigQuery, Vector AI, and other GCP services to create a scalable, secure, and performant infrastructure for drone operations with game mechanics.</p>
+      </div>
+    </div>
+    
+    <div class="slide-grid">
+      <!-- Slide 1: Architecture & Value -->
+      <div class="slide-card">
+        <div class="slide-header">
+          <span class="number">1</span> Architecture & Value
+        </div>
+        <div class="slide-content">
+          <p>Cloud-native architecture design and business value proposition for the DroneAI implementation on GCP.</p>
+        </div>
+        <div class="slide-footer">
+          <a href="slide1_architecture_value.html" class="view-button">
+            View Slide <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+      
+      <!-- Slide 2: Project Security -->
+      <div class="slide-card">
+        <div class="slide-header">
+          <span class="number">2</span> Project Security
+        </div>
+        <div class="slide-content">
+          <p>Security foundations and best practices for drone operations in Google Cloud Platform.</p>
+        </div>
+        <div class="slide-footer">
+          <a href="slide2_project_security.html" class="view-button">
+            View Slide <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+      
+      <!-- Slide 3: Data Pipeline -->
+      <div class="slide-card">
+        <div class="slide-header">
+          <span class="number">3</span> Data Pipeline
+        </div>
+        <div class="slide-content">
+          <p>Analytics pipeline architecture for processing and analyzing drone telemetry data.</p>
+        </div>
+        <div class="slide-footer">
+          <a href="slide3_data_pipeline.html" class="view-button">
+            View Slide <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+      
+      <!-- Slide 4: Game Mechanics -->
+      <div class="slide-card">
+        <div class="slide-header">
+          <span class="number">4</span> Game Mechanics
+        </div>
+        <div class="slide-content">
+          <p>D&D-style gamification features for engaging drone operators and fostering skill development.</p>
+        </div>
+        <div class="slide-footer">
+          <a href="slide4_game_mechanics.html" class="view-button">
+            View Slide <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+      
+      <!-- Slide 5: Deployment -->
+      <div class="slide-card">
+        <div class="slide-header">
+          <span class="number">5</span> Deployment
+        </div>
+        <div class="slide-content">
+          <p>CI/CD pipeline architecture and deployment strategies for the drone platform.</p>
+        </div>
+        <div class="slide-footer">
+          <a href="slide5_deployment.html" class="view-button">
+            View Slide <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+      
+      <!-- Slide 6: Cost Optimization -->
+      <div class="slide-card">
+        <div class="slide-header">
+          <span class="number">6</span> Cost Optimization
+        </div>
+        <div class="slide-content">
+          <p>GCP cost analysis and optimization strategies to maximize ROI for the drone solution.</p>
+        </div>
+        <div class="slide-footer">
+          <a href="slide6_cost_optimization.html" class="view-button">
+            View Slide <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+      
+      <!-- Slide 7: Conclusion -->
+      <div class="slide-card">
+        <div class="slide-header">
+          <span class="number">7</span> Conclusion
+        </div>
+        <div class="slide-content">
+          <p>Implementation benefits, key outcomes, and next steps for successful GCP drone deployment.</p>
+        </div>
+        <div class="slide-footer">
+          <a href="slide7_conclusion.html" class="view-button">
+            View Slide <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="banner">
+      <h2>Ready to implement your drone solution on GCP?</h2>
+      <p>Our experts will guide you through the entire implementation process, from architecture design to deployment.</p>
+      <a href="../solution_journey/06_Implementation_Process.html" class="banner-cta">
+        <i class="fas fa-rocket"></i> Start Implementation
+      </a>
+    </div>
+  </main>
+  
+  <!-- Chatbot container -->
+  <!-- Chatbot is dynamically created by chatbot scripts -->
+  <button id="chatbot-toggle">
+    <i class="fas fa-comment"></i>
+  </button>
+  
+  <!-- Scripts -->
+  <script src="../chatbot_commands.js"></script>
+  <script src="../chatbot_enhanced.js"></script>
+  <script src="../chatbot.js"></script>
+  <script src="../global_nav.js"></script>
+  <script src="../navbar.js"></script>
+  <script src="navigation.js"></script>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Call functions from navbar.js
+      addFontAwesome();
+      addNavbarCSS();
+      createNavbar();
+      addNavButtons();
+    });
+  </script>
+</body>
+</html> 

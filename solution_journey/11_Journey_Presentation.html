@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neo AI Writers' Room | GCP Cloud Journey Presentation Script</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --gcp-blue: #4285F4;
+      --gcp-red: #DB4437;
+      --gcp-yellow: #F4B400;
+      --gcp-green: #0F9D58;
+      --gcp-purple: #A142F4;
+      --dark-text: #202124;
+      --light-text: #5f6368;
+      --bg-light: #f8f9fa;
+      --border-light: #dadce0;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      color: var(--dark-text);
+      background-color: white;
+      line-height: 1.6;
+      padding: 40px;
+    }
+    
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    
+    h1 {
+      color: var(--gcp-blue);
+      font-size: 2.8rem;
+      margin-bottom: 15px;
+    }
+    
+    h2 {
+      color: var(--light-text);
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-bottom: 30px;
+    }
+    
+    .presentation-details {
+      background-color: var(--bg-light);
+      padding: 25px;
+      border-radius: 10px;
+      margin-bottom: 40px;
+    }
+    
+    .details-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+    
+    .detail-item {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .detail-label {
+      font-weight: 500;
+      color: var(--gcp-blue);
+      margin-bottom: 5px;
+    }
+    
+    .script-section {
+      margin-bottom: 40px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid var(--border-light);
+    }
+    
+    .section-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .section-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 15px;
+      color: white;
+      flex-shrink: 0;
+    }
+    
+    .section-title {
+      font-size: 1.8rem;
+      color: var(--dark-text);
+    }
+    
+    .time-indicator {
+      margin-left: auto;
+      background-color: var(--bg-light);
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--light-text);
+    }
+    
+    .narration {
+      margin-bottom: 25px;
+      padding: 20px;
+      background-color: #f8f9fa;
+      border-left: 4px solid var(--gcp-blue);
+      border-radius: 4px;
+    }
+    
+    .demo-note {
+      margin-bottom: 25px;
+      padding: 15px 20px;
+      background-color: rgba(15, 157, 88, 0.1);
+      border-left: 4px solid var(--gcp-green);
+      border-radius: 4px;
+      color: var(--dark-text);
+    }
+    
+    .demo-note h4 {
+      color: var(--gcp-green);
+      margin-bottom: 10px;
+    }
+    
+    .key-point {
+      margin-bottom: 15px;
+      padding-left: 25px;
+      position: relative;
+    }
+    
+    .key-point::before {
+      content: '•';
+      position: absolute;
+      left: 10px;
+      color: var(--gcp-blue);
+      font-weight: bold;
+    }
+    
+    .qa-section {
+      background-color: rgba(161, 66, 244, 0.1);
+      padding: 25px;
+      border-radius: 10px;
+      margin-bottom: 40px;
+    }
+    
+    .qa-section h3 {
+      color: var(--gcp-purple);
+      margin-bottom: 20px;
+    }
+    
+    .qa-item {
+      margin-bottom: 20px;
+    }
+    
+    .question {
+      font-weight: 500;
+      margin-bottom: 10px;
+      color: var(--dark-text);
+    }
+    
+    .answer {
+      color: var(--light-text);
+    }
+    
+    .callout {
+      background-color: rgba(66, 133, 244, 0.1);
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 25px;
+    }
+    
+    .callout-title {
+      color: var(--gcp-blue);
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+    
+    footer {
+      text-align: center;
+      margin-top: 50px;
+      padding-top: 30px;
+      border-top: 1px solid var(--border-light);
+      color: var(--light-text);
+    }
+    
+    .print-button {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background-color: var(--gcp-blue);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 30px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .print-button:hover {
+      background-color: #3367d6;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    }
+    
+    .print-button i {
+      margin-right: 8px;
+    }
+    
+    @media print {
+      .print-button {
+        display: none;
+      }
+      
+      body {
+        padding: 0;
+        font-size: 12pt;
+      }
+      
+      .container {
+        max-width: 100%;
+      }
+    }
+  </style>
+<style>
+  /* Custom chatbot positioning for this page */
+  #chatbot-toggle {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1000 !important;
+  }
+  
+  #chatbot-container {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1001 !important;
+    width: 350px !important;
+    max-height: 500px !important;
+  }
+</style>
+<link rel="stylesheet" href="../chatbot.css">
+<link rel="stylesheet" href="../navbar.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Neo AI Writers' Room: GCP Cloud Journey</h1>
+      <h2>20-Minute Presentation Script & Narrative</h2>
+    </header>
+    
+    <div class="presentation-details">
+      <div class="details-grid">
+        <div class="detail-item">
+          <div class="detail-label">Duration</div>
+          <div>20 minutes</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Audience</div>
+          <div>Technical decision makers, Content operations leaders</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Presentation Type</div>
+          <div>Interactive demo with Q&A</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Key Materials</div>
+          <div>GCP Cloud Journey visualization, Reference architecture</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- INTRODUCTION SECTION -->
+    <div class="script-section">
+      <div class="section-header">
+        <div class="section-icon" style="background-color: var(--gcp-blue);">
+          <i class="fas fa-door-open"></i>
+        </div>
+        <h3 class="section-title">Introduction</h3>
+        <div class="time-indicator">0:00 - 2:00</div>
+      </div>
+      
+      <div class="narration">
+        <p>Welcome everyone, and thank you for joining us today. I'm excited to walk you through the Neo AI Writers' Room solution and our planned migration path to Google Cloud Platform.</p>
+        <p>As content teams face increasing demands for personalization, scale, and rapid turnaround, traditional content creation workflows are struggling to keep pace. The Neo AI Writers' Room represents a transformative approach to content operations, seamlessly integrating AI capabilities with your existing content workflows to dramatically increase productivity while maintaining creative quality.</p>
+        <p>Over the next 20 minutes, I'll guide you through our structured GCP Cloud Journey - a carefully designed migration path that minimizes disruption while maximizing value at each implementation phase. You'll see exactly how we'll transition your content systems to a fully integrated, serverless content intelligence solution powered by Google Cloud.</p>
+      </div>
+      
+      <div class="key-point">Our approach prioritizes seamless integration with your existing content workflows</div>
+      <div class="key-point">We'll implement in phases to deliver incremental value while minimizing risk</div>
+      <div class="key-point">The end result is a comprehensive, cloud-native content intelligence platform</div>
+    </div>
+    
+    <!-- OVERVIEW SECTION -->
+    <div class="script-section">
+      <div class="section-header">
+        <div class="section-icon" style="background-color: var(--gcp-purple);">
+          <i class="fas fa-map"></i>
+        </div>
+        <h3 class="section-title">Migration Overview</h3>
+        <div class="time-indicator">2:00 - 4:00</div>
+      </div>
+      
+      <div class="narration">
+        <p>Before diving into the technical details, let me share a high-level overview of our migration journey. The Neo AI Writers' Room implementation follows a structured path to Google Cloud Platform, ensuring a seamless transition while minimizing disruption to your existing content workflows.</p>
+        <p>We've designed a four-phase approach that builds incrementally, with each stage adding new capabilities while maintaining operational continuity. The journey culminates in a fully integrated, serverless content intelligence solution that can scale with your needs.</p>
+      </div>
+      
+      <div class="demo-note">
+        <h4>Demonstration Note</h4>
+        <p>At this point, open the GCP Cloud Journey interactive visualization. Point out the timeline structure and explain that we'll be exploring each phase in detail.</p>
+        <p>Click on the Phase 1 marker to highlight it and briefly mention that we've already completed the initial Discovery & Planning phase.</p>
+      </div>
+      
+      <div class="key-point">Four-phase approach: Discovery & Planning, Foundation & Migration, Intelligence Layer, Production & Scale</div>
+      <div class="key-point">Current status: Phase 2 in progress (Foundation & Migration)</div>
+      <div class="key-point">Full implementation timeline: 90 days from initial engagement</div>
+    </div>
+    
+    <!-- PHASE 1 SECTION -->
+    <div class="script-section">
+      <div class="section-header">
+        <div class="section-icon" style="background-color: var(--gcp-blue);">
+          <i class="fas fa-compass"></i>
+        </div>
+        <h3 class="section-title">Phase 1: Discovery & Planning</h3>
+        <div class="time-indicator">4:00 - 6:30</div>
+      </div>
+      
+      <div class="narration">
+        <p>We've completed Phase 1, which focused on Discovery & Planning. During this crucial 14-day period, we conducted a comprehensive assessment of your current content workflows, technical environment, and business requirements to create a tailored implementation plan.</p>
+        <p>Our team worked closely with your content teams, IT staff, and key stakeholders to understand pain points, integration requirements, and desired outcomes. This collaborative approach ensured that our solution architecture addresses your specific needs rather than forcing you into a one-size-fits-all solution.</p>
+      </div>
+      
+      <div class="demo-note">
+        <h4>Demonstration Note</h4>
+        <p>Click on the Discovery & Planning section in the journey visualization to show the completed milestones:</p>
+        <ul>
+          <li>Technical Assessment (Complete)</li>
+          <li>GCP Architecture Design (Complete)</li>
+          <li>Implementation Roadmap (Complete)</li>
+        </ul>
+        <p>Briefly explain the significance of each milestone as you highlight it.</p>
+      </div>
+      
+      <div class="callout">
+        <div class="callout-title">Key Discovery Findings</div>
+        <p>The technical assessment revealed significant potential for optimization in the content production pipeline, with manual handoffs accounting for 40% of current production time. Our GCP architecture design leverages Cloud Storage, IAM, and serverless components to address these bottlenecks while maintaining security and compliance requirements.</p>
+      </div>
+    </div>
+    
+    <!-- PHASE 2 SECTION -->
+    <div class="script-section">
+      <div class="section-header">
+        <div class="section-icon" style="background-color: var(--gcp-purple);">
+          <i class="fas fa-cloud-upload-alt"></i>
+        </div>
+        <h3 class="section-title">Phase 2: Foundation & Migration</h3>
+        <div class="time-indicator">6:30 - 10:00</div>
+      </div>
+      
+      <div class="narration">
+        <p>We're currently in Phase 2: Foundation & Migration. This critical 30-day phase focuses on establishing the core GCP infrastructure and beginning the migration of content repositories and processing workflows.</p>
+        <p>I'm pleased to report that we've already completed two key milestones in this phase. First, we've established the GCP environment with appropriate VPC configuration, IAM policies, security controls, and monitoring. Second, we've successfully migrated your content storage to Google Cloud Storage with all necessary access controls in place.</p>
+        <p>The third milestone, Base AI Models Deployment, is currently in progress. We're implementing speech-to-text, vision, and language understanding models that will form the foundation of our intelligent content processing pipeline.</p>
+      </div>
+      
+      <div class="demo-note">
+        <h4>Demonstration Note</h4>
+        <p>Click on the Foundation & Migration section in the journey visualization. Point out the progress indicators:</p>
+        <ul>
+          <li>GCP Environment Setup (Complete)</li>
+          <li>Content Storage Migration (Complete)</li>
+          <li>Base AI Models Deployment (In Progress)</li>
+        </ul>
+        <p>Zoom in on the Service Cards section and highlight the Cloud Storage and Identity & Access cards, explaining their critical role in the foundation phase.</p>
+      </div>
+      
+      <div class="key-point">Cloud Storage implementation provides secure, scalable repository for all content assets</div>
+      <div class="key-point">IAM policies ensure granular access control aligned with existing roles</div>
+      <div class="key-point">Base AI models are being configured with domain-specific training data</div>
+      
+      <div class="callout">
+        <div class="callout-title">Early Wins</div>
+        <p>The migration to Cloud Storage has already yielded a 30% improvement in content access times and eliminated previous storage capacity concerns. The new environment also provides more robust disaster recovery capabilities with geo-redundant storage options.</p>
+      </div>
+    </div>
+    
+    <!-- PHASE 3 SECTION -->
+    <div class="script-section">
+      <div class="section-header">
+        <div class="section-icon" style="background-color: var(--gcp-red);">
+          <i class="fas fa-brain"></i>
+        </div>
+        <h3 class="section-title">Phase 3: Intelligence Layer</h3>
+        <div class="time-indicator">10:00 - 13:30</div>
+      </div>
+      
+      <div class="narration">
+        <p>Phase 3 focuses on the Intelligence Layer - the heart of the Neo AI Writers' Room solution. During this 30-day period, we'll implement advanced AI processing capabilities and custom models tailored to your specific content requirements.</p>
+        <p>We've already begun work on the first milestone, Custom Model Training, where we're fine-tuning domain-specific language models and content classification systems using your historical content as training data. This ensures the AI understands your brand voice, content requirements, and domain-specific terminology.</p>
+        <p>The subsequent milestones include building a Multi-modal Analysis Pipeline that integrates speech, text, and visual analysis, and implementing Event-driven Workflows using Pub/Sub triggers and Cloud Functions for automation.</p>
+      </div>
+      
+      <div class="demo-note">
+        <h4>Demonstration Note</h4>
+        <p>Click on the Intelligence Layer section in the journey visualization. Show the milestone status:</p>
+        <ul>
+          <li>Custom Model Training (In Progress)</li>
+          <li>Multi-modal Analysis Pipeline (Pending)</li>
+          <li>Event-driven Workflows (Pending)</li>
+        </ul>
+        <p>Navigate to the Service Cards section and highlight Vertex AI, Pub/Sub, and Cloud Functions, explaining how they work together to create the intelligence layer.</p>
+      </div>
+      
+      <div class="key-point">Vertex AI provides a unified platform for custom model training and deployment</div>
+      <div class="key-point">Multi-modal analysis enables comprehensive content understanding across formats</div>
+      <div class="key-point">Event-driven architecture ensures real-time processing and workflow automation</div>
+      
+      <div class="callout">
+        <div class="callout-title">Business Impact</div>
+        <p>The intelligence layer is where we'll see the most significant ROI. Based on our preliminary testing, the custom models are expected to reduce content research time by 60% and increase first-draft acceptance rates by 40%, dramatically accelerating your content production cycle.</p>
+      </div>
+    </div>
+    
+    <!-- PHASE 4 SECTION -->
+    <div class="script-section">
+      <div class="section-header">
+        <div class="section-icon" style="background-color: var(--gcp-green);">
+          <i class="fas fa-rocket"></i>
+        </div>
+        <h3 class="section-title">Phase 4: Production & Scale</h3>
+        <div class="time-indicator">13:30 - 16:00</div>
+      </div>
+      
+      <div class="narration">
+        <p>The final phase of our journey is Production & Scale, scheduled for days 76-90. This phase focuses on user interface deployment, comprehensive testing, and full production rollout.</p>
+        <p>We'll deploy the web interface and API endpoints using Cloud Run, Google's fully managed compute platform for containerized applications. This serverless approach ensures automatic scaling based on demand without requiring infrastructure management.</p>
+        <p>User acceptance testing will involve your editorial and production teams to validate all functionality and workflow integrations. Finally, we'll move to production deployment with comprehensive monitoring and support systems in place.</p>
+      </div>
+      
+      <div class="demo-note">
+        <h4>Demonstration Note</h4>
+        <p>Click on the Production & Scale section of the journey visualization. Highlight the pending milestones:</p>
+        <ul>
+          <li>User Interface Deployment</li>
+          <li>User Acceptance Testing</li>
+          <li>Production Deployment</li>
+        </ul>
+        <p>Show the Cloud Run and Monitoring service cards, explaining their roles in the production environment.</p>
+      </div>
+      
+      <div class="key-point">Cloud Run provides a containerized, auto-scaling environment for the application layer</div>
+      <div class="key-point">User acceptance testing will validate real-world workflows with content teams</div>
+      <div class="key-point">Comprehensive monitoring ensures performance, reliability, and cost efficiency</div>
+    </div>
+    
+    <!-- KEY GCP SERVICES SECTION -->
+    <div class="script-section">
+      <div class="section-header">
+        <div class="section-icon" style="background-color: var(--gcp-blue);">
+          <i class="fas fa-server"></i>
+        </div>
+        <h3 class="section-title">Key GCP Services</h3>
+        <div class="time-indicator">16:00 - 18:00</div>
+      </div>
+      
+      <div class="narration">
+        <p>Let me highlight the key Google Cloud services that power our solution. Each has been selected for specific capabilities that address your requirements while ensuring a cohesive architecture.</p>
+        <p>The foundation starts with Cloud Storage and Identity & Access Management, providing secure content repositories with granular permission controls. Speech-to-Text and Vision AI services enable understanding of multimedia content, while Vertex AI powers our custom model training and deployment.</p>
+        <p>For workflow orchestration, we leverage Cloud Functions for serverless compute and Pub/Sub for asynchronous messaging. BigQuery provides powerful analytics capabilities, while Cloud Run hosts our containerized application components. Throughout the stack, comprehensive monitoring ensures optimal performance and reliability.</p>
+      </div>
+      
+      <div class="demo-note">
+        <h4>Demonstration Note</h4>
+        <p>Navigate to the GCP Services section of the visualization. Click on a few key service cards to showcase their details:</p>
+        <ul>
+          <li>Vertex AI - Show how it powers the custom language models</li>
+          <li>Cloud Functions - Demonstrate the event-driven processing workflows</li>
+          <li>Cloud Run - Explain the containerized application deployment</li>
+        </ul>
+      </div>
+      
+      <div class="callout">
+        <div class="callout-title">Cost Optimization</div>
+        <p>Our architecture leverages serverless and pay-as-you-go services wherever possible, ensuring you only pay for what you use. Based on your current content volume, we project a 25-30% cost reduction compared to traditional infrastructure approaches, with built-in scalability for peak periods.</p>
+      </div>
+    </div>
+    
+    <!-- CONCLUSION SECTION -->
+    <div class="script-section">
+      <div class="section-header">
+        <div class="section-icon" style="background-color: var(--gcp-green);">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <h3 class="section-title">Conclusion & Next Steps</h3>
+        <div class="time-indicator">18:00 - 20:00</div>
+      </div>
+      
+      <div class="narration">
+        <p>In summary, the Neo AI Writers' Room GCP Cloud Journey represents a carefully orchestrated migration path that delivers incremental value while minimizing disruption to your existing operations. We've completed Phase 1 and are well into Phase 2, with clear milestones for the remaining implementation.</p>
+        <p>The solution architecture leverages best-in-class Google Cloud services to create a scalable, intelligent content platform that will dramatically improve your team's productivity and content quality. The serverless approach ensures cost efficiency and automatic scaling to meet your evolving needs.</p>
+        <p>Our immediate next steps are to complete the Base AI Models Deployment milestone and begin Custom Model Training with your domain-specific content. We'll continue to provide weekly progress updates and maintain our collaborative approach to ensure alignment with your business objectives.</p>
+      </div>
+      
+      <div class="key-point">We're on track for the 90-day implementation timeline with all milestones progressing as planned</div>
+      <div class="key-point">The solution provides a balance of immediate operational improvements and long-term strategic capabilities</div>
+      <div class="key-point">Our team remains available for any questions or adjustments as we move forward</div>
+      
+      <div class="callout">
+        <div class="callout-title">Success Metrics</div>
+        <p>We'll be tracking key performance indicators throughout the implementation, including content production time, editorial revision cycles, and content engagement metrics. Our goal is to achieve a 50% reduction in time-to-publish and a 40% increase in content team productivity by day 120 (30 days post-implementation).</p>
+      </div>
+    </div>
+    
+    <!-- Q&A SECTION -->
+    <div class="qa-section">
+      <h3>Anticipated Q&A</h3>
+      
+      <div class="qa-item">
+        <div class="question">How will this migration affect our existing content workflows?</div>
+        <div class="answer">The phased approach ensures minimal disruption. Initially, we're integrating with your existing workflows rather than replacing them. As we move through the phases, we'll gradually introduce new capabilities while maintaining operational continuity. Your content teams will receive training at each stage to ensure smooth adoption.</div>
+      </div>
+      
+      <div class="qa-item">
+        <div class="question">What security measures are in place to protect our content?</div>
+        <div class="answer">Security is a cornerstone of our implementation. We leverage GCP's IAM for granular access controls, encrypt data both at rest and in transit, and implement VPC Service Controls to create secure perimeters. All implementations follow security best practices and comply with your organizational policies.</div>
+      </div>
+      
+      <div class="qa-item">
+        <div class="question">How customizable are the AI models to our specific content needs?</div>
+        <div class="answer">Highly customizable. In Phase 3, we fine-tune the models using your historical content data to ensure they understand your brand voice, terminology, and industry context. We'll work with your subject matter experts to validate model outputs and continuously improve performance based on feedback.</div>
+      </div>
+      
+      <div class="qa-item">
+        <div class="question">What's the expected ROI and timeline for realizing benefits?</div>
+        <div class="answer">You'll see incremental benefits throughout the implementation. Early wins include improved content access times from the Cloud Storage migration (already implemented). The most significant ROI comes with the Intelligence Layer in Phase 3, with projected productivity improvements of 40%. Full ROI realization typically occurs within 3-4 months of complete deployment.</div>
+      </div>
+      
+      <div class="qa-item">
+        <div class="question">How will the solution scale as our content needs grow?</div>
+        <div class="answer">Scalability is inherent in our architecture. By leveraging serverless components like Cloud Functions, Cloud Run, and managed services, the solution automatically scales based on demand. There are no infrastructure limitations, and the pay-as-you-go model ensures cost efficiency as you scale.</div>
+      </div>
+    </div>
+    
+    <footer>
+      <p>Neo AI Writers' Room GCP Cloud Journey Presentation | 20-Minute Script & Narrative</p>
+    </footer>
+  </div>
+  
+  <button class="print-button" onclick="window.print()">
+    <i class="fas fa-print"></i> Print Script
+  </button>
+  
+  <!-- Navigation CSS -->
+  
+  
+
+
+<script src="../chatbot_commands.js"></script>
+<script src="0
+<script src="../global_nav.js"></script>
+<script src="../navbar.js"></script>
+  <!-- Chatbot Container -->
+  <!-- Chatbot is dynamically created by chatbot scripts -->    <i class="fas fa-comment"></i>
+  </button>
+</body>
+</html> 

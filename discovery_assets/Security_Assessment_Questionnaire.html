@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Black Armor AI | Customer Discovery Questionnaire</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --gcp-blue: #4285F4;
+      --gcp-red: #DB4437;
+      --gcp-yellow: #F4B400;
+      --gcp-green: #0F9D58;
+      --gcp-purple: #A142F4;
+      --dark-text: #202124;
+      --light-text: #5f6368;
+      --bg-light: #f8f9fa;
+      --border-light: #dadce0;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      color: var(--dark-text);
+      background-color: white;
+      overflow-x: hidden;
+      padding: 20px;
+    }
+    
+    .page-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .page-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    .page-title {
+      color: var(--gcp-blue);
+      font-size: 2.5rem;
+      font-weight: 500;
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+    
+    .page-subtitle {
+      color: var(--light-text);
+      font-size: 1.4rem;
+      font-weight: 400;
+      margin-bottom: 20px;
+    }
+
+    .tool-overview {
+      text-align: center;
+      max-width: 820px;
+      margin: 0 auto 40px;
+      background-color: var(--bg-light);
+      padding: 25px;
+      border-radius: 14px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    }
+    
+    .overview-desc {
+      font-size: 1.15rem;
+      color: var(--light-text);
+      line-height: 1.7;
+    }
+    
+    /* Form Styles */
+    .questionnaire-form {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      margin-bottom: 40px;
+      overflow: hidden;
+    }
+    
+    .form-section {
+      padding: 30px;
+      border-bottom: 1px solid var(--border-light);
+    }
+    
+    .form-section:last-child {
+      border-bottom: none;
+    }
+    
+    .section-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+    
+    .section-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: rgba(66, 133, 244, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gcp-blue);
+      font-size: 1.2rem;
+      margin-right: 15px;
+      flex-shrink: 0;
+    }
+    
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: var(--dark-text);
+    }
+    
+    .form-group {
+      margin-bottom: 25px;
+    }
+    
+    .form-label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 10px;
+      font-size: 1rem;
+      color: var(--dark-text);
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      font-size: 1rem;
+      color: var(--dark-text);
+      transition: all 0.3s ease;
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: var(--gcp-blue);
+      box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+    }
+    
+    textarea.form-control {
+      min-height: 120px;
+      resize: vertical;
+    }
+    
+    .form-help {
+      font-size: 0.85rem;
+      color: var(--light-text);
+      margin-top: 5px;
+    }
+    
+    .checkbox-group {
+      margin-top: 10px;
+    }
+    
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    
+    .checkbox-item input[type="checkbox"] {
+      margin-right: 10px;
+      width: 18px;
+      height: 18px;
+    }
+    
+    .radio-group {
+      margin-top: 10px;
+    }
+    
+    .radio-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    
+    .radio-item input[type="radio"] {
+      margin-right: 10px;
+      width: 18px;
+      height: 18px;
+    }
+    
+    .scale-container {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
+    }
+    
+    .scale-item {
+      text-align: center;
+    }
+    
+    .scale-radio {
+      margin-bottom: 8px;
+    }
+    
+    .scale-label {
+      font-size: 0.85rem;
+      color: var(--light-text);
+    }
+    
+    .form-actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+    
+    .btn {
+      padding: 12px 25px;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      border: none;
+    }
+    
+    .btn i {
+      margin-right: 8px;
+    }
+    
+    .btn-primary {
+      background-color: var(--gcp-blue);
+      color: white;
+      box-shadow: 0 4px 10px rgba(66, 133, 244, 0.3);
+    }
+    
+    .btn-primary:hover {
+      background-color: #3367d6;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(66, 133, 244, 0.4);
+    }
+    
+    .btn-secondary {
+      background-color: var(--bg-light);
+      color: var(--dark-text);
+    }
+    
+    .btn-secondary:hover {
+      background-color: #e8e8e8;
+    }
+    
+    .progress-bar {
+      height: 6px;
+      background-color: #e0e0e0;
+      border-radius: 3px;
+      overflow: hidden;
+      margin-bottom: 30px;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--gcp-blue), var(--gcp-green));
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+    
+    /* Navigation CSS */
+    .nav-buttons {
+      position: fixed;
+      bottom: 20px;
+     
+      display: flex;
+      gap: 10px;
+    }
+    
+    .nav-button {
+      background-color: var(--gcp-blue);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+      transition: all 0.2s ease;
+    }
+    
+    .nav-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 10px rgba(0,0,0,0.3);
+    }
+    
+    .nav-button:active {
+      transform: translateY(-1px);
+      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+    }
+    
+    .home-button {
+      background-color: var(--gcp-green);
+    }
+    
+    .back-button {
+      background-color: var(--gcp-yellow);
+    }
+    
+    @media (max-width: 768px) {
+      .form-actions {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+<style>
+  /* Custom chatbot positioning for this page */
+  #chatbot-toggle {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1000 !important;
+  }
+  
+  #chatbot-container {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1001 !important;
+    width: 350px !important;
+    max-height: 500px !important;
+  }
+</style><link rel="stylesheet" href="../chatbot.css">
+<link rel="stylesheet" href="../navbar.css">
+<script src="../navbar.js"></script>
+</head>
+<body>
+  <div class="page-container">
+    <div class="page-header">
+      <h1 class="page-title">Customer Discovery Questionnaire</h1>
+      <p class="page-subtitle">Comprehensive security needs assessment</p>
+      
+      <!-- Sales Journey Context Banner -->
+      <div style="background-color: rgba(66, 133, 244, 0.1); color: var(--gcp-blue); padding: 10px 15px; border-radius: 8px; margin: 15px auto; max-width: 700px; display: flex; align-items: center;">
+        <i class="fas fa-search" style="margin-right: 10px;"></i>
+        <span style="font-size: 0.9rem;">
+          <strong>Sales Journey:</strong> Discovery phase tool - Customer Qualification (90% complete)
+        </span>
+      </div>
+    </div>
+    
+    <div class="tool-overview">
+      <p class="overview-desc">
+        This questionnaire is designed to gather comprehensive information about your organization's current security infrastructure, challenges, and goals. Your responses will help us tailor the Black Armor AI drone security solution to meet your specific needs.
+      </p>
+    </div>
+    
+    <div class="questionnaire-form">
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-icon">
+            <i class="fas fa-building"></i>
+          </div>
+          <h3 class="section-title">Organization Information</h3>
+        </div>
+        
+        <div class="form-group">
+          <label for="orgName" class="form-label">Organization Name</label>
+          <input type="text" id="orgName" class="form-control" placeholder="Enter your organization's name">
+        </div>
+        
+        <div class="form-group">
+          <label for="industry" class="form-label">Industry</label>
+          <select id="industry" class="form-control">
+            <option value="">Select your industry</option>
+            <option value="manufacturing">Manufacturing</option>
+            <option value="healthcare">Healthcare</option>
+            <option value="retail">Retail</option>
+            <option value="financial">Financial Services</option>
+            <option value="logistics">Transportation & Logistics</option>
+            <option value="energy">Energy & Utilities</option>
+            <option value="government">Government</option>
+            <option value="education">Education</option>
+            <option value="technology">Technology</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="facilities" class="form-label">Number of Facilities</label>
+          <input type="number" id="facilities" class="form-control" placeholder="Enter number of facilities requiring security">
+        </div>
+        
+        <div class="form-group">
+          <label for="totalArea" class="form-label">Total Area to Secure (approximate sq ft/meters)</label>
+          <input type="text" id="totalArea" class="form-control" placeholder="E.g., 100,000 sq ft">
+        </div>
+      </div>
+      
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-icon">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <h3 class="section-title">Current Security Environment</h3>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Current Security Measures (Select all that apply)</label>
+          <div class="checkbox-group">
+            <div class="checkbox-item">
+              <input type="checkbox" id="securityGuards">
+              <label for="securityGuards">Security Guards/Personnel</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="cctv">
+              <label for="cctv">CCTV/Surveillance Cameras</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="accessControl">
+              <label for="accessControl">Access Control Systems</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="alarmSystems">
+              <label for="alarmSystems">Alarm Systems</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="perimeterSecurity">
+              <label for="perimeterSecurity">Perimeter Security (fences, gates, etc.)</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="drones">
+              <label for="drones">Drones or UAVs</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="otherSecurity">
+              <label for="otherSecurity">Other</label>
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="securityPersonnel" class="form-label">Number of Security Personnel</label>
+          <input type="number" id="securityPersonnel" class="form-control" placeholder="Enter total number of security staff">
+        </div>
+        
+        <div class="form-group">
+          <label for="annualBudget" class="form-label">Annual Security Budget (approximate)</label>
+          <input type="text" id="annualBudget" class="form-control" placeholder="E.g., $500,000">
+        </div>
+        
+        <div class="form-group">
+          <label for="currentChallenges" class="form-label">Current Security Challenges</label>
+          <textarea id="currentChallenges" class="form-control" placeholder="Describe the key security challenges your organization is currently facing"></textarea>
+        </div>
+      </div>
+      
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-icon">
+            <i class="fas fa-tasks"></i>
+          </div>
+          <h3 class="section-title">Security Goals & Requirements</h3>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Security Priority Areas (Rate importance from 1-5)</label>
+          
+          <div class="form-group">
+            <label for="perimeterImportance" class="form-label">Perimeter Surveillance</label>
+            <div class="scale-container">
+              <div class="scale-item">
+                <input type="radio" name="perimeterImportance" id="perimeter1" class="scale-radio" value="1">
+                <div class="scale-label">1<br>Low</div>
+              </div>
+              <div class="scale-item">
+                <input type="radio" name="perimeterImportance" id="perimeter2" class="scale-radio" value="2">
+                <div class="scale-label">2</div>
+              </div>
+              <div class="scale-item">
+                <input type="radio" name="perimeterImportance" id="perimeter3" class="scale-radio" value="3">
+                <div class="scale-label">3<br>Medium</div>
+              </div>
+              <div class="scale-item">
+                <input type="radio" name="perimeterImportance" id="perimeter4" class="scale-radio" value="4">
+                <div class="scale-label">4</div>
+              </div>
+              <div class="scale-item">
+                <input type="radio" name="perimeterImportance" id="perimeter5" class="scale-radio" value="5">
+                <div class="scale-label">5<br>High</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="intrusionImportance" class="form-label">Intrusion Detection</label>
+            <div class="scale-container">
+              <div class="scale-item">
+                <input type="radio" name="intrusionImportance" id="intrusion1" class="scale-radio" value="1">
+                <div class="scale-label">1<br>Low</div>
+              </div>
+              <div class="scale-item">
+                <input type="radio" name="intrusionImportance" id="intrusion2" class="scale-radio" value="2">
+                <div class="scale-label">2</div>
+              </div>
+              <div class="scale-item">
+                <input type="radio" name="intrusionImportance" id="intrusion3" class="scale-radio" value="3">
+                <div class="scale-label">3<br>Medium</div>
+              </div>
+              <div class="scale-item">
+                <input type="radio" name="intrusionImportance" id="intrusion4" class="scale-radio" value="4">
+                <div class="scale-label">4</div>
+              </div>
+              <div class="scale-item">
+                <input type="radio" name="intrusionImportance" id="intrusion5" class="scale-radio" value="5">
+                <div class="scale-label">5<br>High</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="assetImportance" class="form-label">Asset Protection</label>
+            <div class="scale-container">
+              <div class="scale-item">
+                <input type="radio" name="assetImportance" id="asset1" class="scale-radio" value="1">
+                <div class="scale-label">1<br>Low</div>
+              </div>
+              <div class="scale-item">
+                <input type="radio" name="assetImportance" id="asset2" class="scale-radio" value="2">
+                <div class="scale-label">2</div>
+              </div>
+              <div class="scale-item">
+                <input type="radio" name="assetImportance" id="asset3" class="scale-radio" value="3">
+                <div class="scale-label">3<br>Medium</div>
+              </div>
+              <div class="scale-item">
+                <input type="radio" name="assetImportance" id="asset4" class="scale-radio" value="4">
+                <div class="scale-label">4</div>
+              </div>
+              <div class="scale-item">
+                <input type="radio" name="assetImportance" id="asset5" class="scale-radio" value="5">
+                <div class="scale-label">5<br>High</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="specificRequirements" class="form-label">Specific Security Requirements</label>
+          <textarea id="specificRequirements" class="form-control" placeholder="Describe any specific security requirements or regulations you need to comply with"></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label for="successCriteria" class="form-label">Success Criteria</label>
+          <textarea id="successCriteria" class="form-control" placeholder="What would make a drone-based security solution successful for your organization?"></textarea>
+        </div>
+      </div>
+      
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-icon">
+            <i class="fas fa-cloud"></i>
+          </div>
+          <h3 class="section-title">Technical & Integration Considerations</h3>
+        </div>
+        
+        <div class="form-group">
+          <label for="existingSystems" class="form-label">Existing Security Systems to Integrate With</label>
+          <textarea id="existingSystems" class="form-control" placeholder="List any existing security systems that would need to integrate with the drone solution"></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">IT Infrastructure</label>
+          <div class="checkbox-group">
+            <div class="checkbox-item">
+              <input type="checkbox" id="cloudInfra">
+              <label for="cloudInfra">Cloud Infrastructure (AWS, GCP, Azure, etc.)</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="onPremise">
+              <label for="onPremise">On-Premise Data Centers</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="hybrid">
+              <label for="hybrid">Hybrid Cloud Environment</label>
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="networkCapacity" class="form-label">Network Capacity</label>
+          <select id="networkCapacity" class="form-control">
+            <option value="">Select your network capacity</option>
+            <option value="basic">Basic (Up to 100 Mbps)</option>
+            <option value="standard">Standard (100 Mbps - 1 Gbps)</option>
+            <option value="high">High Capacity (1 Gbps+)</option>
+            <option value="unknown">Unknown</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="technicalConstraints" class="form-label">Known Technical Constraints</label>
+          <textarea id="technicalConstraints" class="form-control" placeholder="Describe any technical constraints that might affect implementation"></textarea>
+        </div>
+      </div>
+      
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-icon">
+            <i class="fas fa-calendar-alt"></i>
+          </div>
+          <h3 class="section-title">Timeline & Next Steps</h3>
+        </div>
+        
+        <div class="form-group">
+          <label for="implementationTimeline" class="form-label">Desired Implementation Timeline</label>
+          <select id="implementationTimeline" class="form-control">
+            <option value="">Select desired timeline</option>
+            <option value="immediate">Immediate (0-3 months)</option>
+            <option value="short">Short-term (3-6 months)</option>
+            <option value="medium">Medium-term (6-12 months)</option>
+            <option value="long">Long-term (12+ months)</option>
+            <option value="exploring">Just exploring options at this time</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="budgetRange" class="form-label">Budget Range for This Initiative</label>
+          <select id="budgetRange" class="form-control">
+            <option value="">Select budget range</option>
+            <option value="small">$50,000 - $100,000</option>
+            <option value="medium">$100,000 - $250,000</option>
+            <option value="large">$250,000 - $500,000</option>
+            <option value="enterprise">$500,000+</option>
+            <option value="tbd">To be determined</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="decisionProcess" class="form-label">Decision Making Process</label>
+          <textarea id="decisionProcess" class="form-control" placeholder="Briefly describe your organization's decision-making process for security investments"></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label for="additionalInfo" class="form-label">Additional Information</label>
+          <textarea id="additionalInfo" class="form-control" placeholder="Any other information you'd like to share that would help us understand your needs"></textarea>
+        </div>
+        
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary">
+            <i class="fas fa-save"></i> Save for Later
+          </button>
+          <button type="button" class="btn btn-primary" id="submitBtn">
+            <i class="fas fa-paper-plane"></i> Submit Questionnaire
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Navigation Buttons -->
+  <div class="nav-buttons">
+    <button class="nav-button home-button" title="Home" onclick="window.location.href='client_presentations/Executive_Briefing.html'">
+      <i class="fas fa-home"></i>
+    </button>
+    <button class="nav-button back-button" title="Back" id="backButton">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+  </div>
+  
+  <script>
+    document.getElementById('backButton').addEventListener('click', function() {
+      window.location.href = '../client_presentations/BANT_Framework.html';
+    });
+    
+    // Calculate and update progress as user fills out form
+    const formInputs = document.querySelectorAll('.form-control');
+    const progressFill = document.querySelector('.progress-fill');
+    
+    // Add download functionality to submit button
+    document.getElementById('submitBtn').addEventListener('click', function() {
+      alert('Thank you for completing the questionnaire! In a live implementation, this would generate a detailed PDF of your responses and schedule a follow-up consultation.');
+      
+      // Simulate downloading a file
+      setTimeout(function() {
+        // Create an artificial download prompt
+        const link = document.createElement('a');
+        link.href = 'javascript:void(0)';
+        link.download = 'Black_Armor_AI_Security_Assessment.pdf';
+        link.dispatchEvent(new MouseEvent('click'));
+        
+        // Redirect back to the assessment slide
+        setTimeout(function() {
+          window.location.href = '../client_presentations/BANT_Framework.html';
+        }, 1000);
+      }, 1500);
+    });
+  </script>
+<script src="../chatbot_commands.js"></script>
+<script src="0
+
+  <!-- Chatbot Container -->
+  <!-- Chatbot is dynamically created by chatbot scripts -->    <i class="fas fa-comment"></i>
+  </button>
+</body>
+</html> 

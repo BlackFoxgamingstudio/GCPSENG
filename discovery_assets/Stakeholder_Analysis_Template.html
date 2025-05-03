@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Black Armor AI | Assessment Template</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --gcp-blue: #4285F4;
+      --gcp-red: #DB4437;
+      --gcp-yellow: #F4B400;
+      --gcp-green: #0F9D58;
+      --gcp-purple: #A142F4;
+      --dark-text: #202124;
+      --light-text: #5f6368;
+      --bg-light: #f8f9fa;
+      --border-light: #dadce0;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      color: var(--dark-text);
+      background-color: white;
+      overflow-x: hidden;
+      padding: 20px;
+    }
+    
+    .page-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .page-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    .page-title {
+      color: var(--gcp-blue);
+      font-size: 2.5rem;
+      font-weight: 500;
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+    
+    .page-subtitle {
+      color: var(--light-text);
+      font-size: 1.4rem;
+      font-weight: 400;
+      margin-bottom: 20px;
+    }
+
+    .tool-overview {
+      text-align: center;
+      max-width: 820px;
+      margin: 0 auto 40px;
+      background-color: var(--bg-light);
+      padding: 25px;
+      border-radius: 14px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    }
+    
+    .overview-desc {
+      font-size: 1.15rem;
+      color: var(--light-text);
+      line-height: 1.7;
+    }
+    
+    /* Template Form Styles */
+    .assessment-form {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      padding: 30px;
+      margin-bottom: 40px;
+    }
+    
+    .form-section {
+      margin-bottom: 30px;
+      border-bottom: 1px solid var(--border-light);
+      padding-bottom: 25px;
+    }
+    
+    .form-section:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+    
+    .section-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .section-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: rgba(66, 133, 244, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gcp-blue);
+      font-size: 1.2rem;
+      margin-right: 15px;
+      flex-shrink: 0;
+    }
+    
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: var(--dark-text);
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 8px;
+      font-size: 1rem;
+      color: var(--dark-text);
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      font-size: 1rem;
+      color: var(--dark-text);
+      transition: all 0.3s ease;
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: var(--gcp-blue);
+      box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+    }
+    
+    textarea.form-control {
+      min-height: 100px;
+      resize: vertical;
+    }
+    
+    .radio-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    
+    .radio-option {
+      display: flex;
+      align-items: center;
+    }
+    
+    .radio-input {
+      margin-right: 8px;
+    }
+    
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .checkbox-option {
+      display: flex;
+      align-items: center;
+    }
+    
+    .checkbox-input {
+      margin-right: 8px;
+    }
+    
+    .form-text {
+      font-size: 0.9rem;
+      color: var(--light-text);
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+    
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      margin-top: 40px;
+      gap: 15px;
+    }
+    
+    .btn {
+      padding: 12px 25px;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      border: none;
+    }
+    
+    .btn i {
+      margin-right: 8px;
+    }
+    
+    .btn-primary {
+      background-color: var(--gcp-blue);
+      color: white;
+      box-shadow: 0 4px 10px rgba(66, 133, 244, 0.3);
+    }
+    
+    .btn-primary:hover {
+      background-color: #2a75f3;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(66, 133, 244, 0.4);
+    }
+    
+    .btn-secondary {
+      background-color: var(--bg-light);
+      color: var(--dark-text);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+    
+    .btn-secondary:hover {
+      background-color: #e6e6e6;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+    }
+    
+    /* Navigation Buttons */
+    .nav-buttons {
+      position: fixed;
+      bottom: 20px;
+     
+      display: flex;
+      gap: 10px;
+    }
+    
+    .nav-button {
+      background-color: var(--gcp-blue);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+      transition: all 0.2s ease;
+    }
+    
+    .nav-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 10px rgba(0,0,0,0.3);
+    }
+    
+    .nav-button:active {
+      transform: translateY(-1px);
+      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+    }
+    
+    .home-button {
+      background-color: var(--gcp-green);
+    }
+    
+    .back-button {
+      background-color: var(--gcp-yellow);
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .radio-group, .checkbox-group {
+        flex-direction: column;
+      }
+      
+      .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .section-icon {
+        margin-bottom: 10px;
+      }
+      
+      .btn-group {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+<style>
+  /* Custom chatbot positioning for this page */
+  #chatbot-toggle {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1000 !important;
+  }
+  
+  #chatbot-container {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1001 !important;
+    width: 350px !important;
+    max-height: 500px !important;
+  }
+</style><link rel="stylesheet" href="../chatbot.css">
+<link rel="stylesheet" href="../navbar.css">
+<script src="../navbar.js"></script>
+</head>
+<body>
+  <div class="page-container">
+    <div class="slide-header">
+      <h1 class="slide-title">Security Assessment Template</h1>
+      <p class="slide-subtitle">Comprehensive evaluation for Black Armor AI implementation</p>
+      
+      <!-- Sales Journey Context Banner -->
+      <div style="background-color: rgba(66, 133, 244, 0.1); color: var(--gcp-blue); padding: 10px 15px; border-radius: 8px; margin: 15px auto; max-width: 700px; display: flex; align-items: center;">
+        <i class="fas fa-map-marker-alt" style="margin-right: 10px;"></i>
+        <span style="font-size: 0.9rem;">
+          <strong>Sales Journey:</strong> Part of the Deal Qualification phase (90% complete)
+        </span>
+      </div>
+    </div>
+    
+    <div class="tool-overview">
+      <p class="overview-desc">
+        This assessment template is designed to help us understand your organization's specific security challenges, requirements, and goals. Complete the fields below to help us create a tailored drone-based security solution using Black Armor AI technology on Google Cloud Platform.
+      </p>
+    </div>
+    
+    <form class="assessment-form" id="assessmentForm">
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-icon">
+            <i class="fas fa-building"></i>
+          </div>
+          <h3 class="section-title">Organization Information</h3>
+        </div>
+        
+        <div class="form-group">
+          <label for="organizationName" class="form-label">Organization Name</label>
+          <input type="text" id="organizationName" class="form-control" placeholder="Enter your organization name">
+        </div>
+        
+        <div class="form-group">
+          <label for="industry" class="form-label">Industry</label>
+          <select id="industry" class="form-control">
+            <option value="" selected disabled>Select your industry</option>
+            <option value="manufacturing">Manufacturing</option>
+            <option value="logistics">Logistics & Warehousing</option>
+            <option value="energy">Energy & Utilities</option>
+            <option value="construction">Construction</option>
+            <option value="retail">Retail</option>
+            <option value="healthcare">Healthcare</option>
+            <option value="education">Education</option>
+            <option value="government">Government</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="facilityType" class="form-label">Facility Type</label>
+          <select id="facilityType" class="form-control">
+            <option value="" selected disabled>Select facility type</option>
+            <option value="industrial">Industrial Complex</option>
+            <option value="warehouse">Warehouse/Distribution Center</option>
+            <option value="office">Office Campus</option>
+            <option value="retail">Retail Center</option>
+            <option value="medical">Medical Facility</option>
+            <option value="educational">Educational Institution</option>
+            <option value="government">Government Facility</option>
+            <option value="mixed">Mixed Use</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-icon">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <h3 class="section-title">Current Security Profile</h3>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Current Security Systems (select all that apply)</label>
+          <div class="checkbox-group">
+            <div class="checkbox-option">
+              <input type="checkbox" id="cctv" class="checkbox-input">
+              <label for="cctv">CCTV/Video Surveillance</label>
+            </div>
+            <div class="checkbox-option">
+              <input type="checkbox" id="accessControl" class="checkbox-input">
+              <label for="accessControl">Access Control Systems</label>
+            </div>
+            <div class="checkbox-option">
+              <input type="checkbox" id="intrusionDetection" class="checkbox-input">
+              <label for="intrusionDetection">Intrusion Detection</label>
+            </div>
+            <div class="checkbox-option">
+              <input type="checkbox" id="securityPersonnel" class="checkbox-input">
+              <label for="securityPersonnel">Security Personnel/Guards</label>
+            </div>
+            <div class="checkbox-option">
+              <input type="checkbox" id="perimeter" class="checkbox-input">
+              <label for="perimeter">Perimeter Security</label>
+            </div>
+            <div class="checkbox-option">
+              <input type="checkbox" id="other" class="checkbox-input">
+              <label for="other">Other</label>
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="securityChallenges" class="form-label">Current Security Challenges</label>
+          <textarea id="securityChallenges" class="form-control" placeholder="Describe your current security challenges and pain points"></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Annual Security Incidents</label>
+          <div class="radio-group">
+            <div class="radio-option">
+              <input type="radio" name="incidents" id="incidents1" class="radio-input" value="0-5">
+              <label for="incidents1">0-5</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="incidents" id="incidents2" class="radio-input" value="6-10">
+              <label for="incidents2">6-10</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="incidents" id="incidents3" class="radio-input" value="11-20">
+              <label for="incidents3">11-20</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="incidents" id="incidents4" class="radio-input" value="21+">
+              <label for="incidents4">21+</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-icon">
+            <i class="fas fa-map-marked-alt"></i>
+          </div>
+          <h3 class="section-title">Facility Assessment</h3>
+        </div>
+        
+        <div class="form-group">
+          <label for="facilitySizeIndoor" class="form-label">Indoor Area (approximate sq. ft.)</label>
+          <input type="number" id="facilitySizeIndoor" class="form-control" placeholder="Enter approximate indoor area">
+          <div class="form-text">This helps determine the scale of indoor drone coverage needed.</div>
+        </div>
+        
+        <div class="form-group">
+          <label for="facilitySizeOutdoor" class="form-label">Outdoor Area (approximate acres)</label>
+          <input type="number" id="facilitySizeOutdoor" class="form-control" placeholder="Enter approximate outdoor area">
+          <div class="form-text">This helps determine the scale of outdoor drone coverage needed.</div>
+        </div>
+        
+        <div class="form-group">
+          <label for="locationCount" class="form-label">Number of Locations to be Secured</label>
+          <input type="number" id="locationCount" class="form-control" placeholder="Enter number of locations">
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Environment Type</label>
+          <div class="checkbox-group">
+            <div class="checkbox-option">
+              <input type="checkbox" id="indoor" class="checkbox-input">
+              <label for="indoor">Indoor</label>
+            </div>
+            <div class="checkbox-option">
+              <input type="checkbox" id="outdoor" class="checkbox-input">
+              <label for="outdoor">Outdoor</label>
+            </div>
+            <div class="checkbox-option">
+              <input type="checkbox" id="remote" class="checkbox-input">
+              <label for="remote">Remote/Hard-to-Access</label>
+            </div>
+            <div class="checkbox-option">
+              <input type="checkbox" id="hazardous" class="checkbox-input">
+              <label for="hazardous">Hazardous</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-icon">
+            <i class="fas fa-tasks"></i>
+          </div>
+          <h3 class="section-title">Security Requirements</h3>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Primary Security Objectives (select all that apply)</label>
+          <div class="checkbox-group">
+            <div class="checkbox-option">
+              <input type="checkbox" id="intrusionPrevention" class="checkbox-input">
+              <label for="intrusionPrevention">Intrusion Prevention/Detection</label>
+            </div>
+            <div class="checkbox-option">
+              <input type="checkbox" id="assetTracking" class="checkbox-input">
+              <label for="assetTracking">Asset Tracking/Monitoring</label>
+            </div>
+            <div class="checkbox-option">
+              <input type="checkbox" id="perimetersecurity" class="checkbox-input">
+              <label for="perimetersecurity">Perimeter Security</label>
+            </div>
+            <div class="checkbox-option">
+              <input type="checkbox" id="emergencyResponse" class="checkbox-input">
+              <label for="emergencyResponse">Emergency Response Support</label>
+            </div>
+            <div class="checkbox-option">
+              <input type="checkbox" id="personnelSafety" class="checkbox-input">
+              <label for="personnelSafety">Personnel Safety Monitoring</label>
+            </div>
+            <div class="checkbox-option">
+              <input type="checkbox" id="environmentalMonitoring" class="checkbox-input">
+              <label for="environmentalMonitoring">Environmental Monitoring</label>
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="responseTime" class="form-label">Required Response Time</label>
+          <select id="responseTime" class="form-control">
+            <option value="" selected disabled>Select required response time</option>
+            <option value="realtime">Real-time (seconds)</option>
+            <option value="minutes">Within minutes</option>
+            <option value="hour">Within an hour</option>
+            <option value="day">Within a day</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="complianceRequirements" class="form-label">Compliance Requirements</label>
+          <textarea id="complianceRequirements" class="form-control" placeholder="List any industry-specific compliance requirements (HIPAA, SOC2, etc.)"></textarea>
+        </div>
+      </div>
+      
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-icon">
+            <i class="fas fa-dollar-sign"></i>
+          </div>
+          <h3 class="section-title">Budget & Timeline</h3>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Estimated Budget Range</label>
+          <div class="radio-group">
+            <div class="radio-option">
+              <input type="radio" name="budget" id="budget1" class="radio-input" value="<100k">
+              <label for="budget1">Under $100,000</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="budget" id="budget2" class="radio-input" value="100k-250k">
+              <label for="budget2">$100,000 - $250,000</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="budget" id="budget3" class="radio-input" value="250k-500k">
+              <label for="budget3">$250,000 - $500,000</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="budget" id="budget4" class="radio-input" value="500k+">
+              <label for="budget4">$500,000+</label>
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Implementation Timeline</label>
+          <div class="radio-group">
+            <div class="radio-option">
+              <input type="radio" name="timeline" id="timeline1" class="radio-input" value="immediate">
+              <label for="timeline1">Immediate (1-3 months)</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="timeline" id="timeline2" class="radio-input" value="short">
+              <label for="timeline2">Short-term (3-6 months)</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="timeline" id="timeline3" class="radio-input" value="medium">
+              <label for="timeline3">Medium-term (6-12 months)</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" name="timeline" id="timeline4" class="radio-input" value="long">
+              <label for="timeline4">Long-term (12+ months)</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-icon">
+            <i class="fas fa-comment-alt"></i>
+          </div>
+          <h3 class="section-title">Additional Information</h3>
+        </div>
+        
+        <div class="form-group">
+          <label for="additionalInfo" class="form-label">Any additional details or specific requirements</label>
+          <textarea id="additionalInfo" class="form-control" placeholder="Please provide any additional information that would help us understand your security needs better"></textarea>
+        </div>
+      </div>
+      
+      <div class="btn-group">
+        <button type="button" class="btn btn-secondary" id="saveBtn">
+          <i class="fas fa-save"></i> Save Draft
+        </button>
+        <button type="submit" class="btn btn-primary" id="submitBtn">
+          <i class="fas fa-paper-plane"></i> Submit Assessment
+        </button>
+      </div>
+    </form>
+  </div>
+  
+  <!-- Navigation Buttons -->
+  <div class="nav-buttons">
+    <button class="nav-button home-button" title="Home" onclick="window.location.href='client_presentations/Executive_Briefing.html'">
+      <i class="fas fa-home"></i>
+    </button>
+    <button class="nav-button back-button" title="Back" id="backButton">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+  </div>
+  
+  <script>
+    document.getElementById('backButton').addEventListener('click', function() {
+      window.location.href = '../client_presentations/BANT_Framework.html';
+    });
+    
+    document.getElementById('saveBtn').addEventListener('click', function() {
+      // Check if organization name is filled
+      const organizationName = document.getElementById('organizationName').value.trim();
+      if (organizationName === '') {
+        alert('Please enter your organization name before saving.');
+        document.getElementById('organizationName').focus();
+        return;
+      }
+      
+      alert('Assessment saved as draft! In a real implementation, this would save your progress to continue later.');
+    });
+    
+    document.getElementById('assessmentForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Basic validation
+      const organizationName = document.getElementById('organizationName').value.trim();
+      const contactName = document.getElementById('contactName').value.trim();
+      const contactEmail = document.getElementById('contactEmail').value.trim();
+      
+      if (organizationName === '' || contactName === '' || contactEmail === '') {
+        alert('Please fill out all required fields (Organization, Contact Name, Contact Email).');
+        return;
+      }
+      
+      // Show success message
+      document.getElementById('success-message').style.display = 'flex';
+      
+      // In a real implementation, this would submit the form data
+      setTimeout(function() {
+        window.location.href = '../client_presentations/BANT_Framework.html';
+      }, 3000);
+    });
+    
+    // Add event listeners for better user interaction
+    const formElements = document.querySelectorAll('.form-control');
+    formElements.forEach(element => {
+      element.addEventListener('focus', function() {
+        this.style.borderColor = 'var(--gcp-blue)';
+      });
+      
+      element.addEventListener('blur', function() {
+        if (this.value.trim() === '' && this.hasAttribute('required')) {
+          this.style.borderColor = 'var(--gcp-red)';
+        } else {
+          this.style.borderColor = 'var(--border-light)';
+        }
+      });
+    });
+    
+    // Add required attribute to essential fields
+    document.getElementById('organizationName').setAttribute('required', 'required');
+    document.getElementById('industry').setAttribute('required', 'required');
+    document.getElementById('facilityType').setAttribute('required', 'required');
+  </script>
+<script src="../chatbot_commands.js"></script>
+<script src="0
+
+  <!-- Chatbot Container -->
+  <!-- Chatbot is dynamically created by chatbot scripts -->    <i class="fas fa-comment"></i>
+  </button>
+</body>
+</html> 

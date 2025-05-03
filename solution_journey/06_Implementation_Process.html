@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neo AI Writers' Room | Slide 6</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <!-- Chart.js for ROI calculator -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <style>
+    :root {
+      --gcp-blue: #4285F4;
+      --gcp-red: #DB4437;
+      --gcp-yellow: #F4B400;
+      --gcp-green: #0F9D58;
+      --gcp-purple: #A142F4;
+      --dark-text: #202124;
+      --light-text: #5f6368;
+      --bg-light: #f8f9fa;
+      --border-light: #dadce0;
+      
+      --savings-color: var(--gcp-green);
+      --revenue-color: var(--gcp-blue);
+      --cost-color: var(--gcp-red);
+      --roi-color: var(--gcp-purple);
+      
+      --savings-bg: rgba(15, 157, 88, 0.1);
+      --revenue-bg: rgba(66, 133, 244, 0.1);
+      --cost-bg: rgba(219, 68, 55, 0.1);
+      --roi-bg: rgba(161, 66, 244, 0.1);
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      color: var(--dark-text);
+      background-color: white;
+      overflow-x: hidden;
+      padding: 20px;
+    }
+    
+    .slide-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .slide-header {
+      text-align: center;
+      margin-bottom: 30px;
+      position: relative;
+    }
+    
+    .slide-title {
+      color: var(--gcp-blue);
+      font-size: 2.5rem;
+      font-weight: 500;
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+    
+    .slide-subtitle {
+      color: var(--light-text);
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-bottom: 20px;
+    }
+    
+    .business-outcomes {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    
+    .outcome-metrics {
+      width: 48%;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    
+    .outcome-header {
+      background-color: var(--gcp-blue);
+      color: white;
+      padding: 15px 20px;
+      font-size: 1.2rem;
+      font-weight: 500;
+    }
+    
+    .outcome-cards {
+      padding: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    
+    .metric-card {
+      width: calc(50% - 8px);
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .metric-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 5px;
+      height: 100%;
+    }
+    
+    .metric-card.savings::before {
+      background-color: var(--savings-color);
+    }
+    
+    .metric-card.revenue::before {
+      background-color: var(--revenue-color);
+    }
+    
+    .metric-card.efficiency::before {
+      background-color: var(--gcp-yellow);
+    }
+    
+    .metric-card.quality::before {
+      background-color: var(--gcp-purple);
+    }
+    
+    .metric-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+      line-height: 1;
+    }
+    
+    .savings .metric-value {
+      color: var(--savings-color);
+    }
+    
+    .revenue .metric-value {
+      color: var(--revenue-color);
+    }
+    
+    .efficiency .metric-value {
+      color: var(--gcp-yellow);
+    }
+    
+    .quality .metric-value {
+      color: var(--gcp-purple);
+    }
+    
+    .metric-label {
+      font-size: 0.95rem;
+      color: var(--dark-text);
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+    
+    .metric-desc {
+      font-size: 0.8rem;
+      color: var(--light-text);
+      line-height: 1.4;
+    }
+    
+    .roi-calculator {
+      width: 48%;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    
+    .roi-header {
+      background-color: var(--gcp-green);
+      color: white;
+      padding: 15px 20px;
+      font-size: 1.2rem;
+      font-weight: 500;
+    }
+    
+    .roi-content {
+      padding: 20px;
+    }
+    
+    .roi-chart-container {
+      width: 100%;
+      height: 300px;
+      margin-bottom: 20px;
+    }
+    
+    .roi-summary {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+    
+    .roi-metric {
+      flex: 1;
+      min-width: calc(50% - 8px);
+      background-color: var(--bg-light);
+      border-radius: 8px;
+      padding: 15px;
+      text-align: center;
+    }
+    
+    .roi-metric-value {
+      font-size: 1.8rem;
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+    
+    .roi-metric-label {
+      font-size: 0.8rem;
+      color: var(--light-text);
+    }
+    
+    .roi-metric.savings .roi-metric-value {
+      color: var(--savings-color);
+    }
+    
+    .roi-metric.revenue .roi-metric-value {
+      color: var(--revenue-color);
+    }
+    
+    .roi-metric.cost .roi-metric-value {
+      color: var(--cost-color);
+    }
+    
+    .roi-metric.roi .roi-metric-value {
+      color: var(--roi-color);
+    }
+    
+    .calculator-controls {
+      background-color: var(--bg-light);
+      border-radius: 8px;
+      padding: 15px;
+    }
+    
+    .calculator-title {
+      font-weight: 500;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+      color: var(--dark-text);
+    }
+    
+    .sliders {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .slider-control {
+      display: flex;
+      align-items: center;
+    }
+    
+    .slider-label {
+      width: 160px;
+      font-size: 0.85rem;
+      color: var(--dark-text);
+    }
+    
+    .slider-input {
+      flex: 1;
+      margin: 0 10px;
+    }
+    
+    .slider-value {
+      width: 80px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--dark-text);
+    }
+    
+    .case-study {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+      margin-bottom: 30px;
+      gap: 20px;
+    }
+    
+    .case-company {
+      width: 28%;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .company-header {
+      background-color: var(--gcp-blue);
+      color: white;
+      padding: 15px 20px;
+      font-size: 1.1rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+    }
+    
+    .company-logo {
+      width: 40px;
+      height: 40px;
+      background-color: white;
+      border-radius: 50%;
+      margin-right: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: var(--gcp-blue);
+    }
+    
+    .company-content {
+      padding: 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .company-desc {
+      font-size: 0.9rem;
+      color: var(--dark-text);
+      line-height: 1.5;
+      margin-bottom: 15px;
+    }
+    
+    .company-quote {
+      background-color: var(--bg-light);
+      border-radius: 8px;
+      padding: 15px;
+      font-style: italic;
+      font-size: 0.85rem;
+      color: var(--dark-text);
+      line-height: 1.5;
+      margin-top: auto;
+      position: relative;
+    }
+    
+    .company-quote::before {
+      content: '\201C';
+      font-size: 3rem;
+      position: absolute;
+      left: 5px;
+      top: -10px;
+      color: var(--border-light);
+    }
+    
+    .case-stats {
+      width: 70%;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    
+    .stats-header {
+      background-color: var(--gcp-green);
+      color: white;
+      padding: 15px 20px;
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+    
+    .stats-content {
+      padding: 20px;
+    }
+    
+    .stats-comparison {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .stats-before, .stats-after {
+      flex: 1;
+      background-color: var(--bg-light);
+      border-radius: 8px;
+      padding: 15px;
+    }
+    
+    .stats-title {
+      font-weight: 500;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .stats-before .stats-title {
+      color: var(--cost-color);
+    }
+    
+    .stats-after .stats-title {
+      color: var(--savings-color);
+    }
+    
+    .stats-title i {
+      margin-right: 8px;
+    }
+    
+    .stats-metric {
+      display: flex;
+      align-items: baseline;
+      margin-bottom: 8px;
+    }
+    
+    .stats-value {
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin-right: 8px;
+      line-height: 1;
+    }
+    
+    .stats-before .stats-value {
+      color: var(--cost-color);
+    }
+    
+    .stats-after .stats-value {
+      color: var(--savings-color);
+    }
+    
+    .stats-unit {
+      font-size: 0.85rem;
+      color: var(--light-text);
+    }
+    
+    .stats-label {
+      font-size: 0.85rem;
+      color: var(--dark-text);
+      margin-bottom: 5px;
+    }
+    
+    .stats-results {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    
+    .result-metric {
+      flex: 1;
+      min-width: calc(50% - 8px);
+      background-color: white;
+      border-radius: 8px;
+      padding: 15px;
+      border-left: 3px solid;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    }
+    
+    .result-metric.revenue {
+      border-color: var(--revenue-color);
+    }
+    
+    .result-metric.cost {
+      border-color: var(--cost-color);
+    }
+    
+    .result-value {
+      font-size: 1.8rem;
+      font-weight: 500;
+      margin-bottom: 5px;
+      line-height: 1;
+    }
+    
+    .result-metric.revenue .result-value {
+      color: var(--revenue-color);
+    }
+    
+    .result-metric.cost .result-value {
+      color: var(--savings-color);
+    }
+    
+    .result-label {
+      font-size: 0.85rem;
+      color: var(--dark-text);
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+    
+    .result-desc {
+      font-size: 0.8rem;
+      color: var(--light-text);
+      line-height: 1.4;
+    }
+    
+    .technical-footer {
+      background-color: var(--bg-light);
+      padding: 10px 20px;
+      font-size: 0.75rem;
+      color: var(--light-text);
+      text-align: center;
+      border-radius: 4px;
+    }
+    
+    .technical-footer .highlight {
+      color: var(--gcp-blue);
+      font-weight: 500;
+    }
+    
+    /* Animation */
+    @keyframes growWidth {
+      0% { width: 0; }
+      100% { width: 100%; }
+    }
+    
+    .animate-bar {
+      width: 0;
+      animation: growWidth 1.5s forwards ease-out;
+    }
+    
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    
+    .fade-in-up {
+      opacity: 0;
+      animation: fadeInUp 0.8s forwards ease-out;
+    }
+    
+    .delay-1 {
+      animation-delay: 0.2s;
+    }
+    
+    .delay-2 {
+      animation-delay: 0.4s;
+    }
+    
+    .delay-3 {
+      animation-delay: 0.6s;
+    }
+    
+    .delay-4 {
+      animation-delay: 0.8s;
+    }
+  </style>
+<style>
+  /* Custom chatbot positioning for this page */
+  #chatbot-toggle {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1000 !important;
+  }
+  
+  #chatbot-container {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1001 !important;
+    width: 350px !important;
+    max-height: 500px !important;
+  }
+</style>
+<link rel="stylesheet" href="../chatbot.css">
+<link rel="stylesheet" href="../navbar.css">
+</head>
+<body>
+  <div class="slide-container">
+    <div class="slide-header">
+      <h1 class="slide-title">Transformative Business Outcomes</h1>
+      <h2 class="slide-subtitle">Measurable ROI and Strategic Impact</h2>
+    </div>
+    
+    <div class="business-outcomes">
+      <div class="outcome-metrics">
+        <div class="outcome-header">
+          Key Performance Indicators
+        </div>
+        <div class="outcome-cards">
+          <div class="metric-card savings fade-in-up delay-1">
+            <div class="metric-value">95%</div>
+            <div class="metric-label">Reduction in Analysis Time</div>
+            <div class="metric-desc">From 40+ hours manual analysis to real-time insights and 15 minutes of post-processing</div>
+          </div>
+          
+          <div class="metric-card revenue fade-in-up delay-2">
+            <div class="metric-value">2.5x</div>
+            <div class="metric-label">Content Output Potential</div>
+            <div class="metric-desc">Increase in production capacity through more efficient content creation workflows</div>
+          </div>
+          
+          <div class="metric-card efficiency fade-in-up delay-3">
+            <div class="metric-value">40%</div>
+            <div class="metric-label">Operational Cost Savings</div>
+            <div class="metric-desc">Reduction in post-production staff time and resource allocation</div>
+          </div>
+          
+          <div class="metric-card quality fade-in-up delay-4">
+            <div class="metric-value">&lt;6</div>
+            <div class="metric-label">Month Payback Period</div>
+            <div class="metric-desc">Typical ROI timeline based on operational savings and revenue growth</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="roi-calculator">
+        <div class="roi-header">
+          3-Year ROI Calculator
+        </div>
+        <div class="roi-content">
+          <div class="roi-chart-container">
+            <canvas id="roiChart"></canvas>
+          </div>
+          
+          <div class="roi-summary">
+            <div class="roi-metric savings">
+              <div class="roi-metric-value">$450K</div>
+              <div class="roi-metric-label">3-Year Cost Savings</div>
+            </div>
+            
+            <div class="roi-metric revenue">
+              <div class="roi-metric-value">$2.7M</div>
+              <div class="roi-metric-label">Additional Revenue</div>
+            </div>
+            
+            <div class="roi-metric cost">
+              <div class="roi-metric-value">$144K</div>
+              <div class="roi-metric-label">Total Investment</div>
+            </div>
+            
+            <div class="roi-metric roi">
+              <div class="roi-metric-value">21.8x</div>
+              <div class="roi-metric-label">3-Year ROI</div>
+            </div>
+          </div>
+          
+          <div class="calculator-controls">
+            <div class="calculator-title">Customize ROI Calculation</div>
+            <div class="sliders">
+              <div class="slider-control">
+                <div class="slider-label">Monthly Content Hours</div>
+                <input type="range" min="100" max="1000" value="500" step="50" class="slider-input" id="contentSlider">
+                <div class="slider-value" id="contentValue">500</div>
+              </div>
+              
+              <div class="slider-control">
+                <div class="slider-label">Team Size (FTEs)</div>
+                <input type="range" min="5" max="50" value="15" step="5" class="slider-input" id="teamSlider">
+                <div class="slider-value" id="teamValue">15</div>
+              </div>
+              
+              <div class="slider-control">
+                <div class="slider-label">Avg Revenue per Episode</div>
+                <input type="range" min="5000" max="50000" value="25000" step="5000" class="slider-input" id="revenueSlider">
+                <div class="slider-value" id="revenueValue">$25,000</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="case-study">
+      <div class="case-company">
+        <div class="company-header">
+          <div class="company-logo">
+            <i class="fas fa-podcast"></i>
+          </div>
+          Media Production Case Study
+        </div>
+        <div class="company-content">
+          <div class="company-desc">
+            A leading media production company with 50+ podcasts and video series implemented Neo AI Writers' Room to streamline their content analysis and production workflow.
+          </div>
+          
+          <div class="company-quote">
+            The Neo AI Writers' Room transformed our content production process. What previously took our team days to analyze now happens automatically in real-time, allowing us to focus on creating better content faster.
+            <div style="text-align: right; margin-top: 10px; font-style: normal; font-weight: 500;">— Director of Production</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="case-stats">
+        <div class="stats-header">
+          Before & After Implementation
+        </div>
+        <div class="stats-content">
+          <div class="stats-comparison">
+            <div class="stats-before">
+              <div class="stats-title">
+                <i class="fas fa-hourglass-start"></i> Before Neo AI
+              </div>
+              <div class="stats-metric">
+                <div class="stats-value">40+</div>
+                <div class="stats-unit">hours</div>
+              </div>
+              <div class="stats-label">Manual analysis per 60-minute podcast</div>
+              
+              <div class="stats-metric">
+                <div class="stats-value">3</div>
+                <div class="stats-unit">episodes</div>
+              </div>
+              <div class="stats-label">Monthly production per series</div>
+              
+              <div class="stats-metric">
+                <div class="stats-value">8</div>
+                <div class="stats-unit">staff</div>
+              </div>
+              <div class="stats-label">Post-production team size</div>
+            </div>
+            
+            <div class="stats-after">
+              <div class="stats-title">
+                <i class="fas fa-hourglass-end"></i> With Neo AI
+              </div>
+              <div class="stats-metric">
+                <div class="stats-value">15</div>
+                <div class="stats-unit">minutes</div>
+              </div>
+              <div class="stats-label">Post-processing time per episode</div>
+              
+              <div class="stats-metric">
+                <div class="stats-value">12</div>
+                <div class="stats-unit">episodes</div>
+              </div>
+              <div class="stats-label">Monthly production per series</div>
+              
+              <div class="stats-metric">
+                <div class="stats-value">5</div>
+                <div class="stats-unit">staff</div>
+              </div>
+              <div class="stats-label">Post-production team size</div>
+            </div>
+          </div>
+          
+          <div class="stats-results">
+            <div class="result-metric revenue">
+              <div class="result-value">$2.7M</div>
+              <div class="result-label">Additional Annual Revenue</div>
+              <div class="result-desc">From 4x increase in high-quality content output across multiple series</div>
+            </div>
+            
+            <div class="result-metric cost">
+              <div class="result-value">$450K</div>
+              <div class="result-label">Annual Cost Reduction</div>
+              <div class="result-desc">From optimized post-production workflows and team allocation</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="technical-footer">
+      ROI calculations based on <span class="highlight">GCP cost optimization best practices</span> | Typical implementation cost <span class="highlight">$48,000 annually</span> | Sub-linear cost scaling with <span class="highlight">content volume increases</span>
+    </div>
+  </div>
+
+  <script>
+    // Initialize ROI Chart
+    document.addEventListener('DOMContentLoaded', function() {
+      const ctx = document.getElementById('roiChart').getContext('2d');
+      
+      const data = {
+        labels: ['Year 1', 'Year 2', 'Year 3'],
+        datasets: [
+          {
+            label: 'Investment',
+            data: [48000, 48000, 48000],
+            backgroundColor: 'rgba(219, 68, 55, 0.5)',
+            borderColor: 'rgba(219, 68, 55, 1)',
+            borderWidth: 1
+          },
+          {
+            label: 'Cost Savings',
+            data: [150000, 150000, 150000],
+            backgroundColor: 'rgba(15, 157, 88, 0.5)',
+            borderColor: 'rgba(15, 157, 88, 1)',
+            borderWidth: 1
+          },
+          {
+            label: 'Revenue Increase',
+            data: [900000, 900000, 900000],
+            backgroundColor: 'rgba(66, 133, 244, 0.5)',
+            borderColor: 'rgba(66, 133, 244, 1)',
+            borderWidth: 1
+          }
+        ]
+      };
+      
+      const config = {
+        type: 'bar',
+        data: data,
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: {
+              stacked: false
+            },
+            y: {
+              stacked: false,
+              beginAtZero: true,
+              ticks: {
+                callback: function(value) {
+                  return '$' + value.toLocaleString();
+                }
+              }
+            }
+          },
+          plugins: {
+            legend: {
+              position: 'bottom'
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return context.dataset.label + ': $' + context.raw.toLocaleString();
+                }
+              }
+            }
+          }
+        }
+      };
+      
+      const roiChart = new Chart(ctx, config);
+      
+      // Handle sliders
+      const contentSlider = document.getElementById('contentSlider');
+      const contentValue = document.getElementById('contentValue');
+      const teamSlider = document.getElementById('teamSlider');
+      const teamValue = document.getElementById('teamValue');
+      const revenueSlider = document.getElementById('revenueSlider');
+      const revenueValue = document.getElementById('revenueValue');
+      
+      contentSlider.addEventListener('input', function() {
+        contentValue.textContent = this.value;
+        updateChart();
+      });
+      
+      teamSlider.addEventListener('input', function() {
+        teamValue.textContent = this.value;
+        updateChart();
+      });
+      
+      revenueSlider.addEventListener('input', function() {
+        revenueValue.textContent = '$' + parseInt(this.value).toLocaleString();
+        updateChart();
+      });
+      
+      function updateChart() {
+        // Calculate new values based on sliders
+        const contentHours = parseInt(contentSlider.value);
+        const teamSize = parseInt(teamSlider.value);
+        const revenuePerEpisode = parseInt(revenueSlider.value);
+        
+        // Scale factors based on defaults
+        const contentFactor = contentHours / 500;
+        const teamFactor = teamSize / 15;
+        const revenueFactor = revenuePerEpisode / 25000;
+        
+        // Update ROI metrics
+        const costSavings = Math.round(150000 * teamFactor * contentFactor);
+        const revenueIncrease = Math.round(900000 * revenueFactor * contentFactor);
+        const investment = Math.round(48000 * Math.sqrt(contentFactor)); // Sub-linear scaling
+        
+        // Update chart data
+        roiChart.data.datasets[0].data = [investment, investment, investment];
+        roiChart.data.datasets[1].data = [costSavings, costSavings, costSavings];
+        roiChart.data.datasets[2].data = [revenueIncrease, revenueIncrease, revenueIncrease];
+        roiChart.update();
+        
+        // Update summary metrics
+        const totalSavings = costSavings * 3;
+        const totalRevenue = revenueIncrease * 3;
+        const totalInvestment = investment * 3;
+        const roi = ((totalSavings + totalRevenue) / totalInvestment).toFixed(1);
+        
+        document.querySelector('.roi-metric.savings .roi-metric-value').textContent = '$' + totalSavings.toLocaleString();
+        document.querySelector('.roi-metric.revenue .roi-metric-value').textContent = '$' + totalRevenue.toLocaleString();
+        document.querySelector('.roi-metric.cost .roi-metric-value').textContent = '$' + totalInvestment.toLocaleString();
+        document.querySelector('.roi-metric.roi .roi-metric-value').textContent = roi + 'x';
+      }
+    });
+  </script>
+  
+  <!-- Navigation CSS -->
+  
+  
+
+
+<script src="../chatbot_commands.js"></script>
+<script src="0
+<script src="../global_nav.js"></script>
+<script src="../navbar.js"></script>
+  <!-- Chatbot Container -->
+  <!-- Chatbot is dynamically created by chatbot scripts -->    <i class="fas fa-comment"></i>
+  </button>
+</body>
+</html> 

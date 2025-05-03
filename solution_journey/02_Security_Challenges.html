@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neo AI Writers' Room | Slide 2</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --gcp-blue: #4285F4;
+      --gcp-red: #DB4437;
+      --gcp-yellow: #F4B400;
+      --gcp-green: #0F9D58;
+      --gcp-purple: #A142F4;
+      --dark-text: #202124;
+      --light-text: #5f6368;
+      --bg-light: #f8f9fa;
+      
+      --ingest-color: #aad4fa;
+      --process-color: #c9e6c9;
+      --analytics-color: #fde293;
+      --storage-color: #fcc2bd;
+      --frontend-color: #d9c7ff;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      color: var(--dark-text);
+      background-color: white;
+      overflow-x: hidden;
+      padding: 20px;
+    }
+    
+    .slide-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .slide-header {
+      text-align: center;
+      margin-bottom: 30px;
+      position: relative;
+    }
+    
+    .ref-architecture-tag {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background-color: var(--gcp-green);
+      color: white;
+      font-size: 0.8rem;
+      padding: 5px 12px;
+      border-radius: 20px;
+    }
+    
+    .slide-title {
+      color: var(--gcp-blue);
+      font-size: 2.5rem;
+      font-weight: 500;
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+    
+    .slide-subtitle {
+      color: var(--gcp-blue);
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-bottom: 20px;
+    }
+    
+    .content-wrapper {
+      display: flex;
+      margin-bottom: 30px;
+    }
+    
+    .main-diagram {
+      flex: 1;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .specs-panel {
+      width: 250px;
+      margin-left: 20px;
+      background-color: var(--bg-light);
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      padding: 20px;
+    }
+    
+    .specs-title {
+      font-weight: 500;
+      color: var(--dark-text);
+      margin-bottom: 15px;
+      font-size: 1.1rem;
+    }
+    
+    .spec-item {
+      margin-bottom: 15px;
+    }
+    
+    .spec-label {
+      font-weight: 500;
+      color: var(--gcp-blue);
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .spec-label i {
+      margin-right: 8px;
+      font-size: 0.9rem;
+    }
+    
+    .spec-value {
+      font-size: 0.9rem;
+      color: var(--dark-text);
+      padding-left: 25px;
+    }
+    
+    /* Architecture Diagram Styles */
+    .architecture {
+      width: 100%;
+      height: 500px;
+      position: relative;
+    }
+    
+    .layer {
+      position: absolute;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
+    }
+    
+    .layer-label {
+      position: absolute;
+      left: 0;
+      background-color: rgba(0,0,0,0.1);
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+    
+    /* Layer Positions */
+    .ingest-layer {
+      top: 0;
+      height: 100px;
+      background-color: var(--ingest-color);
+      border-radius: 8px;
+    }
+    
+    .processing-layer {
+      top: 110px;
+      height: 140px;
+      background-color: var(--process-color);
+      border-radius: 8px;
+    }
+    
+    .analytics-layer {
+      top: 260px;
+      height: 100px;
+      background-color: var(--analytics-color);
+      border-radius: 8px;
+    }
+    
+    .storage-layer {
+      top: 370px;
+      height: 60px;
+      background-color: var(--storage-color);
+      border-radius: 8px;
+    }
+    
+    .frontend-layer {
+      top: 440px;
+      height: 60px;
+      background-color: var(--frontend-color);
+      border-radius: 8px;
+    }
+    
+    /* Component Styles */
+    .component-container {
+      display: flex;
+      width: 100%;
+      justify-content: space-around;
+      align-items: center;
+      position: relative;
+    }
+    
+    .component {
+      background-color: white;
+      border-radius: 8px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0 5px;
+      box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+      position: relative;
+      width: 120px;
+      height: 70px;
+      text-align: center;
+    }
+    
+    .component.highlight {
+      box-shadow: 0 0 10px rgba(66,133,244,0.7);
+      border: 1px solid var(--gcp-blue);
+    }
+    
+    .component:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 8px rgba(0,0,0,0.2);
+    }
+    
+    .component-icon {
+      margin-bottom: 5px;
+      font-size: 1.2rem;
+      color: var(--gcp-blue);
+    }
+    
+    .component-label {
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: var(--dark-text);
+    }
+    
+    .component-sublabel {
+      font-size: 0.6rem;
+      color: var(--light-text);
+      margin-top: 2px;
+    }
+    
+    /* Connection arrows */
+    .arrow {
+      position: absolute;
+      background-color: var(--dark-text);
+      opacity: 0.7;
+      height: 2px;
+      z-index: 10;
+    }
+    
+    .arrow::after {
+      content: '';
+      position: absolute;
+      right: -5px;
+      top: -4px;
+      width: 0;
+      height: 0;
+      border-left: 6px solid var(--dark-text);
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+      opacity: 0.7;
+    }
+    
+    .arrow.dashed {
+      background: linear-gradient(to right, var(--dark-text) 50%, transparent 50%);
+      background-size: 10px 10px;
+      background-repeat: repeat-x;
+    }
+    
+    .data-flow-group {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .mcp-container {
+      display: flex;
+      background-color: rgba(255,255,255,0.7);
+      border-radius: 8px;
+      padding: 5px;
+      border: 1px dashed var(--gcp-blue);
+    }
+    
+    .mcp-variable {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      margin: 0 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 500;
+    }
+    
+    /* Footer */
+    .footer-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+    
+    .footer {
+      display: inline-block;
+      text-align: center;
+      padding: 8px 20px;
+      font-size: 0.8rem;
+      color: var(--light-text);
+      background-color: var(--bg-light);
+      border-radius: 30px;
+    }
+    
+    .highlight {
+      color: var(--gcp-blue);
+      font-weight: 500;
+    }
+    
+    /* Animations */
+    @keyframes pulse {
+      0% { opacity: 0.5; }
+      50% { opacity: 1; }
+      100% { opacity: 0.5; }
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes flowRight {
+      0% { width: 0; opacity: 0; }
+      100% { width: 100%; opacity: 0.7; }
+    }
+    
+    .flow-animation {
+      animation: flowRight 2s forwards;
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.8s forwards;
+    }
+    
+    .data-point {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--gcp-blue);
+      position: absolute;
+      animation: pulse 2s infinite;
+    }
+    
+    /* Variable colors */
+    .var-blue { background-color: var(--gcp-blue); }
+    .var-red { background-color: var(--gcp-red); }
+    .var-green { background-color: var(--gcp-green); }
+    .var-yellow { background-color: var(--gcp-yellow); }
+    .var-purple { background-color: var(--gcp-purple); }
+  </style>
+<style>
+  /* Custom chatbot positioning for this page */
+  #chatbot-toggle {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1000 !important;
+  }
+  
+  #chatbot-container {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1001 !important;
+    width: 350px !important;
+    max-height: 500px !important;
+  }
+</style>
+<link rel="stylesheet" href="../chatbot.css">
+<link rel="stylesheet" href="../navbar.css">
+</head>
+<body>
+  <div class="slide-container">
+    <div class="slide-header">
+      <div class="ref-architecture-tag">Production-Proven Reference Architecture</div>
+      <h1 class="slide-title">Cloud-Native Architecture for Content Intelligence</h1>
+      <h2 class="slide-subtitle">Event-Driven Microservices with Managed AI/ML</h2>
+    </div>
+    
+    <div class="content-wrapper">
+      <!-- Main Architecture Diagram -->
+      <div class="main-diagram">
+        <div class="architecture">
+          <!-- Ingest Layer -->
+          <div class="layer ingest-layer">
+            <div class="layer-label">Ingest</div>
+            <div class="component-container">
+              <div class="component">
+                <i class="fas fa-video component-icon"></i>
+                <div class="component-label">Neo Device</div>
+                <div class="component-sublabel">1080p RTMP</div>
+              </div>
+              <div class="component">
+                <i class="fas fa-globe component-icon"></i>
+                <div class="component-label">Cloud CDN</div>
+                <div class="component-sublabel">Load Balancer</div>
+              </div>
+              <div class="component highlight">
+                <i class="fas fa-server component-icon"></i>
+                <div class="component-label">Cloud Run</div>
+                <div class="component-sublabel">Ingest Service</div>
+              </div>
+              <div class="component">
+                <i class="fas fa-hdd component-icon"></i>
+                <div class="component-label">Cloud Storage</div>
+                <div class="component-sublabel">Raw Media</div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Processing Layer -->
+          <div class="layer processing-layer">
+            <div class="layer-label">Processing</div>
+            <div class="component-container">
+              <div class="component highlight">
+                <i class="fas fa-project-diagram component-icon"></i>
+                <div class="component-label">Cloud Pub/Sub</div>
+                <div class="component-sublabel">Event Backbone</div>
+              </div>
+              <div class="component highlight">
+                <i class="fas fa-brain component-icon"></i>
+                <div class="component-label">Vertex AI</div>
+                <div class="component-sublabel">ML Services</div>
+              </div>
+              
+              <div class="data-flow-group" style="right: 30px; top: 15px;">
+                <div class="component-label" style="margin-bottom: 10px; text-align: center;">MCP Variables</div>
+                <div class="mcp-container">
+                  <div class="mcp-variable var-blue">S</div>
+                  <div class="mcp-variable var-red">V</div>
+                  <div class="mcp-variable var-green">T</div>
+                  <div class="mcp-variable var-yellow">E</div>
+                  <div class="mcp-variable var-purple">F</div>
+                </div>
+                <div class="mcp-container" style="margin-top: 10px;">
+                  <div class="mcp-variable var-blue">W</div>
+                  <div class="mcp-variable var-red">O</div>
+                  <div class="mcp-variable var-green">S</div>
+                  <div class="mcp-variable var-yellow">M</div>
+                  <div class="mcp-variable var-purple">C</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Analytics Layer -->
+          <div class="layer analytics-layer">
+            <div class="layer-label">Analytics</div>
+            <div class="component-container">
+              <div class="component highlight">
+                <i class="fas fa-server component-icon"></i>
+                <div class="component-label">Cloud Run</div>
+                <div class="component-sublabel">Analysis API</div>
+              </div>
+              <div class="component">
+                <i class="fas fa-chart-bar component-icon"></i>
+                <div class="component-label">Data Processing</div>
+                <div class="component-sublabel">Aggregation</div>
+              </div>
+              <div class="component">
+                <i class="fas fa-search component-icon"></i>
+                <div class="component-label">Search Service</div>
+                <div class="component-sublabel">Content Discovery</div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Storage Layer -->
+          <div class="layer storage-layer">
+            <div class="layer-label">Storage</div>
+            <div class="component-container">
+              <div class="component">
+                <i class="fas fa-database component-icon"></i>
+                <div class="component-label">MongoDB Atlas</div>
+                <div class="component-sublabel">Document Storage</div>
+              </div>
+              <div class="component">
+                <i class="fas fa-hdd component-icon"></i>
+                <div class="component-label">Cloud Storage</div>
+                <div class="component-sublabel">Media Archive</div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Frontend Layer -->
+          <div class="layer frontend-layer">
+            <div class="layer-label">Frontend</div>
+            <div class="component-container">
+              <div class="component">
+                <i class="fas fa-fire component-icon"></i>
+                <div class="component-label">Firebase Hosting</div>
+                <div class="component-sublabel">Dashboard UI</div>
+              </div>
+              <div class="component">
+                <i class="fas fa-server component-icon"></i>
+                <div class="component-label">Cloud Run</div>
+                <div class="component-sublabel">Backend API</div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Connection Arrows -->
+          <!-- Ingest to Processing -->
+          <div class="arrow" style="top: 85px; left: 140px; width: 80px; transform: rotate(90deg); transform-origin: left;"></div>
+          <div class="arrow" style="top: 85px; left: 300px; width: 80px; transform: rotate(90deg); transform-origin: left;"></div>
+          <div class="arrow" style="top: 85px; left: 460px; width: 80px; transform: rotate(90deg); transform-origin: left;"></div>
+          
+          <!-- Processing interconnections -->
+          <div class="arrow dashed" style="top: 160px; left: 250px; width: 100px;"></div>
+          <div class="arrow dashed" style="top: 180px; left: 350px; width: 100px; transform: rotate(180deg);"></div>
+          
+          <!-- Processing to Analytics -->
+          <div class="arrow" style="top: 235px; left: 200px; width: 80px; transform: rotate(90deg); transform-origin: left;"></div>
+          <div class="arrow" style="top: 235px; left: 350px; width: 80px; transform: rotate(90deg); transform-origin: left;"></div>
+          <div class="arrow" style="top: 235px; left: 500px; width: 80px; transform: rotate(90deg); transform-origin: left;"></div>
+          
+          <!-- Analytics to Storage -->
+          <div class="arrow" style="top: 350px; left: 180px; width: 80px; transform: rotate(90deg); transform-origin: left;"></div>
+          <div class="arrow" style="top: 350px; left: 420px; width: 80px; transform: rotate(90deg); transform-origin: left;"></div>
+          
+          <!-- Storage to Frontend -->
+          <div class="arrow" style="top: 420px; left: 225px; width: 80px; transform: rotate(90deg); transform-origin: left;"></div>
+          <div class="arrow" style="top: 420px; left: 375px; width: 80px; transform: rotate(90deg); transform-origin: left;"></div>
+          
+          <!-- Data Flow Animation Points -->
+          <div class="data-point" style="top: 50px; left: 140px;"></div>
+          <div class="data-point" style="top: 130px; left: 300px;"></div>
+          <div class="data-point" style="top: 190px; left: 250px;"></div>
+          <div class="data-point" style="top: 280px; left: 350px;"></div>
+          <div class="data-point" style="top: 380px; left: 180px;"></div>
+          <div class="data-point" style="top: 450px; left: 375px;"></div>
+        </div>
+      </div>
+      
+      <!-- Technical Specifications Panel -->
+      <div class="specs-panel">
+        <h3 class="specs-title">Technical Specifications</h3>
+        
+        <div class="spec-item">
+          <div class="spec-label">
+            <i class="fas fa-expand-arrows-alt"></i>
+            Scalability
+          </div>
+          <div class="spec-value">0-100+ streams with automatic scaling</div>
+        </div>
+        
+        <div class="spec-item">
+          <div class="spec-label">
+            <i class="fas fa-tachometer-alt"></i>
+            Latency
+          </div>
+          <div class="spec-value">Real-time variables &lt;500ms, enrichments 1-3min</div>
+        </div>
+        
+        <div class="spec-item">
+          <div class="spec-label">
+            <i class="fas fa-code-branch"></i>
+            Deployment
+          </div>
+          <div class="spec-value">Terraform + CI/CD pipeline</div>
+        </div>
+        
+        <div class="spec-item">
+          <div class="spec-label">
+            <i class="fas fa-shield-alt"></i>
+            Security
+          </div>
+          <div class="spec-value">IAM, Secret Manager, VPC Service Controls</div>
+        </div>
+        
+        <div class="spec-item">
+          <div class="spec-label">
+            <i class="fas fa-chart-line"></i>
+            Performance
+          </div>
+          <div class="spec-value">4K video at 30fps with real-time analysis</div>
+        </div>
+        
+        <div class="spec-item">
+          <div class="spec-label">
+            <i class="fas fa-clock"></i>
+            Implementation Time
+          </div>
+          <div class="spec-value">90 days to production with 3-phase approach</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Footer -->
+    <div class="footer-container">
+      <div class="footer fade-in">
+        Event-driven architecture on <span class="highlight">Google Cloud</span> enables flexible scaling and independent deployment
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Add interactive effects to components
+    document.querySelectorAll('.component').forEach(component => {
+      component.addEventListener('mouseover', function() {
+        if (!this.classList.contains('highlight')) {
+          this.style.transform = 'translateY(-3px)';
+          this.style.boxShadow = '0 5px 8px rgba(0,0,0,0.2)';
+        }
+      });
+      
+      component.addEventListener('mouseout', function() {
+        if (!this.classList.contains('highlight')) {
+          this.style.transform = '';
+          this.style.boxShadow = '0 3px 5px rgba(0,0,0,0.1)';
+        }
+      });
+    });
+    
+    // Animate the MCP variables
+    document.querySelectorAll('.mcp-variable').forEach((variable, index) => {
+      variable.style.animation = `pulse 2s infinite ${index * 0.2}s`;
+      
+      variable.addEventListener('mouseover', function() {
+        this.style.transform = 'scale(1.2)';
+      });
+      
+      variable.addEventListener('mouseout', function() {
+        this.style.transform = 'scale(1)';
+      });
+    });
+    
+    // Simulate data flow with arrow animations
+    document.querySelectorAll('.arrow').forEach((arrow, index) => {
+      setTimeout(() => {
+        arrow.classList.add('flow-animation');
+      }, index * 300);
+    });
+  </script>
+  
+  <!-- Navigation CSS -->
+  
+  
+
+
+<script src="../chatbot_commands.js"></script>
+<script src="0
+<script src="../global_nav.js"></script>
+<script src="../navbar.js"></script>
+  <!-- Chatbot Container -->
+  <!-- Chatbot is dynamically created by chatbot scripts -->    <i class="fas fa-comment"></i>
+  </button>
+</body>
+</html> 

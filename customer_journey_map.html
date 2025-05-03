@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Journey Map Creator | GCP Onboarding</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --gcp-blue: #4285F4;
+      --gcp-red: #DB4437;
+      --gcp-yellow: #F4B400;
+      --gcp-green: #0F9D58;
+      --gcp-purple: #A142EF;
+      --dark-text: #202124;
+      --light-text: #5f6368;
+      --bg-light: #f8f9fa;
+      --border-light: #e5e5e5;
+      --stage-discover: #4285F4;
+      --stage-adopt: #A142EF;
+      --stage-grow: #DB4437;
+      --stage-optimize: #F4B400;
+      --stage-transform: #0F9D58;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      color: var(--dark-text);
+      background-color: white;
+      overflow-x: hidden;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border-light);
+    }
+    
+    .header-left {
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo {
+      width: 40px;
+      height: 40px;
+      margin-right: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--gcp-blue);
+      color: white;
+      border-radius: 8px;
+      font-size: 1.4rem;
+    }
+    
+    .page-title {
+      color: var(--dark-text);
+      font-size: 1.8rem;
+      font-weight: 500;
+    }
+    
+    .header-actions {
+      display: flex;
+      gap: 12px;
+    }
+    
+    .action-btn {
+      background-color: var(--gcp-blue);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 30px;
+      font-family: 'Google Sans', sans-serif;
+      font-weight: 500;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      box-shadow: 0 2px 5px rgba(66, 133, 244, 0.3);
+    }
+    
+    .action-btn:hover {
+      background-color: #2a75f3;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(66, 133, 244, 0.4);
+    }
+    
+    .action-btn i {
+      margin-right: 8px;
+    }
+    
+    .secondary-btn {
+      background-color: white;
+      color: var(--gcp-blue);
+      border: 1px solid var(--gcp-blue);
+      box-shadow: none;
+    }
+    
+    .secondary-btn:hover {
+      background-color: #f5f9ff;
+      box-shadow: 0 2px 5px rgba(66, 133, 244, 0.1);
+    }
+    
+    .intro-section {
+      margin-bottom: 30px;
+    }
+    
+    .subheading {
+      color: var(--light-text);
+      font-size: 1.1rem;
+      font-weight: 400;
+      margin-bottom: 15px;
+    }
+    
+    .intro-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    
+    .intro-card {
+      background: white;
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+    }
+    
+    .intro-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    }
+    
+    .intro-card h3 {
+      color: var(--gcp-blue);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      font-size: 1.1rem;
+    }
+    
+    .intro-card h3 i {
+      margin-right: 8px;
+      font-size: 1rem;
+    }
+    
+    .intro-card p {
+      color: var(--light-text);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+    
+    .intro-stat {
+      color: var(--gcp-blue);
+      font-size: 1.6rem;
+      font-weight: 500;
+      margin-top: 12px;
+      display: block;
+    }
+    
+    .source-label {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--light-text);
+      margin-top: 12px;
+      font-style: italic;
+    }
+    
+    .lifecycle-section {
+      margin-bottom: 40px;
+    }
+    
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    
+    .lifecycle-stages {
+      display: flex;
+      justify-content: space-between;
+      margin: 30px 0;
+      position: relative;
+    }
+    
+    .lifecycle-stages::before {
+      content: "";
+      position: absolute;
+      top: 25px;
+      left: 60px;
+      right: 60px;
+      height: 2px;
+      background: linear-gradient(
+        to right,
+        var(--stage-discover) 20%,
+        var(--stage-adopt) 20%, var(--stage-adopt) 40%,
+        var(--stage-grow) 40%, var(--stage-grow) 60%,
+        var(--stage-optimize) 60%, var(--stage-optimize) 80%,
+        var(--stage-transform) 80%
+      );
+      z-index: 1;
+    }
+    
+    .stage {
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      width: 20%;
+    }
+    
+    .stage-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 15px;
+      font-size: 1.2rem;
+      color: white;
+      font-weight: 500;
+    }
+    
+    .stage:nth-child(1) .stage-icon {
+      background-color: var(--stage-discover);
+    }
+    
+    .stage:nth-child(2) .stage-icon {
+      background-color: var(--stage-adopt);
+    }
+    
+    .stage:nth-child(3) .stage-icon {
+      background-color: var(--stage-grow);
+    }
+    
+    .stage:nth-child(4) .stage-icon {
+      background-color: var(--stage-optimize);
+    }
+    
+    .stage:nth-child(5) .stage-icon {
+      background-color: var(--stage-transform);
+    }
+    
+    .stage-name {
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+    
+    .stage-desc {
+      font-size: 0.85rem;
+      color: var(--light-text);
+      max-width: 120px;
+      margin: 0 auto;
+      line-height: 1.4;
+    }
+  </style>
+<style>
+  /* Custom chatbot positioning for this page */
+  #chatbot-toggle {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1000 !important;
+  }
+  
+  #chatbot-container {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1001 !important;
+    width: 350px !important;
+    max-height: 500px !important;
+  }
+</style><link rel="stylesheet" href="chatbot.css">
+<link rel="stylesheet" href="navbar.css">
+<script src="navbar.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="header-left">
+        <div class="logo">
+          <i class="fas fa-map-marked-alt"></i>
+        </div>
+        <h1 class="page-title">Customer Journey Map Creator</h1>
+      </div>
+      <div class="header-actions">
+        <button class="action-btn secondary-btn" onclick="window.location.href='resources_tools/Implementation_Guide.html'">
+          <i class="fas fa-arrow-left"></i> Back to Guide
+        </button>
+        <button class="action-btn" onclick="saveJourneyMap()">
+          <i class="fas fa-save"></i> Save Map
+        </button>
+      </div>
+    </header>
+
+    <section class="intro-section">
+      <h2 class="subheading">Create visual representations of your customer's cloud adoption journey with clear milestones and expectations.</h2>
+      
+      <div class="intro-cards">
+        <div class="intro-card">
+          <h3><i class="fas fa-bullseye"></i> Improve Clarity</h3>
+          <p>Customers who understand their journey position are more likely to expand their GCP footprint within 12 months.</p>
+          <span class="intro-stat">2.8x</span>
+          <span class="source-label">GCP Customer Success Research</span>
+        </div>
+        
+        <div class="intro-card">
+          <h3><i class="fas fa-headset"></i> Reduce Support Needs</h3>
+          <p>Clear journey maps with defined expectations reduce technical escalations and increase self-service adoption.</p>
+          <span class="intro-stat">-47%</span>
+          <span class="source-label">Technical Adoption Analysis</span>
+        </div>
+        
+        <div class="intro-card">
+          <h3><i class="fas fa-tachometer-alt"></i> Accelerate Decisions</h3>
+          <p>Visualizing the journey map early in the sales process leads to faster time-to-implementation decisions.</p>
+          <span class="intro-stat">+31%</span>
+          <span class="source-label">Sales Cycle Metrics Report</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="lifecycle-section">
+      <h3 class="section-title">Lifecycle Stages: Discover → Adopt → Grow → Optimize → Transform</h3>
+      
+      <div class="lifecycle-stages">
+        <div class="stage">
+          <div class="stage-icon">D</div>
+          <div class="stage-name">Discover</div>
+          <div class="stage-desc">Exploration, assessment, and initial planning</div>
+        </div>
+        
+        <div class="stage">
+          <div class="stage-icon">A</div>
+          <div class="stage-name">Adopt</div>
+          <div class="stage-desc">Implementation, migration, and integration</div>
+        </div>
+        
+        <div class="stage">
+          <div class="stage-icon">G</div>
+          <div class="stage-name">Grow</div>
+          <div class="stage-desc">Expand usage and service portfolio</div>
+        </div>
+        
+        <div class="stage">
+          <div class="stage-icon">O</div>
+          <div class="stage-name">Optimize</div>
+          <div class="stage-desc">Cost and performance improvements</div>
+        </div>
+        
+        <div class="stage">
+          <div class="stage-icon">T</div>
+          <div class="stage-name">Transform</div>
+          <div class="stage-desc">Business innovation through cloud capabilities</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="journey-creator">
+      <h3 class="section-title">Create Your Custom Journey Map</h3>
+      
+      <div class="creator-tabs">
+        <button class="tab-btn active" data-tab="template">Start with Template</button>
+        <button class="tab-btn" data-tab="custom">Custom Journey</button>
+      </div>
+      
+      <div class="tab-content">
+        <div class="tab-pane active" id="template-tab">
+          <div class="templates-grid">
+            <div class="template-card selected">
+              <div class="template-preview">
+                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjVmNWY1Ii8+PGxpbmUgeDE9IjMwIiB5MT0iNTAiIHgyPSIyNzAiIHkyPSI1MCIgc3Ryb2tlPSIjNDI4NUY0IiBzdHJva2Utd2lkdGg9IjIiLz48Y2lyY2xlIGN4PSI2MCIgY3k9IjUwIiByPSIxMCIgZmlsbD0iIzQyODVGNCIvPjxjaXJjbGUgY3g9IjEyMCIgY3k9IjUwIiByPSIxMCIgZmlsbD0iI0ExNDJFRiIvPjxjaXJjbGUgY3g9IjE4MCIgY3k9IjUwIiByPSIxMCIgZmlsbD0iI0RCNDI2NyIvPjxjaXJjbGUgY3g9IjI0MCIgY3k9IjUwIiByPSIxMCIgZmlsbD0iIzBGOUQ1OCIvPjxyZWN0IHg9IjQwIiB5PSI4MCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjNDI4NUY0IiBvcGFjaXR5PSIwLjMiLz48cmVjdCB4PSIxMDAiIHk9IjgwIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIGZpbGw9IiNBMTQyRUYiIG9wYWNpdHk9IjAuMyIvPjxyZWN0IHg9IjE2MCIgeT0iODAiIHdpZHRoPSI0MCIgaGVpZ2h0PSI2MCIgZmlsbD0iI0RCNDI2NyIgb3BhY2l0eT0iMC4zIi8+PHJlY3QgeD0iMjIwIiB5PSI4MCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjMEY5RDU4IiBvcGFjaXR5PSIwLjMiLz48L3N2Zz4=" alt="Standard GCP Journey">
+              </div>
+              <div class="template-info">
+                <h4>Standard GCP Journey</h4>
+                <p>Basic cloud adoption phases with key milestones</p>
+              </div>
+              <div class="template-selected">
+                <i class="fas fa-check-circle"></i>
+              </div>
+            </div>
+            
+            <div class="template-card">
+              <div class="template-preview">
+                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjVmNWY1Ii8+PGxpbmUgeDE9IjMwIiB5MT0iNTAiIHgyPSIyNzAiIHkyPSI1MCIgc3Ryb2tlPSIjNDI4NUY0IiBzdHJva2Utd2lkdGg9IjIiLz48Y2lyY2xlIGN4PSI2MCIgY3k9IjUwIiByPSIxMCIgZmlsbD0iIzQyODVGNCIvPjxjaXJjbGUgY3g9IjEyMCIgY3k9IjUwIiByPSIxMCIgZmlsbD0iI0ExNDJFRiIvPjxjaXJjbGUgY3g9IjE4MCIgY3k9IjUwIiByPSIxMCIgZmlsbD0iI0RCNDI2NyIvPjxjaXJjbGUgY3g9IjI0MCIgY3k9IjUwIiByPSIxMCIgZmlsbD0iIzBGOUQ1OCIvPjxyZWN0IHg9IjQwIiB5PSI4MCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjNDI4NUY0IiBvcGFjaXR5PSIwLjMiLz48cmVjdCB4PSIxMDAiIHk9IjgwIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIGZpbGw9IiNBMTQyRUYiIG9wYWNpdHk9IjAuMyIvPjxyZWN0IHg9IjE2MCIgeT0iODAiIHdpZHRoPSI0MCIgaGVpZ2h0PSI2MCIgZmlsbD0iI0RCNDI2NyIgb3BhY2l0eT0iMC4zIi8+PHJlY3QgeD0iMjIwIiB5PSI4MCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjMEY5RDU4IiBvcGFjaXR5PSIwLjMiLz48L3N2Zz4=" alt="Enterprise Migration">
+              </div>
+              <div class="template-info">
+                <h4>Enterprise Migration</h4>
+                <p>Extended discovery phase for complex environments</p>
+              </div>
+              <div class="template-selected">
+                <i class="fas fa-check-circle"></i>
+              </div>
+            </div>
+            
+            <div class="template-card">
+              <div class="template-preview">
+                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjVmNWY1Ii8+PGxpbmUgeDE9IjMwIiB5MT0iNTAiIHgyPSIyNzAiIHkyPSI1MCIgc3Ryb2tlPSIjNDI4NUY0IiBzdHJva2Utd2lkdGg9IjIiLz48Y2lyY2xlIGN4PSI2MCIgY3k9IjUwIiByPSIxMCIgZmlsbD0iIzQyODVGNCIvPjxjaXJjbGUgY3g9IjEyMCIgY3k9IjUwIiByPSIxMCIgZmlsbD0iI0ExNDJFRiIvPjxjaXJjbGUgY3g9IjE4MCIgY3k9IjUwIiByPSIxMCIgZmlsbD0iI0RCNDI2NyIvPjxjaXJjbGUgY3g9IjI0MCIgY3k9IjUwIiByPSIxMCIgZmlsbD0iIzBGOUQ1OCIvPjxyZWN0IHg9IjQwIiB5PSI4MCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjIwIiBmaWxsPSIjNDI4NUY0IiBvcGFjaXR5PSIwLjMiLz48cmVjdCB4PSIxMDAiIHk9IjgwIiB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIGZpbGw9IiNBMTQyRUYiIG9wYWNpdHk9IjAuMyIvPjxyZWN0IHg9IjE2MCIgeT0iODAiIHdpZHRoPSI0MCIgaGVpZ2h0PSI2MCIgZmlsbD0iI0RCNDI2NyIgb3BhY2l0eT0iMC4zIi8+PHJlY3QgeD0iMjIwIiB5PSI4MCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjMEY5RDU4IiBvcGFjaXR5PSIwLjMiLz48L3N2Zz4=" alt="Cloud Optimization">
+              </div>
+              <div class="template-info">
+                <h4>Cloud Optimization</h4>
+                <p>Focus on growth and optimization phases</p>
+              </div>
+              <div class="template-selected">
+                <i class="fas fa-check-circle"></i>
+              </div>
+            </div>
+            
+            <div class="template-card">
+              <div class="template-preview">
+                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjVmNWY1Ii8+PGxpbmUgeDE9IjMwIiB5MT0iNTAiIHgyPSIyNzAiIHkyPSI1MCIgc3Ryb2tlPSIjNDI4NUY0IiBzdHJva2Utd2lkdGg9IjIiLz48Y2lyY2xlIGN4PSI2MCIgY3k9IjUwIiByPSIxMCIgZmlsbD0iIzQyODVGNCIvPjxjaXJjbGUgY3g9IjEyMCIgY3k9IjUwIiByPSIxMCIgZmlsbD0iI0ExNDJFRiIvPjxjaXJjbGUgY3g9IjE4MCIgY3k9IjUwIiByPSIxMCIgZmlsbD0iI0RCNDI2NyIvPjxjaXJjbGUgY3g9IjI0MCIgY3k9IjUwIiByPSIxMCIgZmlsbD0iIzBGOUQ1OCIvPjxyZWN0IHg9IjQwIiB5PSI4MCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjIwIiBmaWxsPSIjNDI4NUY0IiBvcGFjaXR5PSIwLjMiLz48cmVjdCB4PSIxMDAiIHk9IjgwIiB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIGZpbGw9IiNBMTQyRUYiIG9wYWNpdHk9IjAuMyIvPjxyZWN0IHg9IjE2MCIgeT0iODAiIHdpZHRoPSI0MCIgaGVpZ2h0PSIyMCIgZmlsbD0iI0RCNDI2NyIgb3BhY2l0eT0iMC4zIi8+PHJlY3QgeD0iMjIwIiB5PSI4MCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjMEY5RDU4IiBvcGFjaXR5PSIwLjMiLz48L3N2Zz4=" alt="Digital Transformation">
+              </div>
+              <div class="template-info">
+                <h4>Digital Transformation</h4>
+                <p>Emphasizes the transformation phase</p>
+              </div>
+              <div class="template-selected">
+                <i class="fas fa-check-circle"></i>
+              </div>
+            </div>
+          </div>
+          
+          <div class="template-actions">
+            <button class="action-btn" onclick="showJourneyEditor()">
+              <i class="fas fa-edit"></i> Customize Selected Template
+            </button>
+          </div>
+        </div>
+        
+        <div class="tab-pane" id="custom-tab">
+          <div class="custom-journey-form">
+            <div class="form-group">
+              <label for="journey-name">Journey Map Name</label>
+              <input type="text" id="journey-name" placeholder="e.g., GCP Enterprise Migration" value="GCP Customer Journey">
+            </div>
+            
+            <div class="form-group">
+              <label for="customer-name">Customer Name</label>
+              <input type="text" id="customer-name" placeholder="Customer or project name">
+            </div>
+            
+            <div class="form-group">
+              <label>Journey Phases</label>
+              <div class="phases-container">
+                <div class="phase-item">
+                  <input type="text" class="phase-name" value="Discover">
+                  <input type="color" class="phase-color" value="#4285F4">
+                </div>
+                <div class="phase-item">
+                  <input type="text" class="phase-name" value="Adopt">
+                  <input type="color" class="phase-color" value="#A142EF">
+                </div>
+                <div class="phase-item">
+                  <input type="text" class="phase-name" value="Grow">
+                  <input type="color" class="phase-color" value="#DB4437">
+                </div>
+                <div class="phase-item">
+                  <input type="text" class="phase-name" value="Optimize">
+                  <input type="color" class="phase-color" value="#F4B400">
+                </div>
+                <div class="phase-item">
+                  <input type="text" class="phase-name" value="Transform">
+                  <input type="color" class="phase-color" value="#0F9D58">
+                </div>
+                <button class="add-phase-btn">
+                  <i class="fas fa-plus"></i>
+                </button>
+              </div>
+            </div>
+            
+            <div class="form-actions">
+              <button class="action-btn" onclick="showJourneyEditor()">
+                <i class="fas fa-edit"></i> Create Custom Journey
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="journey-editor" style="display: none;">
+      <h3 class="section-title">Journey Map Editor</h3>
+      
+      <div class="editor-toolbar">
+        <div class="toolbar-group">
+          <button class="toolbar-btn" title="Add Milestone">
+            <i class="fas fa-flag"></i>
+          </button>
+          <button class="toolbar-btn" title="Add Touchpoint">
+            <i class="fas fa-user-check"></i>
+          </button>
+          <button class="toolbar-btn" title="Add Deliverable">
+            <i class="fas fa-file-alt"></i>
+          </button>
+        </div>
+        <div class="toolbar-group">
+          <button class="toolbar-btn" title="Add Note">
+            <i class="fas fa-sticky-note"></i>
+          </button>
+          <button class="toolbar-btn" title="Add Risk">
+            <i class="fas fa-exclamation-triangle"></i>
+          </button>
+          <button class="toolbar-btn" title="Add Dependency">
+            <i class="fas fa-link"></i>
+          </button>
+        </div>
+        <div class="toolbar-group">
+          <button class="toolbar-btn" title="Zoom In">
+            <i class="fas fa-search-plus"></i>
+          </button>
+          <button class="toolbar-btn" title="Zoom Out">
+            <i class="fas fa-search-minus"></i>
+          </button>
+          <button class="toolbar-btn" title="Fit View">
+            <i class="fas fa-expand-arrows-alt"></i>
+          </button>
+        </div>
+      </div>
+      
+      <div class="journey-canvas">
+        <div class="timeline-header">
+          <div class="timeline-phase" style="background-color: var(--stage-discover);">
+            <span>Discover</span>
+          </div>
+          <div class="timeline-phase" style="background-color: var(--stage-adopt);">
+            <span>Adopt</span>
+          </div>
+          <div class="timeline-phase" style="background-color: var(--stage-grow);">
+            <span>Grow</span>
+          </div>
+          <div class="timeline-phase" style="background-color: var(--stage-optimize);">
+            <span>Optimize</span>
+          </div>
+          <div class="timeline-phase" style="background-color: var(--stage-transform);">
+            <span>Transform</span>
+          </div>
+        </div>
+        
+        <div class="timeline-lanes">
+          <div class="lane-labels">
+            <div class="lane-label">Milestones</div>
+            <div class="lane-label">Activities</div>
+            <div class="lane-label">Deliverables</div>
+            <div class="lane-label">Stakeholders</div>
+          </div>
+          
+          <div class="lanes-container">
+            <div class="timeline-lane" id="milestones-lane">
+              <!-- Sample milestone elements -->
+              <div class="milestone-item" style="left: 5%;">
+                <div class="item-marker"></div>
+                <div class="item-content">Initial Assessment</div>
+              </div>
+              <div class="milestone-item" style="left: 25%;">
+                <div class="item-marker"></div>
+                <div class="item-content">Migration Plan Approved</div>
+              </div>
+              <div class="milestone-item" style="left: 45%;">
+                <div class="item-marker"></div>
+                <div class="item-content">First Workload Live</div>
+              </div>
+              <div class="milestone-item" style="left: 65%;">
+                <div class="item-marker"></div>
+                <div class="item-content">Cost Optimization Started</div>
+              </div>
+              <div class="milestone-item" style="left: 85%;">
+                <div class="item-marker"></div>
+                <div class="item-content">Cloud-Native Apps Deployed</div>
+              </div>
+            </div>
+            
+            <div class="timeline-lane" id="activities-lane">
+              <!-- Sample activity elements -->
+            </div>
+            
+            <div class="timeline-lane" id="deliverables-lane">
+              <!-- Sample deliverable elements -->
+            </div>
+            
+            <div class="timeline-lane" id="stakeholders-lane">
+              <!-- Sample stakeholder elements -->
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="editor-actions">
+        <button class="action-btn secondary-btn" onclick="hideJourneyEditor()">
+          <i class="fas fa-times"></i> Cancel
+        </button>
+        <button class="action-btn" onclick="previewJourneyMap()">
+          <i class="fas fa-eye"></i> Preview Map
+        </button>
+        <button class="action-btn" onclick="saveJourneyMap()">
+          <i class="fas fa-save"></i> Save Map
+        </button>
+      </div>
+    </section>
+    
+    <section class="map-preview" style="display: none;">
+      <h3 class="section-title">Journey Map Preview</h3>
+      
+      <div class="preview-container">
+        <div class="preview-header">
+          <h2 class="preview-title">GCP Customer Journey</h2>
+          <p class="preview-subtitle">A roadmap to successful cloud adoption</p>
+        </div>
+        
+        <div class="preview-timeline">
+          <!-- This will be populated by JavaScript -->
+        </div>
+        
+        <div class="preview-legend">
+          <div class="legend-item">
+            <span class="legend-marker milestone-marker"></span>
+            <span class="legend-label">Milestone</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-marker activity-marker"></span>
+            <span class="legend-label">Activity</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-marker deliverable-marker"></span>
+            <span class="legend-label">Deliverable</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-marker stakeholder-marker"></span>
+            <span class="legend-label">Stakeholder</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="preview-actions">
+        <button class="action-btn secondary-btn" onclick="hideMapPreview()">
+          <i class="fas fa-arrow-left"></i> Back to Editor
+        </button>
+        <button class="action-btn" onclick="downloadJourneyMap()">
+          <i class="fas fa-file-pdf"></i> Download PDF
+        </button>
+        <button class="action-btn" onclick="shareJourneyMap()">
+          <i class="fas fa-share-alt"></i> Share Map
+        </button>
+      </div>
+    </section>
+  </div>
+  
+  <!-- Navigation Buttons -->
+  <div class="nav-buttons">
+    <button class="nav-button home-button" title="Home" onclick="window.location.href='client_presentations/Executive_Briefing.html'">
+      <i class="fas fa-home"></i>
+    </button>
+  </div>
+  
+  <style>
+    /* Additional styles for the journey map creator */
+    .creator-tabs {
+      display: flex;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border-light);
+    }
+    
+    .tab-btn {
+      background: none;
+      border: none;
+      padding: 10px 20px;
+      font-family: 'Google Sans', sans-serif;
+      font-size: 1rem;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all 0.3s ease;
+      color: var(--light-text);
+    }
+    
+    .tab-btn.active {
+      color: var(--gcp-blue);
+      border-bottom-color: var(--gcp-blue);
+      font-weight: 500;
+    }
+    
+    .tab-content {
+      margin-top: 20px;
+    }
+    
+    .tab-pane {
+      display: none;
+    }
+    
+    .tab-pane.active {
+      display: block;
+    }
+    
+    .templates-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    
+    .template-card {
+      border: 2px solid var(--border-light);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+    }
+    
+    .template-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+    }
+    
+    .template-card.selected {
+      border-color: var(--gcp-blue);
+      box-shadow: 0 5px 15px rgba(66, 133, 244, 0.2);
+    }
+    
+    .template-preview {
+      height: 150px;
+      background-color: var(--bg-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .template-preview img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+    
+    .template-info {
+      padding: 15px;
+    }
+    
+    .template-info h4 {
+      margin-bottom: 5px;
+      font-size: 1rem;
+    }
+    
+    .template-info p {
+      font-size: 0.85rem;
+      color: var(--light-text);
+    }
+    
+    .template-selected {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      color: var(--gcp-blue);
+      font-size: 1.2rem;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    
+    .template-card.selected .template-selected {
+      opacity: 1;
+    }
+    
+    .template-actions, .form-actions {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    
+    .custom-journey-form {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--dark-text);
+    }
+    
+    .form-group input[type="text"] {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border-light);
+      border-radius: 4px;
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      font-size: 0.95rem;
+    }
+    
+    .phases-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+    
+    .phase-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .phase-name {
+      width: 100px;
+    }
+    
+    .phase-color {
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      border: none;
+    }
+    
+    .add-phase-btn {
+      background-color: var(--bg-light);
+      border: 1px dashed var(--border-light);
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    
+    .editor-toolbar {
+      background-color: var(--bg-light);
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      display: flex;
+      gap: 20px;
+    }
+    
+    .toolbar-group {
+      display: flex;
+      gap: 5px;
+    }
+    
+    .toolbar-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 4px;
+      border: none;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: var(--dark-text);
+    }
+    
+    .toolbar-btn:hover {
+      background-color: var(--gcp-blue);
+      color: white;
+    }
+    
+    .journey-canvas {
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    
+    .timeline-header {
+      display: flex;
+      height: 40px;
+    }
+    
+    .timeline-phase {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 500;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    }
+    
+    .timeline-lanes {
+      display: flex;
+      height: 400px;
+    }
+    
+    .lane-labels {
+      width: 120px;
+      background-color: var(--bg-light);
+      border-right: 1px solid var(--border-light);
+    }
+    
+    .lane-label {
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 500;
+      padding: 0 10px;
+      text-align: center;
+      border-bottom: 1px solid var(--border-light);
+    }
+    
+    .lanes-container {
+      flex: 1;
+      position: relative;
+    }
+    
+    .timeline-lane {
+      height: 100px;
+      border-bottom: 1px solid var(--border-light);
+      position: relative;
+    }
+    
+    .milestone-item {
+      position: absolute;
+      top: 20px;
+      transform: translateX(-50%);
+    }
+    
+    .item-marker {
+      width: 12px;
+      height: 12px;
+      background-color: var(--gcp-blue);
+      border-radius: 50%;
+      margin: 0 auto 5px;
+    }
+    
+    .item-content {
+      white-space: nowrap;
+      font-size: 0.8rem;
+      text-align: center;
+      transform: rotate(-30deg);
+      transform-origin: center top;
+    }
+    
+    .editor-actions {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    .map-preview {
+      margin-top: 40px;
+    }
+    
+    .preview-container {
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 30px;
+      background-color: white;
+    }
+    
+    .preview-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .preview-title {
+      font-size: 1.8rem;
+      color: var(--dark-text);
+      margin-bottom: 5px;
+    }
+    
+    .preview-subtitle {
+      color: var(--light-text);
+    }
+    
+    .preview-timeline {
+      height: 400px;
+      background-color: var(--bg-light);
+      margin-bottom: 20px;
+      border-radius: 4px;
+      position: relative;
+    }
+    
+    .preview-legend {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+    
+    .legend-item {
+      display: flex;
+      align-items: center;
+      font-size: 0.9rem;
+    }
+    
+    .legend-marker {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-right: 5px;
+    }
+    
+    .milestone-marker {
+      background-color: var(--gcp-blue);
+    }
+    
+    .activity-marker {
+      background-color: var(--gcp-green);
+    }
+    
+    .deliverable-marker {
+      background-color: var(--gcp-yellow);
+    }
+    
+    .stakeholder-marker {
+      background-color: var(--gcp-red);
+    }
+    
+    .preview-actions {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    /* Navigation CSS */
+    .nav-buttons {
+      position: fixed;
+      bottom: 20px;
+     
+      display: flex;
+      gap: 10px;
+    }
+    
+    .nav-button {
+      background-color: var(--gcp-blue);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+      transition: all 0.2s ease;
+    }
+    
+    .nav-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 10px rgba(0,0,0,0.3);
+    }
+    
+    .home-button {
+      background-color: var(--gcp-green);
+    }
+  </style>
+<style>
+  /* Custom chatbot positioning for this page */
+  #chatbot-toggle {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1000 !important;
+  }
+  
+  #chatbot-container {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1001 !important;
+    width: 350px !important;
+    max-height: 500px !important;
+  }
+</style>  
+  <script>
+    // Tabs functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const tabButtons = document.querySelectorAll('.tab-btn');
+      
+      tabButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          // Remove active class from all tabs
+          tabButtons.forEach(btn => btn.classList.remove('active'));
+          
+          // Add active class to clicked tab
+          this.classList.add('active');
+          
+          // Show the corresponding tab content
+          const tabId = this.getAttribute('data-tab');
+          document.querySelectorAll('.tab-pane').forEach(pane => {
+            pane.classList.remove('active');
+          });
+          document.getElementById(tabId + '-tab').classList.add('active');
+        });
+      });
+      
+      // Template card selection
+      const templateCards = document.querySelectorAll('.template-card');
+      templateCards.forEach(card => {
+        card.addEventListener('click', function() {
+          templateCards.forEach(c => c.classList.remove('selected'));
+          this.classList.add('selected');
+        });
+      });
+    });
+    
+    // Show journey editor
+    function showJourneyEditor() {
+      document.querySelector('.journey-creator').style.display = 'none';
+      document.querySelector('.journey-editor').style.display = 'block';
+      
+      // Populate the editor with template data if needed
+      // This would use the selected template or custom fields
+    }
+    
+    // Hide journey editor
+    function hideJourneyEditor() {
+      document.querySelector('.journey-creator').style.display = 'block';
+      document.querySelector('.journey-editor').style.display = 'none';
+    }
+    
+    // Preview journey map
+    function previewJourneyMap() {
+      document.querySelector('.journey-editor').style.display = 'none';
+      document.querySelector('.map-preview').style.display = 'block';
+      
+      // Populate preview with editor data
+      // This would render the final journey map
+      populatePreview();
+    }
+    
+    // Hide map preview
+    function hideMapPreview() {
+      document.querySelector('.map-preview').style.display = 'none';
+      document.querySelector('.journey-editor').style.display = 'block';
+    }
+    
+    // Populate preview with current journey map data
+    function populatePreview() {
+      // This function would take the current editor state
+      // and render it into the preview section
+      
+      // For demonstration purposes, show a message
+      const previewTimeline = document.querySelector('.preview-timeline');
+      
+      // Simple visualization for demo purposes
+      let previewHTML = `
+        <div style="height: 100%; display: flex; flex-direction: column;">
+          <div style="display: flex; height: 40px;">
+            <div style="flex: 1; background-color: var(--stage-discover); color: white; display: flex; align-items: center; justify-content: center;">Discover</div>
+            <div style="flex: 1; background-color: var(--stage-adopt); color: white; display: flex; align-items: center; justify-content: center;">Adopt</div>
+            <div style="flex: 1; background-color: var(--stage-grow); color: white; display: flex; align-items: center; justify-content: center;">Grow</div>
+            <div style="flex: 1; background-color: var(--stage-optimize); color: white; display: flex; align-items: center; justify-content: center;">Optimize</div>
+            <div style="flex: 1; background-color: var(--stage-transform); color: white; display: flex; align-items: center; justify-content: center;">Transform</div>
+          </div>
+          <div style="flex: 1; position: relative; padding: 20px;">
+            <!-- Milestone markers -->
+            <div style="position: absolute; top: 30px; left: 10%; transform: translateX(-50%);">
+              <div style="width: 12px; height: 12px; background-color: var(--gcp-blue); border-radius: 50%; margin: 0 auto 5px;"></div>
+              <div style="font-size: 0.8rem; white-space: nowrap;">Initial Assessment</div>
+            </div>
+            <div style="position: absolute; top: 30px; left: 30%; transform: translateX(-50%);">
+              <div style="width: 12px; height: 12px; background-color: var(--gcp-blue); border-radius: 50%; margin: 0 auto 5px;"></div>
+              <div style="font-size: 0.8rem; white-space: nowrap;">Migration Plan Approved</div>
+            </div>
+            <div style="position: absolute; top: 30px; left: 50%; transform: translateX(-50%);">
+              <div style="width: 12px; height: 12px; background-color: var(--gcp-blue); border-radius: 50%; margin: 0 auto 5px;"></div>
+              <div style="font-size: 0.8rem; white-space: nowrap;">First Workload Live</div>
+            </div>
+            <div style="position: absolute; top: 30px; left: 70%; transform: translateX(-50%);">
+              <div style="width: 12px; height: 12px; background-color: var(--gcp-blue); border-radius: 50%; margin: 0 auto 5px;"></div>
+              <div style="font-size: 0.8rem; white-space: nowrap;">Cost Optimization Started</div>
+            </div>
+            <div style="position: absolute; top: 30px; left: 90%; transform: translateX(-50%);">
+              <div style="width: 12px; height: 12px; background-color: var(--gcp-blue); border-radius: 50%; margin: 0 auto 5px;"></div>
+              <div style="font-size: 0.8rem; white-space: nowrap;">Cloud-Native Apps Deployed</div>
+            </div>
+            
+            <!-- Activities -->
+            <div style="position: absolute; top: 100px; left: 15%; transform: translateX(-50%);">
+              <div style="width: 12px; height: 12px; background-color: var(--gcp-green); border-radius: 50%; margin: 0 auto 5px;"></div>
+              <div style="font-size: 0.8rem; white-space: nowrap;">Technical Discovery</div>
+            </div>
+            <div style="position: absolute; top: 100px; left: 40%; transform: translateX(-50%);">
+              <div style="width: 12px; height: 12px; background-color: var(--gcp-green); border-radius: 50%; margin: 0 auto 5px;"></div>
+              <div style="font-size: 0.8rem; white-space: nowrap;">Migration Execution</div>
+            </div>
+            <div style="position: absolute; top: 100px; left: 60%; transform: translateX(-50%);">
+              <div style="width: 12px; height: 12px; background-color: var(--gcp-green); border-radius: 50%; margin: 0 auto 5px;"></div>
+              <div style="font-size: 0.8rem; white-space: nowrap;">Service Expansion</div>
+            </div>
+            <div style="position: absolute; top: 100px; left: 80%; transform: translateX(-50%);">
+              <div style="width: 12px; height: 12px; background-color: var(--gcp-green); border-radius: 50%; margin: 0 auto 5px;"></div>
+              <div style="font-size: 0.8rem; white-space: nowrap;">Architecture Modernization</div>
+            </div>
+            
+            <!-- Deliverables -->
+            <div style="position: absolute; top: 170px; left: 20%; transform: translateX(-50%);">
+              <div style="width: 12px; height: 12px; background-color: var(--gcp-yellow); border-radius: 50%; margin: 0 auto 5px;"></div>
+              <div style="font-size: 0.8rem; white-space: nowrap;">Assessment Report</div>
+            </div>
+            <div style="position: absolute; top: 170px; left: 45%; transform: translateX(-50%);">
+              <div style="width: 12px; height: 12px; background-color: var(--gcp-yellow); border-radius: 50%; margin: 0 auto 5px;"></div>
+              <div style="font-size: 0.8rem; white-space: nowrap;">Migration Documentation</div>
+            </div>
+            <div style="position: absolute; top: 170px; left: 75%; transform: translateX(-50%);">
+              <div style="width: 12px; height: 12px; background-color: var(--gcp-yellow); border-radius: 50%; margin: 0 auto 5px;"></div>
+              <div style="font-size: 0.8rem; white-space: nowrap;">Optimization Report</div>
+            </div>
+            
+            <!-- Stakeholders -->
+            <div style="position: absolute; top: 240px; left: 25%; transform: translateX(-50%);">
+              <div style="width: 12px; height: 12px; background-color: var(--gcp-red); border-radius: 50%; margin: 0 auto 5px;"></div>
+              <div style="font-size: 0.8rem; white-space: nowrap;">IT Leadership</div>
+            </div>
+            <div style="position: absolute; top: 240px; left: 55%; transform: translateX(-50%);">
+              <div style="width: 12px; height: 12px; background-color: var(--gcp-red); border-radius: 50%; margin: 0 auto 5px;"></div>
+              <div style="font-size: 0.8rem; white-space: nowrap;">Technical Teams</div>
+            </div>
+            <div style="position: absolute; top: 240px; left: 85%; transform: translateX(-50%);">
+              <div style="width: 12px; height: 12px; background-color: var(--gcp-red); border-radius: 50%; margin: 0 auto 5px;"></div>
+              <div style="font-size: 0.8rem; white-space: nowrap;">Business Stakeholders</div>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      previewTimeline.innerHTML = previewHTML;
+    }
+    
+    // Save journey map
+    function saveJourneyMap() {
+      // This would save the journey map to a server or local storage
+      // For demo purposes, just show an alert
+      alert('Journey map saved successfully!');
+      
+      // Return to main implementation guide
+      window.location.href = 'resources_tools/Implementation_Guide.html';
+    }
+    
+    // Download journey map as PDF
+    function downloadJourneyMap() {
+      // This would generate a PDF file of the journey map
+      // For demo purposes, just show an alert
+      alert('Journey map PDF download started!');
+    }
+    
+    // Share journey map
+    function shareJourneyMap() {
+      // This would show sharing options
+      // For demo purposes, just show an alert
+      alert('Sharing options would appear here. The journey map link has been copied to clipboard.');
+    }
+    
+    // Simulate a journey mapping tool launch
+    document.addEventListener('DOMContentLoaded', function() {
+      // If the page was loaded directly (not from a button click)
+      // show a welcome message after a short delay
+      setTimeout(function() {
+        // Do any initialization here
+      }, 500);
+    });
+  </script>
+<script src="chatbot_commands.js"></script>
+<script src="0
+<script src="global_nav.js"></script>
+  <!-- Chatbot Container -->
+  <!-- Chatbot is dynamically created by chatbot scripts -->    <i class="fas fa-comment"></i>
+  </button>
+</body>
+</html> 

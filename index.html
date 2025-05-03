@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Black Armor AI | Security Drone Solutions</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --gcp-blue: #4285F4;
+      --gcp-red: #DB4437;
+      --gcp-yellow: #F4B400;
+      --gcp-green: #0F9D58;
+      --gcp-purple: #A142F4;
+      --dark-text: #202124;
+      --light-text: #5f6368;
+      --bg-light: #f8f9fa;
+      --border-light: #dadce0;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      color: var(--dark-text);
+      background-color: var(--bg-light);
+      line-height: 1.6;
+    }
+    
+    header {
+      background-color: white;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+      position: relative;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+    }
+    
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--dark-text);
+    }
+    
+    .logo img {
+      height: 36px;
+      width: auto;
+    }
+    
+    .logo i {
+      color: var(--gcp-green);
+      font-size: 2rem;
+      height: 36px;
+      width: 36px;
+    }
+    
+    .logo-text {
+      font-size: 1.5rem;
+      font-weight: 500;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 40px;
+    }
+    
+    .nav-link {
+      text-decoration: none;
+      color: var(--light-text);
+      font-weight: 500;
+      transition: color 0.2s;
+      position: relative;
+      padding: 8px 0;
+    }
+    
+    .nav-link:hover {
+      color: var(--gcp-green);
+    }
+    
+    .nav-link.active {
+      color: var(--gcp-green);
+    }
+    
+    .nav-link.active::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: var(--gcp-green);
+      border-radius: 1px;
+    }
+    
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--dark-text);
+      cursor: pointer;
+    }
+    
+    main {
+      min-height: 100vh;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding-bottom: 60px;
+    }
+    
+    .hero {
+      text-align: center;
+      padding: 40px 20px;
+      margin-bottom: 40px;
+      background: linear-gradient(120deg, rgba(15, 157, 88, 0.1), rgba(66, 133, 244, 0.1));
+      border-radius: 16px;
+      margin-top: 40px;
+    }
+    
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 16px;
+      color: var(--gcp-green);
+    }
+    
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 800px;
+      margin: 0 auto 24px;
+      color: var(--light-text);
+    }
+    
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background-color: var(--gcp-green);
+      color: white;
+      text-decoration: none;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-weight: 500;
+      transition: all 0.3s;
+      box-shadow: 0 4px 8px rgba(15, 157, 88, 0.3);
+    }
+    
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(15, 157, 88, 0.4);
+      background-color: #0d8c4f;
+    }
+    
+    .section-title {
+      font-size: 1.8rem;
+      margin: 40px 0 24px;
+      color: var(--dark-text);
+      text-align: center;
+      position: relative;
+    }
+    
+    .section-title::after {
+      content: "";
+      display: block;
+      width: 60px;
+      height: 4px;
+      background-color: var(--gcp-green);
+      margin: 12px auto 0;
+      border-radius: 2px;
+    }
+    
+    .page-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+      padding: 0 20px;
+    }
+    
+    .category-section {
+      margin-bottom: 40px;
+      padding: 0 20px;
+    }
+    
+    .page-card {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+      overflow: hidden;
+      transition: all 0.3s;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .page-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 15px rgba(0,0,0,0.12);
+    }
+    
+    .card-header {
+      height: 8px;
+      background-color: var(--gcp-blue);
+    }
+    
+    .card-body {
+      padding: 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .card-title {
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+      color: var(--dark-text);
+    }
+    
+    .card-description {
+      color: var(--light-text);
+      margin-bottom: 16px;
+      font-size: 0.95rem;
+      flex: 1;
+    }
+    
+    .card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--gcp-blue);
+      text-decoration: none;
+      font-weight: 500;
+      margin-top: auto;
+      transition: all 0.2s;
+    }
+    
+    .card-link:hover {
+      color: var(--gcp-green);
+      gap: 8px;
+    }
+    
+    .category-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    
+    /* Category colors */
+    .page-card.solution-journey .card-header {
+      background-color: var(--gcp-green);
+    }
+    
+    .page-card.client-presentations .card-header {
+      background-color: var(--gcp-blue);
+    }
+    
+    .page-card.gcp-implementation .card-header {
+      background-color: var(--gcp-purple);
+    }
+    
+    .page-card.resources-tools .card-header {
+      background-color: var(--gcp-yellow);
+    }
+    
+    .page-card.discovery-assets .card-header {
+      background-color: var(--gcp-red);
+    }
+    
+    .sidebar {
+      position: fixed;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: white;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      border-radius: 8px;
+      padding: 16px;
+      display: none;
+    }
+    
+    .sidebar-links {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .sidebar-link {
+      color: var(--light-text);
+      text-decoration: none;
+      padding: 8px 12px;
+      border-radius: 4px;
+      transition: all 0.2s;
+      font-weight: 500;
+    }
+    
+    .sidebar-link:hover {
+      background-color: rgba(0,0,0,0.05);
+      color: var(--dark-text);
+    }
+    
+    .sidebar-link.active {
+      color: var(--gcp-blue);
+      background-color: rgba(66, 133, 244, 0.08);
+    }
+    
+    footer {
+      background-color: white;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+      padding: 20px 0;
+      text-align: center;
+      color: var(--light-text);
+    }
+    
+    .fab-nav {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      gap: 10px;
+    }
+    
+    .fab-button {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: var(--gcp-blue);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+    
+    .fab-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+    }
+    
+    .home-button {
+      background-color: var(--gcp-green);
+    }
+    
+    .search-button {
+      background-color: var(--gcp-yellow);
+    }
+    
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      
+      .mobile-menu-btn {
+        display: block;
+      }
+      
+      .mobile-menu-open .nav-links {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        right: 0;
+        background-color: white;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        padding: 16px;
+      }
+      
+      .hero h1 {
+        font-size: 2rem;
+      }
+      
+      .hero p {
+        font-size: 1.1rem;
+      }
+      
+      .sidebar {
+        display: none;
+      }
+    }
+  </style>
+<style>
+  /* Custom chatbot positioning for this page */
+  #chatbot-toggle {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1000 !important;
+  }
+  
+  #chatbot-container {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1001 !important;
+    width: 350px !important;
+    max-height: 500px !important;
+  }
+</style><link rel="stylesheet" href="navbar.css">
+<script src="navbar.js"></script>
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <a href="index.html" class="logo">
+        <i class="fas fa-shield-alt"></i>
+        <span class="logo-text">Black Armor AI</span>
+      </a>
+      
+      <nav>
+        <div class="nav-links">
+          <a href="solution_journey/01_Solution_Overview.html" class="nav-link">Solution Journey</a>
+          <a href="client_presentations/Executive_Briefing.html" class="nav-link">Client Presentations</a>
+          <a href="gcp_implementation_slides/index.html" class="nav-link">GCP Implementation</a>
+          <a href="resources_tools/Value_Calculator.html" class="nav-link">Resources & Tools</a>
+          <a href="discovery_assets/Security_Assessment_Questionnaire.html" class="nav-link">Discovery Assets</a>
+        </div>
+        
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+          <i class="fas fa-bars"></i>
+        </button>
+      </nav>
+    </div>
+  </header>
+  
+  <main>
+    <section class="hero">
+      <h1>Transform Your Security Operations</h1>
+      <p>The Future of Intelligent Surveillance with Black Armor AI Drone Security Solutions</p>
+      <a href="client_presentations/Executive_Briefing.html" class="cta-button">
+        <i class="fas fa-rocket"></i>
+        Get Started
+      </a>
+    </section>
+    
+    <section class="category-section" id="solution-journey">
+      <h2 class="section-title">Solution Journey</h2>
+      <div class="category-cards">
+        <div class="page-card solution-journey">
+          <div class="card-header"></div>
+          <div class="card-body">
+            <h3 class="card-title">Introduction</h3>
+            <p class="card-description">Overview of Black Armor AI's drone security solution capabilities and key value propositions.</p>
+            <a href="solution_journey/01_Solution_Overview.html" class="card-link">View Slide <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+        
+        <div class="page-card solution-journey">
+          <div class="card-header"></div>
+          <div class="card-body">
+            <h3 class="card-title">Security Challenges</h3>
+            <p class="card-description">Explore the common security challenges addressed by our drone solutions.</p>
+            <a href="solution_journey/02_Security_Challenges.html" class="card-link">View Slide <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+        
+        <div class="page-card solution-journey">
+          <div class="card-header"></div>
+          <div class="card-body">
+            <h3 class="card-title">Customer Profile</h3>
+            <p class="card-description">Detailed insights into ideal customer profiles and targeted industries.</p>
+            <a href="solution_journey/03_Target_Customers.html" class="card-link">View Slide <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+        
+        <div class="page-card solution-journey">
+          <div class="card-header"></div>
+          <div class="card-body">
+            <h3 class="card-title">Technical Overview</h3>
+            <p class="card-description">Technical specifications and implementation architecture for the security solution.</p>
+            <a href="solution_journey/04_Technical_Architecture.html" class="card-link">View Slide <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+        
+        <div class="page-card solution-journey">
+          <div class="card-header"></div>
+          <div class="card-body">
+            <h3 class="card-title">ROI Analysis</h3>
+            <p class="card-description">Financial impact and return on investment calculations for drone security.</p>
+            <a href="solution_journey/05_ROI_Analysis.html" class="card-link">View Slide <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+        
+        <div class="page-card solution-journey">
+          <div class="card-header"></div>
+          <div class="card-body">
+            <h3 class="card-title">Implementation</h3>
+            <p class="card-description">Step-by-step implementation process and timeline details.</p>
+            <a href="solution_journey/06_Implementation_Process.html" class="card-link">View Slide <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="category-section" id="client-presentations">
+      <h2 class="section-title">Client Presentations</h2>
+      <div class="category-cards">
+        <div class="page-card client-presentations">
+          <div class="card-header"></div>
+          <div class="card-body">
+            <h3 class="card-title">Introduction</h3>
+            <p class="card-description">Comprehensive introduction to Black Armor AI drone security solutions.</p>
+            <a href="client_presentations/Executive_Briefing.html" class="card-link">View Slide <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+        
+        <div class="page-card client-presentations">
+          <div class="card-header"></div>
+          <div class="card-body">
+            <h3 class="card-title">Security Challenges</h3>
+            <p class="card-description">Detailed analysis of security challenges addressed by the solution.</p>
+            <a href="client_presentations/Security_Assessment.html" class="card-link">View Slide <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+        
+        <div class="page-card client-presentations">
+          <div class="card-header"></div>
+          <div class="card-body">
+            <h3 class="card-title">Solution Architecture</h3>
+            <p class="card-description">Technical architecture and integration capabilities of the drone system.</p>
+            <a href="client_presentations/Technical_Deep_Dive.html" class="card-link">View Slide <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+        
+        <div class="page-card client-presentations">
+          <div class="card-header"></div>
+          <div class="card-body">
+            <h3 class="card-title">Implementation Approach</h3>
+            <p class="card-description">Comprehensive implementation methodology and best practices.</p>
+            <a href="client_presentations/Implementation_Roadmap.html" class="card-link">View Slide <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+        
+        <div class="page-card client-presentations">
+          <div class="card-header"></div>
+          <div class="card-body">
+            <h3 class="card-title">Continuous Improvement</h3>
+            <p class="card-description">Framework for ongoing optimization and enhancement of security capabilities.</p>
+            <a href="client_presentations/Operational_Integration.html" class="card-link">View Slide <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+        
+        <div class="page-card client-presentations">
+          <div class="card-header"></div>
+          <div class="card-body">
+            <h3 class="card-title">BANT Assessment</h3>
+            <p class="card-description">Budget, Authority, Need, and Timeline qualification framework.</p>
+            <a href="client_presentations/BANT_Framework.html" class="card-link">View Slide <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="category-section" id="resources-tools">
+      <h2 class="section-title">Resources & Tools</h2>
+      <div class="category-cards">
+        <div class="page-card resources-tools">
+          <div class="card-header"></div>
+          <div class="card-body">
+            <h3 class="card-title">Value Metrics Handbook</h3>
+            <p class="card-description">Comprehensive guide to security metrics and value measurement frameworks.</p>
+            <a href="resources_tools/Value_Calculator.html" class="card-link">View Handbook <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+        
+        <div class="page-card resources-tools">
+          <div class="card-header"></div>
+          <div class="card-body">
+            <h3 class="card-title">TCO Calculator</h3>
+            <p class="card-description">Total Cost of Ownership calculator for drone security implementation.</p>
+            <a href="resources_tools/TCO_Calculator.html" class="card-link">View Calculator <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+        
+        <div class="page-card resources-tools">
+          <div class="card-header"></div>
+          <div class="card-body">
+            <h3 class="card-title">Implementation Guide</h3>
+            <p class="card-description">Detailed implementation guide with phase-by-phase instructions.</p>
+            <a href="resources_tools/Implementation_Guide.html" class="card-link">View Guide <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+        
+        <div class="page-card resources-tools">
+          <div class="card-header"></div>
+          <div class="card-body">
+            <h3 class="card-title">Migration Journey Map</h3>
+            <p class="card-description">Strategic roadmap for migrating to drone-based security systems.</p>
+            <a href="resources_tools/Migration_Planner.html" class="card-link">View Journey <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="category-section" id="discovery-assets">
+      <h2 class="section-title">Discovery Assets</h2>
+      <div class="category-cards">
+        <div class="page-card discovery-assets">
+          <div class="card-header"></div>
+          <div class="card-body">
+            <h3 class="card-title">Customer Discovery</h3>
+            <p class="card-description">Comprehensive questionnaire for gathering customer requirements.</p>
+            <a href="discovery_assets/Security_Assessment_Questionnaire.html" class="card-link">View Assessment <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+        
+        <div class="page-card discovery-assets">
+          <div class="card-header"></div>
+          <div class="card-body">
+            <h3 class="card-title">Onboarding Progress</h3>
+            <p class="card-description">Track implementation progress and milestone achievement.</p>
+            <a href="discovery_assets/Deployment_Readiness_Checklist.html" class="card-link">View Tracker <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+        
+        <div class="page-card discovery-assets">
+          <div class="card-header"></div>
+          <div class="card-body">
+            <h3 class="card-title">Qualification Workbook</h3>
+            <p class="card-description">Comprehensive framework for qualifying potential customers.</p>
+            <a href="discovery_assets/Success_Metrics_Framework.html" class="card-link">View Workbook <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+        
+        <div class="page-card discovery-assets">
+          <div class="card-header"></div>
+          <div class="card-body">
+            <h3 class="card-title">Assessment Template</h3>
+            <p class="card-description">Standardized assessment template for security evaluations.</p>
+            <a href="discovery_assets/Stakeholder_Analysis_Template.html" class="card-link">View Template <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="category-section" id="gcp-implementation">
+      <h2 class="section-title">GCP Implementation</h2>
+      <div class="category-cards">
+        <div class="page-card gcp-implementation">
+          <div class="card-header"></div>
+          <div class="card-body">
+            <h3 class="card-title">Architecture & Value</h3>
+            <p class="card-description">GCP architecture and the business value of cloud-native implementation.</p>
+            <a href="gcp_implementation_slides/slide1_architecture_value.html" class="card-link">View Slide <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+        
+        <div class="page-card gcp-implementation">
+          <div class="card-header"></div>
+          <div class="card-body">
+            <h3 class="card-title">Project Security</h3>
+            <p class="card-description">Security foundations and best practices for drone operations in GCP.</p>
+            <a href="gcp_implementation_slides/slide2_project_security.html" class="card-link">View Slide <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+        
+        <div class="page-card gcp-implementation">
+          <div class="card-header"></div>
+          <div class="card-body">
+            <h3 class="card-title">Data Pipeline</h3>
+            <p class="card-description">Analytics pipeline architecture for processing drone telemetry data.</p>
+            <a href="gcp_implementation_slides/slide3_data_pipeline.html" class="card-link">View Slide <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+        
+        <div class="page-card gcp-implementation">
+          <div class="card-header"></div>
+          <div class="card-body">
+            <h3 class="card-title">Game Mechanics</h3>
+            <p class="card-description">D&D-style gamification features for drone operator engagement.</p>
+            <a href="gcp_implementation_slides/slide4_game_mechanics.html" class="card-link">View Slide <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+        
+        <div class="page-card gcp-implementation">
+          <div class="card-header"></div>
+          <div class="card-body">
+            <h3 class="card-title">Deployment</h3>
+            <p class="card-description">CI/CD pipeline and deployment strategies for the drone platform.</p>
+            <a href="gcp_implementation_slides/slide5_deployment.html" class="card-link">View Slide <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+        
+        <div class="page-card gcp-implementation">
+          <div class="card-header"></div>
+          <div class="card-body">
+            <h3 class="card-title">Cost Optimization</h3>
+            <p class="card-description">GCP cost analysis and optimization strategies for the drone solution.</p>
+            <a href="gcp_implementation_slides/slide6_cost_optimization.html" class="card-link">View Slide <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+        
+        <div class="page-card gcp-implementation">
+          <div class="card-header"></div>
+          <div class="card-body">
+            <h3 class="card-title">Conclusion</h3>
+            <p class="card-description">Implementation benefits, outcomes, and next steps for GCP drone deployment.</p>
+            <a href="gcp_implementation_slides/slide7_conclusion.html" class="card-link">View Slide <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <div class="fab-nav">
+    <button class="fab-button home-button" title="Back to Top" id="backToTopBtn">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+  </div>
+  
+  <footer>
+    <p>&copy; 2023 Black Armor AI. All rights reserved.</p>
+  </footer>
+  
+  <!-- Chatbot integration -->
+  <script src="chatbot_commands.js"></script>
+  <script src="chatbot_enhanced.js"></script>
+  <script src="chatbot.js"></script>
+  <link rel="stylesheet" href="chatbot.css">
+  
+  <script>
+    // Mobile menu toggle
+    document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+      document.querySelector('header').classList.toggle('mobile-menu-open');
+    });
+    
+    // Scroll to section when nav link clicked
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        
+        // If it's linking to another page, let the default behavior happen
+        if (href.includes('/')) {
+          return;
+        }
+        
+        e.preventDefault();
+        
+        // Extract section ID from the href
+        let targetId;
+        if (href.includes('solution_journey')) {
+          targetId = 'solution-journey';
+        } else if (href.includes('client_presentations')) {
+          targetId = 'client-presentations';
+        } else if (href.includes('resources_tools')) {
+          targetId = 'resources-tools';
+        } else if (href.includes('discovery_assets')) {
+          targetId = 'discovery-assets';
+        } else if (href === 'index.html') {
+          return;
+        }
+        
+        // For same-page navigation
+        const targetSection = document.getElementById(targetId);
+        if (!targetSection) {
+          window.location.href = href;
+          return;
+        }
+        
+        window.scrollTo({
+          top: targetSection.offsetTop - 80,
+          behavior: 'smooth'
+        });
+        
+        // Update active link
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        this.classList.add('active');
+        
+        // Close mobile menu if open
+        document.querySelector('header').classList.remove('mobile-menu-open');
+      });
+    });
+    
+    // Back to top button
+    document.getElementById('backToTopBtn').addEventListener('click', function() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+    
+    // Highlight active section on scroll
+    window.addEventListener('scroll', function() {
+      const scrollPosition = window.scrollY;
+      
+      document.querySelectorAll('.category-section').forEach(section => {
+        const sectionTop = section.offsetTop - 100;
+        const sectionBottom = sectionTop + section.offsetHeight;
+        
+        if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+          const id = section.getAttribute('id');
+          document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('active');
+            const href = link.getAttribute('href');
+            
+            if ((id === 'solution-journey' && href.includes('solution_journey')) ||
+                (id === 'client-presentations' && href.includes('client_presentations')) ||
+                (id === 'resources-tools' && href.includes('resources_tools')) ||
+                (id === 'discovery-assets' && href.includes('discovery_assets'))) {
+              link.classList.add('active');
+            }
+          });
+        }
+      });
+      
+      // Show/hide back to top button
+      if (scrollPosition > 300) {
+        document.getElementById('backToTopBtn').style.display = 'flex';
+      } else {
+        document.getElementById('backToTopBtn').style.display = 'none';
+      }
+    });
+    
+    // Initialize - hide back to top button by default
+    document.getElementById('backToTopBtn').style.display = 'none';
+  </script>
+
+  <!-- Chatbot is dynamically created by the chatbot scripts -->
+</body>
+</html> 

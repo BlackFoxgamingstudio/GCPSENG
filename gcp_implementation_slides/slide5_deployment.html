@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DroneAI GCP Implementation - Deployment & Operations</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../favicon.ico">
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="../navbar.css">
+  <link rel="stylesheet" href="../chatbot.css">
+
+  <style>
+    :root {
+      --gcp-blue: #4285F4;
+      --gcp-red: #DB4437;
+      --gcp-yellow: #F4B400;
+      --gcp-green: #0F9D58;
+      --gcp-purple: #A142F4;
+      --dark-text: #202124;
+      --light-text: #5f6368;
+      --bg-light: #f8f9fa;
+      --border-light: #dadce0;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      color: var(--dark-text);
+      background-color: var(--bg-light);
+      line-height: 1.6;
+    }
+    
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+      color: var(--dark-text);
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+    
+    h1 {
+      font-size: 2.5rem;
+      color: var(--gcp-green);
+      margin-bottom: 1.5rem;
+      position: relative;
+      display: inline-block;
+    }
+    
+    h1::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -10px;
+      width: 80px;
+      height: 4px;
+      background-color: var(--gcp-green);
+      border-radius: 2px;
+    }
+    
+    h2 {
+      font-size: 1.8rem;
+      color: var(--gcp-blue);
+      margin-top: 2rem;
+      border-bottom: 1px solid var(--border-light);
+      padding-bottom: 0.5rem;
+    }
+    
+    h3 {
+      font-size: 1.4rem;
+      margin-top: 1.5rem;
+      color: var(--gcp-purple);
+    }
+    
+    p {
+      margin-bottom: 1rem;
+    }
+    
+    a {
+      color: var(--gcp-blue);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    
+    a:hover {
+      color: var(--gcp-green);
+      text-decoration: underline;
+    }
+    
+    ul, ol {
+      margin-left: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .slide-container {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 30px;
+      margin-bottom: 40px;
+    }
+    
+    .slide-navigation {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-light);
+    }
+    
+    .nav-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background-color: var(--gcp-blue);
+      color: white;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+    
+    .nav-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(66, 133, 244, 0.3);
+      text-decoration: none;
+      color: white;
+    }
+    
+    .nav-button.prev {
+      background-color: var(--light-text);
+    }
+    
+    .nav-button.next {
+      background-color: var(--gcp-green);
+    }
+    
+    /* Deployment & Operations specific styles */
+    .ci-cd-diagram {
+      width: 100%;
+      margin: 2rem 0;
+      padding: 1.5rem;
+      background-color: #f5f5f5;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.9rem;
+      overflow-x: auto;
+      white-space: pre;
+      line-height: 1.5;
+      text-align: center;
+    }
+    
+    .environment-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin: 2rem 0;
+    }
+    
+    .environment-card {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+    
+    .environment-header {
+      padding: 15px;
+      font-weight: 500;
+      color: white;
+    }
+    
+    .dev-env .environment-header {
+      background-color: var(--gcp-purple);
+    }
+    
+    .staging-env .environment-header {
+      background-color: var(--gcp-yellow);
+    }
+    
+    .prod-env .environment-header {
+      background-color: var(--gcp-green);
+    }
+    
+    .environment-content {
+      padding: 15px;
+    }
+    
+    .checklist {
+      list-style: none;
+      margin-left: 0;
+    }
+    
+    .checklist li {
+      position: relative;
+      padding-left: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .checklist li::before {
+      content: "\f00c";
+      font-family: "Font Awesome 5 Free";
+      font-weight: 900;
+      position: absolute;
+      left: 0;
+      color: var(--gcp-green);
+    }
+    
+    .code-block {
+      background-color: #f5f5f5;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 1rem 0;
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.9rem;
+      overflow-x: auto;
+    }
+    
+    .metrics-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin: 1.5rem 0;
+    }
+    
+    .metric-card {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      padding: 15px;
+      text-align: center;
+    }
+    
+    .metric-value {
+      font-size: 2rem;
+      font-weight: 500;
+      margin: 10px 0;
+      color: var(--gcp-blue);
+    }
+    
+    .metric-label {
+      color: var(--light-text);
+      font-size: 0.9rem;
+    }
+    
+    .phases-container {
+      margin: 2rem 0;
+    }
+    
+    .phase {
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px dashed var(--border-light);
+    }
+    
+    .phase:last-child {
+      border-bottom: none;
+    }
+    
+    .phase-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1rem;
+    }
+    
+    .phase-number {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background-color: var(--gcp-green);
+      color: white;
+      border-radius: 50%;
+      font-weight: bold;
+    }
+    
+    .phase-title {
+      font-size: 1.2rem;
+      font-weight: 500;
+    }
+    
+    @media (max-width: 768px) {
+      main {
+        padding: 20px 15px 60px;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      h2 {
+        font-size: 1.5rem;
+      }
+      
+      h3 {
+        font-size: 1.2rem;
+      }
+      
+      .slide-container {
+        padding: 20px;
+      }
+      
+      .environment-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .metrics-container {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+<style>
+  /* Custom chatbot positioning for this page */
+  #chatbot-toggle {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1000 !important;
+  }
+  
+  #chatbot-container {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1001 !important;
+    width: 350px !important;
+    max-height: 500px !important;
+  }
+</style></head>
+<body>
+  <!-- Main content -->
+  <main>
+    <div class="slide-container">
+      <h1>Deployment & Operations</h1>
+      
+      <p>The DroneAI solution requires a robust deployment and operations strategy to ensure reliability, scalability, and maintainability. This slide details our CI/CD pipeline, multi-environment architecture, monitoring strategies, and rollout plan.</p>
+      
+      <h2>CI/CD Pipeline Architecture</h2>
+      
+      <div class="ci-cd-diagram">
+[GitHub Repository] → [Cloud Build] → [Artifact Registry]
+                                 ↓
+[Cloud Deploy] → [Config Controller] → [GKE/Cloud Run/App Engine]
+         ↑                                        ↓
+[Cloud Monitoring] ← [SLOs & Alerts] ← [Cloud Ops]</div>
+      
+      <p>Our CI/CD pipeline leverages Google Cloud's managed services to automate building, testing, and deploying the DroneAI platform:</p>
+      
+      <ul>
+        <li><strong>Source Control</strong>: GitHub repository with branch protection and required reviews</li>
+        <li><strong>Build Automation</strong>: Cloud Build with custom builders for drone hardware integration modules</li>
+        <li><strong>Artifact Management</strong>: Artifact Registry for container images and deployment packages</li>
+        <li><strong>Deployment Automation</strong>: Cloud Deploy for progressive delivery across environments</li>
+        <li><strong>Infrastructure as Code</strong>: Terraform for environment provisioning with state in Cloud Storage</li>
+        <li><strong>Configuration Management</strong>: Config Controller for GitOps-based configuration</li>
+      </ul>
+      
+      <h3>Sample Cloud Build Configuration</h3>
+      
+      <div class="code-block">
+# cloudbuild.yaml
+steps:
+  # Run tests
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['test']
+    dir: 'frontend'
+    
+  # Build frontend
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['run', 'build']
+    dir: 'frontend'
+    
+  # Build backend container
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'us-central1-docker.pkg.dev/${PROJECT_ID}/droneai-registry/game-engine:${SHORT_SHA}', '.']
+    dir: 'backend'
+    
+  # Push to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'us-central1-docker.pkg.dev/${PROJECT_ID}/droneai-registry/game-engine:${SHORT_SHA}']
+    
+  # Generate deployment manifest
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        sed "s/GAME_ENGINE_IMAGE/us-central1-docker.pkg.dev\/${PROJECT_ID}\/droneai-registry\/game-engine:${SHORT_SHA}/g" kubernetes/deployment-template.yaml > kubernetes/deployment.yaml
+        
+  # Deploy to Cloud Deploy
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    args:
+      - 'deploy'
+      - 'releases'
+      - 'create'
+      - 'rel-${SHORT_SHA}'
+      - '--delivery-pipeline=droneai-pipeline'
+      - '--region=us-central1'
+      - '--annotations=commitSha=${COMMIT_SHA}'
+
+images:
+  - 'us-central1-docker.pkg.dev/${PROJECT_ID}/droneai-registry/game-engine:${SHORT_SHA}'</div>
+      
+      <h2>Multi-Environment Architecture</h2>
+      
+      <div class="environment-grid">
+        <div class="environment-card dev-env">
+          <div class="environment-header">Development Environment</div>
+          <div class="environment-content">
+            <p><strong>Purpose:</strong> Feature development, individual testing</p>
+            <p><strong>Infrastructure:</strong></p>
+            <ul>
+              <li>GKE Autopilot cluster (cost-optimized)</li>
+              <li>Cloud SQL (shared instance, small tier)</li>
+              <li>Cloud Storage (single regional bucket)</li>
+              <li>Pub/Sub (development topics)</li>
+            </ul>
+            <p><strong>Deployment frequency:</strong> Multiple times per day</p>
+            <p><strong>Data:</strong> Synthetic test data with drone flight simulations</p>
+          </div>
+        </div>
+        
+        <div class="environment-card staging-env">
+          <div class="environment-header">Staging Environment</div>
+          <div class="environment-content">
+            <p><strong>Purpose:</strong> Integration testing, UAT, performance validation</p>
+            <p><strong>Infrastructure:</strong></p>
+            <ul>
+              <li>GKE Standard cluster (prod-equivalent setup)</li>
+              <li>Cloud SQL (dedicated instance, medium tier)</li>
+              <li>Cloud Storage (dual-regional bucket)</li>
+              <li>Pub/Sub (staging topics with DLQ)</li>
+              <li>Load testing with Cloud Load Testing</li>
+            </ul>
+            <p><strong>Deployment frequency:</strong> Daily or per sprint</p>
+            <p><strong>Data:</strong> Anonymized production clones + synthetic edge cases</p>
+          </div>
+        </div>
+        
+        <div class="environment-card prod-env">
+          <div class="environment-header">Production Environment</div>
+          <div class="environment-content">
+            <p><strong>Purpose:</strong> Live service delivery</p>
+            <p><strong>Infrastructure:</strong></p>
+            <ul>
+              <li>GKE Standard cluster with node auto-provisioning</li>
+              <li>Cloud SQL (HA configuration with read replicas)</li>
+              <li>Cloud Storage (multi-regional buckets with lifecycle policies)</li>
+              <li>Pub/Sub (production topics with DLQ and exactly-once delivery)</li>
+              <li>CDN for static assets and video content</li>
+            </ul>
+            <p><strong>Deployment frequency:</strong> Bi-weekly scheduled releases</p>
+            <p><strong>Data:</strong> Production data with strict access controls</p>
+          </div>
+        </div>
+      </div>
+      
+      <h2>Monitoring & Observability Strategy</h2>
+      
+      <h3>Key Performance Indicators</h3>
+      
+      <div class="metrics-container">
+        <div class="metric-card">
+          <div class="metric-value">99.95%</div>
+          <div class="metric-label">Service Availability SLO</div>
+        </div>
+        
+        <div class="metric-card">
+          <div class="metric-value">&lt; 200ms</div>
+          <div class="metric-label">API Response Time</div>
+        </div>
+        
+        <div class="metric-card">
+          <div class="metric-value">&lt; 2s</div>
+          <div class="metric-label">Video Processing Startup</div>
+        </div>
+        
+        <div class="metric-card">
+          <div class="metric-value">99.99%</div>
+          <div class="metric-label">Game State Data Durability</div>
+        </div>
+      </div>
+      
+      <p>Our monitoring strategy is implemented through Cloud Monitoring with the following components:</p>
+      
+      <ul>
+        <li><strong>Custom Dashboards</strong>: Purpose-built visualization for drone operations, game mechanics, and system health</li>
+        <li><strong>Alerting Policies</strong>: Multi-condition alerts with appropriate notification channels (PagerDuty, Slack, email)</li>
+        <li><strong>SLO Monitoring</strong>: Burn rate alerts for service level objectives with error budget tracking</li>
+        <li><strong>Log Analytics</strong>: Structured logging with custom metrics extraction</li>
+        <li><strong>Tracing</strong>: Cloud Trace integration for end-to-end request tracking</li>
+        <li><strong>Error Reporting</strong>: Automatic grouping and notification of application errors</li>
+      </ul>
+      
+      <h3>Game-Specific Monitoring</h3>
+      
+      <p>In addition to standard infrastructure monitoring, we implement game-specific metrics:</p>
+      
+      <ul>
+        <li><strong>Skill Check Balance</strong>: Distribution of success rates across difficulty classes</li>
+        <li><strong>XP Progression</strong>: User advancement rate compared to expected progression curve</li>
+        <li><strong>Mission Completion Time</strong>: Time spent on missions compared to estimate</li>
+        <li><strong>User Retention</strong>: Return rate after completing missions</li>
+      </ul>
+      
+      <h2>Deployment & Rollout Plan</h2>
+      
+      <div class="phases-container">
+        <div class="phase">
+          <div class="phase-header">
+            <div class="phase-number">1</div>
+            <div class="phase-title">Infrastructure Setup</div>
+          </div>
+          <p>Establish the foundation for all environments and supporting services:</p>
+          <ul class="checklist">
+            <li>Create project structure with hierarchical folders</li>
+            <li>Implement infrastructure as code with Terraform</li>
+            <li>Set up networking with VPC, subnets, and Security Command Center</li>
+            <li>Configure IAM with least privilege principle and service accounts</li>
+            <li>Establish CI/CD pipelines and artifact repositories</li>
+          </ul>
+          <p><strong>Timeline:</strong> 2 weeks</p>
+        </div>
+        
+        <div class="phase">
+          <div class="phase-header">
+            <div class="phase-number">2</div>
+            <div class="phase-title">Core Services Deployment</div>
+          </div>
+          <p>Deploy essential backend services required for basic functionality:</p>
+          <ul class="checklist">
+            <li>Database schemas and initial data setup</li>
+            <li>API services for telemetry ingestion and processing</li>
+            <li>Authentication and authorization services</li>
+            <li>Basic game mechanics engine implementation</li>
+            <li>Storage services for video and telemetry data</li>
+          </ul>
+          <p><strong>Timeline:</strong> 3 weeks</p>
+        </div>
+        
+        <div class="phase">
+          <div class="phase-header">
+            <div class="phase-number">3</div>
+            <div class="phase-title">Frontend & Integration</div>
+          </div>
+          <p>Deploy user interfaces and complete service integration:</p>
+          <ul class="checklist">
+            <li>Operator dashboard and character sheets</li>
+            <li>Mission planning and briefing interfaces</li>
+            <li>Analytics dashboards for administrators</li>
+            <li>Integration with drone hardware APIs</li>
+            <li>End-to-end testing across complete workflow</li>
+          </ul>
+          <p><strong>Timeline:</strong> 4 weeks</p>
+        </div>
+        
+        <div class="phase">
+          <div class="phase-header">
+            <div class="phase-number">4</div>
+            <div class="phase-title">Beta Release</div>
+          </div>
+          <p>Controlled rollout to initial users with close monitoring:</p>
+          <ul class="checklist">
+            <li>Invite selected drone operators as beta testers</li>
+            <li>Implement feedback collection mechanisms</li>
+            <li>Monitor performance metrics and error rates</li>
+            <li>Tune game balance based on initial usage data</li>
+            <li>Address critical issues with rapid patch releases</li>
+          </ul>
+          <p><strong>Timeline:</strong> 6 weeks</p>
+        </div>
+        
+        <div class="phase">
+          <div class="phase-header">
+            <div class="phase-number">5</div>
+            <div class="phase-title">General Availability</div>
+          </div>
+          <p>Full production release with complete feature set:</p>
+          <ul class="checklist">
+            <li>Scale infrastructure to support projected user load</li>
+            <li>Implement automated scaling policies</li>
+            <li>Complete operations documentation and runbooks</li>
+            <li>Train support team on common issues and resolutions</li>
+            <li>Implement continuous improvement process based on metrics</li>
+          </ul>
+          <p><strong>Timeline:</strong> Ongoing</p>
+        </div>
+      </div>
+      
+      <h2>Disaster Recovery Strategy</h2>
+      
+      <p>Our DR strategy ensures business continuity with the following measures:</p>
+      
+      <ul>
+        <li><strong>RTO (Recovery Time Objective)</strong>: &lt; 4 hours for full system recovery</li>
+        <li><strong>RPO (Recovery Point Objective)</strong>: &lt; 15 minutes data loss in catastrophic failure</li>
+        <li><strong>Backup Strategy</strong>:
+          <ul>
+            <li>Cloud SQL point-in-time recovery with automated backups</li>
+            <li>BigQuery table snapshots exported to Cloud Storage</li>
+            <li>Critical configuration backed up to version control</li>
+          </ul>
+        </li>
+        <li><strong>Multi-region Resilience</strong>: Media content replicated across regions with Cloud Storage dual-region buckets</li>
+        <li><strong>Chaos Engineering</strong>: Regular DR drills using Chaos Monkey principles</li>
+      </ul>
+      
+      <!-- Navigation buttons -->
+      <div class="slide-navigation">
+        <a href="slide4_game_mechanics.html" class="nav-button prev">
+          <i class="fas fa-arrow-left"></i> Previous: Game Mechanics & UI
+        </a>
+        <a href="slide6_cost_optimization.html" class="nav-button next">
+          Next: Cost Optimization & ROI <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </main>
+  
+  <!-- Chatbot container -->
+  <!-- Chatbot is dynamically created by chatbot scripts -->    <i class="fas fa-comment"></i>
+  </button>
+  
+  <!-- Scripts -->
+  <script src="../chatbot_commands.js"></script>
+  <script src="../chatbot_enhanced.js"></script>
+  <script src="../chatbot.js"></script>
+  <script src="../navbar.js"></script>
+<script src="navigation.js"></script>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Call functions from navbar.js
+      addFontAwesome();
+      addNavbarCSS();
+      createNavbar();
+      addNavButtons();
+    });
+  </script>
+</body>
+</html> 

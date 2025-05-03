@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navigation Test</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <link rel="stylesheet" href="navbar.css">
+  
+  <style>
+    body {
+      font-family: 'Google Sans', Arial, sans-serif;
+      padding: 40px;
+    }
+    .test-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .test-section {
+      margin-bottom: 30px;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+    h1 {
+      color: #4285F4;
+    }
+    h2 {
+      color: #0F9D58;
+    }
+    .path-info {
+      background-color: #f8f9fa;
+      padding: 15px;
+      border-radius: 6px;
+      font-family: monospace;
+      margin-bottom: 20px;
+    }
+  </style>
+<style>
+  /* Custom chatbot positioning for this page */
+  #chatbot-toggle {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1000 !important;
+  }
+  
+  #chatbot-container {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1001 !important;
+    width: 350px !important;
+    max-height: 500px !important;
+  }
+</style></head>
+<body>
+  <div class="test-container">
+    <h1>Navigation Buttons Test</h1>
+    
+    <div class="path-info">
+      <p>Current Path: <span id="current-path"></span></p>
+      <p>Path Parts: <span id="path-parts"></span></p>
+    </div>
+    
+    <div class="test-section">
+      <h2>Test Instructions</h2>
+      <p>This page is for testing the bottom-left navigation buttons functionality. You should see:</p>
+      <ul>
+        <li>A home button in the bottom-left corner</li>
+        <li>The correct navigation buttons based on the page structure</li>
+      </ul>
+      <p>Try clicking the navigation buttons to ensure they direct to the correct pages.</p>
+    </div>
+    
+    <div class="test-section">
+      <h2>Manual Testing Links</h2>
+      <p>Visit these pages to test navigation in different sections:</p>
+      <ul>
+        <li><a href="solution_journey/01_Solution_Overview.html">Solution Journey - First Page</a></li>
+        <li><a href="solution_journey/05_ROI_Analysis.html">Solution Journey - Middle Page</a></li>
+        <li><a href="solution_journey/12_Business_Model_Framework.html">Solution Journey - Last Page</a></li>
+        <li><a href="client_presentations/Executive_Briefing.html">Client Presentations - First Page</a></li>
+        <li><a href="resources_tools/TCO_Calculator.html">Resources & Tools - Sample Page</a></li>
+        <li><a href="discovery_assets/Success_Metrics_Framework.html">Discovery Assets - Last Page</a></li>
+      </ul>
+    </div>
+  </div>
+  
+  <script>
+    // Display current path info for debugging
+    document.getElementById('current-path').textContent = window.location.pathname;
+    document.getElementById('path-parts').textContent = JSON.stringify(window.location.pathname.split('/'));
+  </script>
+  
+  <script src="navbar.js"></script>
+</body>
+</html> 

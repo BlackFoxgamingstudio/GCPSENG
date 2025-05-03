@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neo AI Writers' Room | Customer Journey</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --gcp-blue: #4285F4;
+      --gcp-red: #DB4437;
+      --gcp-yellow: #F4B400;
+      --gcp-green: #0F9D58;
+      --gcp-purple: #A142F4;
+      --dark-text: #202124;
+      --light-text: #5f6368;
+      --bg-light: #f8f9fa;
+      --border-light: #dadce0;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      color: var(--dark-text);
+      background-color: white;
+      overflow-x: hidden;
+      padding: 20px;
+    }
+    
+    .slide-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .slide-header {
+      text-align: center;
+      margin-bottom: 30px;
+      position: relative;
+    }
+    
+    .slide-title {
+      color: var(--gcp-blue);
+      font-size: 2.8rem;
+      font-weight: 500;
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+    
+    .slide-subtitle {
+      color: var(--light-text);
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-bottom: 20px;
+    }
+    
+    .journey-overview {
+      background-color: var(--bg-light);
+      border-radius: 10px;
+      padding: 25px;
+      margin-bottom: 40px;
+      text-align: center;
+    }
+    
+    .overview-title {
+      font-size: 1.4rem;
+      color: var(--gcp-blue);
+      margin-bottom: 15px;
+      font-weight: 500;
+    }
+    
+    .overview-desc {
+      font-size: 1rem;
+      color: var(--light-text);
+      max-width: 800px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+    
+    .journey-map {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 50px;
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .journey-phases {
+      display: flex;
+      position: relative;
+      height: 80px;
+    }
+    
+    .phase {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 500;
+      position: relative;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .phase::after {
+      content: "";
+      position: absolute;
+      right: -15px;
+      top: 0;
+      width: 30px;
+      height: 100%;
+      background-color: inherit;
+      clip-path: polygon(0 0, 50% 50%, 0 100%);
+      z-index: 2;
+    }
+    
+    .phase:last-child::after {
+      display: none;
+    }
+    
+    .phase:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    }
+    
+    .phase-1 {
+      background-color: var(--gcp-blue);
+    }
+    
+    .phase-2 {
+      background-color: var(--gcp-purple);
+    }
+    
+    .phase-3 {
+      background-color: var(--gcp-red);
+    }
+    
+    .phase-4 {
+      background-color: var(--gcp-yellow);
+    }
+    
+    .phase-5 {
+      background-color: var(--gcp-green);
+    }
+    
+    .journey-stages {
+      display: flex;
+      min-height: 400px;
+      background-color: white;
+    }
+    
+    .stage {
+      flex: 1;
+      padding: 30px;
+      border-right: 1px solid var(--border-light);
+      display: none;
+      flex-direction: column;
+      animation: fadeIn 0.5s ease;
+    }
+    
+    .stage.active {
+      display: flex;
+    }
+    
+    .stage-header {
+      margin-bottom: 25px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .stage-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.5rem;
+      margin-right: 15px;
+      flex-shrink: 0;
+    }
+    
+    .phase-1 .stage-icon {
+      background-color: var(--gcp-blue);
+    }
+    
+    .phase-2 .stage-icon {
+      background-color: var(--gcp-purple);
+    }
+    
+    .phase-3 .stage-icon {
+      background-color: var(--gcp-red);
+    }
+    
+    .phase-4 .stage-icon {
+      background-color: var(--gcp-yellow);
+    }
+    
+    .phase-5 .stage-icon {
+      background-color: var(--gcp-green);
+    }
+    
+    .stage-title {
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+    
+    .stage-subtitle {
+      color: var(--light-text);
+      font-size: 1rem;
+    }
+    
+    .stage-desc {
+      font-size: 1rem;
+      color: var(--light-text);
+      line-height: 1.6;
+      margin-bottom: 25px;
+    }
+    
+    .touchpoints {
+      margin-bottom: 20px;
+    }
+    
+    .touchpoint-title {
+      font-size: 1.2rem;
+      font-weight: 500;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .touchpoint-icon {
+      margin-right: 10px;
+      color: var(--gcp-blue);
+      font-size: 1.2rem;
+    }
+    
+    .touchpoint-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+    
+    .touchpoint-card {
+      background-color: var(--bg-light);
+      border-radius: 8px;
+      padding: 15px;
+      transition: all 0.3s ease;
+    }
+    
+    .touchpoint-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    }
+    
+    .touchpoint-card-title {
+      font-weight: 500;
+      margin-bottom: 8px;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+    }
+    
+    .touchpoint-card-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 8px;
+      flex-shrink: 0;
+      font-size: 0.9rem;
+      color: white;
+    }
+    
+    .phase-1 .touchpoint-card-icon {
+      background-color: var(--gcp-blue);
+    }
+    
+    .phase-2 .touchpoint-card-icon {
+      background-color: var(--gcp-purple);
+    }
+    
+    .phase-3 .touchpoint-card-icon {
+      background-color: var(--gcp-red);
+    }
+    
+    .phase-4 .touchpoint-card-icon {
+      background-color: var(--gcp-yellow);
+    }
+    
+    .phase-5 .touchpoint-card-icon {
+      background-color: var(--gcp-green);
+    }
+    
+    .touchpoint-card-desc {
+      font-size: 0.9rem;
+      color: var(--light-text);
+      line-height: 1.4;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+<style>
+  /* Custom chatbot positioning for this page */
+  #chatbot-toggle {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1000 !important;
+  }
+  
+  #chatbot-container {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1001 !important;
+    width: 350px !important;
+    max-height: 500px !important;
+  }
+</style><link rel="stylesheet" href="../chatbot.css">
+<link rel="stylesheet" href="../navbar.css">
+<script src="../navbar.js"></script>
+</head>
+<body>
+  <div class="slide-container">
+    <div class="slide-header">
+      <h1 class="slide-title">Customer Journey</h1>
+      <h2 class="slide-subtitle">Neo AI Writers' Room Implementation Experience</h2>
+    </div>
+    
+    <div class="journey-overview">
+      <h3 class="overview-title">A Guided Path to AI-Powered Content Creation</h3>
+      <p class="overview-desc">
+        The customer journey for Neo AI Writers' Room follows a structured approach designed to ensure successful adoption and value realization. 
+        Each phase builds on the previous one, creating a cohesive experience from initial discovery through ongoing optimization.
+      </p>
+    </div>
+    
+    <div class="journey-map">
+      <div class="journey-phases">
+        <div class="phase phase-1 active" data-stage="discovery">Discovery</div>
+        <div class="phase phase-2" data-stage="planning">Planning</div>
+        <div class="phase phase-3" data-stage="implementation">Implementation</div>
+        <div class="phase phase-4" data-stage="adoption">Adoption</div>
+        <div class="phase phase-5" data-stage="optimization">Optimization</div>
+      </div>
+      
+      <div class="journey-stages">
+        <div class="stage phase-1 active" id="discovery">
+          <div class="stage-header">
+            <div class="stage-icon">
+              <i class="fas fa-compass"></i>
+            </div>
+            <div>
+              <h3 class="stage-title">Discovery</h3>
+              <div class="stage-subtitle">2-3 Weeks</div>
+            </div>
+          </div>
+          
+          <p class="stage-desc">
+            During the Discovery phase, we collaborate with your team to understand your content creation processes, challenges, and objectives. This phase focuses on understanding the current state and defining the vision for your AI-enhanced content workflows.
+          </p>
+          
+          <div class="touchpoints">
+            <h4 class="touchpoint-title">
+              <i class="fas fa-handshake touchpoint-icon"></i>
+              Key Customer Touchpoints
+            </h4>
+            
+            <div class="touchpoint-grid">
+              <div class="touchpoint-card">
+                <div class="touchpoint-card-title">
+                  <div class="touchpoint-card-icon">
+                    <i class="fas fa-users"></i>
+                  </div>
+                  Stakeholder Workshops
+                </div>
+                <p class="touchpoint-card-desc">
+                  Collaborative sessions with content teams, IT, and executives to align on vision and requirements
+                </p>
+              </div>
+              
+              <div class="touchpoint-card">
+                <div class="touchpoint-card-title">
+                  <div class="touchpoint-card-icon">
+                    <i class="fas fa-chart-bar"></i>
+                  </div>
+                  Current State Assessment
+                </div>
+                <p class="touchpoint-card-desc">
+                  Analysis of existing content workflows, systems, and performance metrics
+                </p>
+              </div>
+              
+              <div class="touchpoint-card">
+                <div class="touchpoint-card-title">
+                  <div class="touchpoint-card-icon">
+                    <i class="fas fa-puzzle-piece"></i>
+                  </div>
+                  Solution Demo
+                </div>
+                <p class="touchpoint-card-desc">
+                  Interactive demonstration of the Neo AI Writers' Room capabilities
+                </p>
+              </div>
+              
+              <div class="touchpoint-card">
+                <div class="touchpoint-card-title">
+                  <div class="touchpoint-card-icon">
+                    <i class="fas fa-file-alt"></i>
+                  </div>
+                  Discovery Report
+                </div>
+                <p class="touchpoint-card-desc">
+                  Comprehensive findings document and initial recommendations
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="deliverables">
+            <h4 class="touchpoint-title">
+              <i class="fas fa-clipboard-check touchpoint-icon"></i>
+              Phase Deliverables
+            </h4>
+            
+            <ul class="deliverables-list">
+              <li>Current state process map and system inventory</li>
+              <li>Content workflow efficiency assessment</li>
+              <li>Initial ROI analysis and business case</li>
+              <li>Project scope and timeline proposal</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="stage phase-2" id="planning">
+          <div class="stage-header">
+            <div class="stage-icon">
+              <i class="fas fa-tasks"></i>
+            </div>
+            <div>
+              <h3 class="stage-title">Planning</h3>
+              <div class="stage-subtitle">3-4 Weeks</div>
+            </div>
+          </div>
+          
+          <p class="stage-desc">
+            The Planning phase translates discovery insights into a detailed implementation roadmap. We work with your team to design the technical architecture, integration points, and custom AI model requirements.
+          </p>
+          
+          <div class="touchpoints">
+            <h4 class="touchpoint-title">
+              <i class="fas fa-handshake touchpoint-icon"></i>
+              Key Customer Touchpoints
+            </h4>
+            
+            <div class="touchpoint-grid">
+              <div class="touchpoint-card">
+                <div class="touchpoint-card-title">
+                  <div class="touchpoint-card-icon">
+                    <i class="fas fa-project-diagram"></i>
+                  </div>
+                  Architecture Review
+                </div>
+                <p class="touchpoint-card-desc">
+                  Technical design sessions to align on GCP infrastructure and service integration
+                </p>
+              </div>
+              
+              <div class="touchpoint-card">
+                <div class="touchpoint-card-title">
+                  <div class="touchpoint-card-icon">
+                    <i class="fas fa-sitemap"></i>
+                  </div>
+                  Data Workshop
+                </div>
+                <p class="touchpoint-card-desc">
+                  Sessions to map content data sources, taxonomies, and training requirements
+                </p>
+              </div>
+              
+              <div class="touchpoint-card">
+                <div class="touchpoint-card-title">
+                  <div class="touchpoint-card-icon">
+                    <i class="fas fa-calendar-alt"></i>
+                  </div>
+                  Implementation Planning
+                </div>
+                <p class="touchpoint-card-desc">
+                  Collaborative scheduling and resourcing for the implementation phase
+                </p>
+              </div>
+              
+              <div class="touchpoint-card">
+                <div class="touchpoint-card-title">
+                  <div class="touchpoint-card-icon">
+                    <i class="fas fa-user-cog"></i>
+                  </div>
+                  Change Management Kickoff
+                </div>
+                <p class="touchpoint-card-desc">
+                  Initial sessions to prepare teams for upcoming workflow changes
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="deliverables">
+            <h4 class="touchpoint-title">
+              <i class="fas fa-clipboard-check touchpoint-icon"></i>
+              Phase Deliverables
+            </h4>
+            
+            <ul class="deliverables-list">
+              <li>Detailed technical architecture design</li>
+              <li>Custom AI model training plan</li>
+              <li>Implementation timeline with milestones</li>
+              <li>Change management and training strategy</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="stage phase-3" id="implementation">
+          <div class="stage-header">
+            <div class="stage-icon">
+              <i class="fas fa-rocket"></i>
+            </div>
+            <div>
+              <h3 class="stage-title">Implementation</h3>
+              <div class="stage-subtitle">6-8 Weeks</div>
+            </div>
+          </div>
+          
+          <p class="stage-desc">
+            During Implementation, we deploy the Neo AI Writers' Room on Google Cloud Platform, integrate with your existing systems, and train the AI models on your specific content needs and style guidelines.
+          </p>
+          
+          <div class="touchpoints">
+            <h4 class="touchpoint-title">
+              <i class="fas fa-handshake touchpoint-icon"></i>
+              Key Customer Touchpoints
+            </h4>
+            
+            <div class="touchpoint-grid">
+              <div class="touchpoint-card">
+                <div class="touchpoint-card-title">
+                  <div class="touchpoint-card-icon">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                  </div>
+                  GCP Environment Setup
+                </div>
+                <p class="touchpoint-card-desc">
+                  Deployment of cloud infrastructure with security and access controls
+                </p>
+              </div>
+              
+              <div class="touchpoint-card">
+                <div class="touchpoint-card-title">
+                  <div class="touchpoint-card-icon">
+                    <i class="fas fa-brain"></i>
+                  </div>
+                  AI Model Training
+                </div>
+                <p class="touchpoint-card-desc">
+                  Customization and fine-tuning of models with your content corpus
+                </p>
+              </div>
+              
+              <div class="touchpoint-card">
+                <div class="touchpoint-card-title">
+                  <div class="touchpoint-card-icon">
+                    <i class="fas fa-plug"></i>
+                  </div>
+                  System Integration
+                </div>
+                <p class="touchpoint-card-desc">
+                  Connection with existing content management systems and workflows
+                </p>
+              </div>
+              
+              <div class="touchpoint-card">
+                <div class="touchpoint-card-title">
+                  <div class="touchpoint-card-icon">
+                    <i class="fas fa-vial"></i>
+                  </div>
+                  Testing & Validation
+                </div>
+                <p class="touchpoint-card-desc">
+                  Controlled testing with real content scenarios and user feedback
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="deliverables">
+            <h4 class="touchpoint-title">
+              <i class="fas fa-clipboard-check touchpoint-icon"></i>
+              Phase Deliverables
+            </h4>
+            
+            <ul class="deliverables-list">
+              <li>Fully deployed GCP environment</li>
+              <li>Custom-trained AI models for your content</li>
+              <li>Integrated content processing pipeline</li>
+              <li>User acceptance test results</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="stage phase-4" id="adoption">
+          <div class="stage-header">
+            <div class="stage-icon">
+              <i class="fas fa-users-cog"></i>
+            </div>
+            <div>
+              <h3 class="stage-title">Adoption</h3>
+              <div class="stage-subtitle">4-6 Weeks</div>
+            </div>
+          </div>
+          
+          <p class="stage-desc">
+            The Adoption phase focuses on training your teams, gradually rolling out the solution across your organization, and ensuring users are comfortable and proficient with the new AI-powered workflows.
+          </p>
+          
+          <div class="touchpoints">
+            <h4 class="touchpoint-title">
+              <i class="fas fa-handshake touchpoint-icon"></i>
+              Key Customer Touchpoints
+            </h4>
+            
+            <div class="touchpoint-grid">
+              <div class="touchpoint-card">
+                <div class="touchpoint-card-title">
+                  <div class="touchpoint-card-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                  </div>
+                  User Training
+                </div>
+                <p class="touchpoint-card-desc">
+                  Comprehensive training sessions for content teams and administrators
+                </p>
+              </div>
+              
+              <div class="touchpoint-card">
+                <div class="touchpoint-card-title">
+                  <div class="touchpoint-card-icon">
+                    <i class="fas fa-video"></i>
+                  </div>
+                  Guided Workshops
+                </div>
+                <p class="touchpoint-card-desc">
+                  Hands-on sessions applying the system to real content projects
+                </p>
+              </div>
+              
+              <div class="touchpoint-card">
+                <div class="touchpoint-card-title">
+                  <div class="touchpoint-card-icon">
+                    <i class="fas fa-info-circle"></i>
+                  </div>
+                  Support Desk Setup
+                </div>
+                <p class="touchpoint-card-desc">
+                  Establishment of ongoing support channels and knowledge base
+                </p>
+              </div>
+              
+              <div class="touchpoint-card">
+                <div class="touchpoint-card-title">
+                  <div class="touchpoint-card-icon">
+                    <i class="fas fa-chart-line"></i>
+                  </div>
+                  Adoption Tracking
+                </div>
+                <p class="touchpoint-card-desc">
+                  Monitoring of system usage and identifying adoption barriers
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="deliverables">
+            <h4 class="touchpoint-title">
+              <i class="fas fa-clipboard-check touchpoint-icon"></i>
+              Phase Deliverables
+            </h4>
+            
+            <ul class="deliverables-list">
+              <li>Certified user training completion</li>
+              <li>Self-service knowledge base and documentation</li>
+              <li>Support process and escalation paths</li>
+              <li>Initial adoption metrics report</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="stage phase-5" id="optimization">
+          <div class="stage-header">
+            <div class="stage-icon">
+              <i class="fas fa-chart-bar"></i>
+            </div>
+            <div>
+              <h3 class="stage-title">Optimization</h3>
+              <div class="stage-subtitle">Ongoing</div>
+            </div>
+          </div>
+          
+          <p class="stage-desc">
+            The Optimization phase is continuous, focusing on measuring results, refining AI models based on real usage data, and identifying opportunities to expand capabilities and deliver greater value over time.
+          </p>
+          
+          <div class="touchpoints">
+            <h4 class="touchpoint-title">
+              <i class="fas fa-handshake touchpoint-icon"></i>
+              Key Customer Touchpoints
+            </h4>
+            
+            <div class="touchpoint-grid">
+              <div class="touchpoint-card">
+                <div class="touchpoint-card-title">
+                  <div class="touchpoint-card-icon">
+                    <i class="fas fa-clipboard-list"></i>
+                  </div>
+                  Performance Reviews
+                </div>
+                <p class="touchpoint-card-desc">
+                  Regular reviews of system performance and business impact metrics
+                </p>
+              </div>
+              
+              <div class="touchpoint-card">
+                <div class="touchpoint-card-title">
+                  <div class="touchpoint-card-icon">
+                    <i class="fas fa-lightbulb"></i>
+                  </div>
+                  Innovation Workshops
+                </div>
+                <p class="touchpoint-card-desc">
+                  Collaborative sessions to identify new use cases and features
+                </p>
+              </div>
+              
+              <div class="touchpoint-card">
+                <div class="touchpoint-card-title">
+                  <div class="touchpoint-card-icon">
+                    <i class="fas fa-sync-alt"></i>
+                  </div>
+                  Model Updates
+                </div>
+                <p class="touchpoint-card-desc">
+                  Regular refinement of AI models based on usage patterns and feedback
+                </p>
+              </div>
+              
+              <div class="touchpoint-card">
+                <div class="touchpoint-card-title">
+                  <div class="touchpoint-card-icon">
+                    <i class="fas fa-expand-arrows-alt"></i>
+                  </div>
+                  Expansion Planning
+                </div>
+                <p class="touchpoint-card-desc">
+                  Strategic sessions to plan wider adoption and capability enhancements
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="deliverables">
+            <h4 class="touchpoint-title">
+              <i class="fas fa-clipboard-check touchpoint-icon"></i>
+              Phase Deliverables
+            </h4>
+            
+            <ul class="deliverables-list">
+              <li>Quarterly business value reports</li>
+              <li>AI model performance improvement metrics</li>
+              <li>Feature enhancement roadmap</li>
+              <li>ROI analysis and optimization recommendations</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="customer-emotion">
+      <h3 class="section-title">Customer Emotion Journey</h3>
+      <p class="section-desc">
+        Understanding the emotional journey helps us provide proactive support at key moments throughout the implementation experience.
+      </p>
+      
+      <div class="emotion-chart">
+        <div class="emotion-labels">
+          <div class="emotion-high">High</div>
+          <div class="emotion-neutral">Neutral</div>
+          <div class="emotion-low">Low</div>
+        </div>
+        
+        <div class="emotion-phases">
+          <div class="emotion-phase" data-phase="discovery">Discovery</div>
+          <div class="emotion-phase" data-phase="planning">Planning</div>
+          <div class="emotion-phase" data-phase="implementation">Implementation</div>
+          <div class="emotion-phase" data-phase="adoption">Adoption</div>
+          <div class="emotion-phase" data-phase="optimization">Optimization</div>
+        </div>
+        
+        <div class="emotion-graph">
+          <svg width="100%" height="200" class="emotion-svg">
+            <path class="emotion-path" d="M50,100 C100,70 150,120 200,60 C250,40 300,50 350,90 C400,120 450,80 500,50 C550,30 600,40 650,50" stroke="var(--gcp-blue)" stroke-width="4" fill="none"></path>
+            <circle class="emotion-point" cx="50" cy="100" r="8" fill="var(--gcp-blue)"></circle>
+            <circle class="emotion-point" cx="200" cy="60" r="8" fill="var(--gcp-blue)"></circle>
+            <circle class="emotion-point" cx="350" cy="90" r="8" fill="var(--gcp-blue)"></circle>
+            <circle class="emotion-point" cx="500" cy="50" r="8" fill="var(--gcp-blue)"></circle>
+            <circle class="emotion-point" cx="650" cy="50" r="8" fill="var(--gcp-blue)"></circle>
+          </svg>
+        </div>
+        
+        <div class="emotion-insights">
+          <div class="emotion-insight" data-phase="discovery">
+            <div class="insight-icon"><i class="fas fa-lightbulb"></i></div>
+            <div class="insight-content">
+              <h4>Initial Excitement</h4>
+              <p>High enthusiasm mixed with uncertainty about capabilities and implementation complexity</p>
+            </div>
+          </div>
+          
+          <div class="emotion-insight" data-phase="planning">
+            <div class="insight-icon"><i class="fas fa-lightbulb"></i></div>
+            <div class="insight-content">
+              <h4>Detailed Planning</h4>
+              <p>Deeper understanding brings concerns about technical complexity and organizational change</p>
+            </div>
+          </div>
+          
+          <div class="emotion-insight" data-phase="implementation">
+            <div class="insight-icon"><i class="fas fa-lightbulb"></i></div>
+            <div class="insight-content">
+              <h4>Implementation Challenges</h4>
+              <p>Temporary stress during integration and system changes; relief as milestones are achieved</p>
+            </div>
+          </div>
+          
+          <div class="emotion-insight" data-phase="adoption">
+            <div class="insight-icon"><i class="fas fa-lightbulb"></i></div>
+            <div class="insight-content">
+              <h4>Adoption Excitement</h4>
+              <p>Growing enthusiasm as teams experience productivity gains with the new solution</p>
+            </div>
+          </div>
+          
+          <div class="emotion-insight" data-phase="optimization">
+            <div class="insight-icon"><i class="fas fa-lightbulb"></i></div>
+            <div class="insight-content">
+              <h4>Sustained Value</h4>
+              <p>High satisfaction as business value is realized and new capabilities are continuously added</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="success-metrics">
+      <h3 class="section-title">Key Success Metrics</h3>
+      
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-icon">
+            <i class="fas fa-clock"></i>
+          </div>
+          <div class="metric-value">70%</div>
+          <div class="metric-label">Reduction in content production time</div>
+        </div>
+        
+        <div class="metric-card">
+          <div class="metric-icon">
+            <i class="fas fa-users"></i>
+          </div>
+          <div class="metric-value">90%+</div>
+          <div class="metric-label">User adoption rate after training</div>
+        </div>
+        
+        <div class="metric-card">
+          <div class="metric-icon">
+            <i class="fas fa-dollar-sign"></i>
+          </div>
+          <div class="metric-value">3.5x</div>
+          <div class="metric-label">Average return on investment</div>
+        </div>
+        
+        <div class="metric-card">
+          <div class="metric-icon">
+            <i class="fas fa-expand"></i>
+          </div>
+          <div class="metric-value">40%</div>
+          <div class="metric-label">Increase in content output capacity</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="cta-container">
+      <div class="cta-btns">
+        <a href="../solution_journey/12_Business_Model_Framework.html" class="cta-btn">
+          <i class="fas fa-project-diagram cta-icon"></i>
+          View Business Model Canvas
+        </a>
+        <a href="../client_presentations/BANT_Framework.html" class="cta-btn cta-secondary">
+          <i class="fas fa-chart-bar cta-icon"></i>
+          BANT Assessment Framework
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <style>
+    .deliverables-list {
+      list-style-type: none;
+      padding-left: 30px;
+    }
+    
+    .deliverables-list li {
+      position: relative;
+      padding-left: 20px;
+      margin-bottom: 10px;
+      color: var(--light-text);
+      font-size: 0.95rem;
+    }
+    
+    .deliverables-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 8px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+    
+    .phase-1 .deliverables-list li::before {
+      background-color: var(--gcp-blue);
+    }
+    
+    .phase-2 .deliverables-list li::before {
+      background-color: var(--gcp-purple);
+    }
+    
+    .phase-3 .deliverables-list li::before {
+      background-color: var(--gcp-red);
+    }
+    
+    .phase-4 .deliverables-list li::before {
+      background-color: var(--gcp-yellow);
+    }
+    
+    .phase-5 .deliverables-list li::before {
+      background-color: var(--gcp-green);
+    }
+    
+    .section-title {
+      font-size: 1.8rem;
+      font-weight: 500;
+      text-align: center;
+      margin-bottom: 20px;
+      color: var(--dark-text);
+    }
+    
+    .section-desc {
+      font-size: 1rem;
+      color: var(--light-text);
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto 30px;
+      line-height: 1.6;
+    }
+    
+    .customer-emotion {
+      margin-bottom: 50px;
+      padding: 30px;
+      background-color: var(--bg-light);
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .emotion-chart {
+      position: relative;
+      margin-top: 40px;
+    }
+    
+    .emotion-labels {
+      position: absolute;
+      left: -10px;
+      top: 0;
+      height: 200px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      color: var(--light-text);
+      font-weight: 500;
+    }
+    
+    .emotion-phases {
+      display: flex;
+      justify-content: space-between;
+      margin-left: 50px;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    
+    .emotion-phase {
+      flex: 1;
+      text-align: center;
+      color: var(--light-text);
+    }
+    
+    .emotion-graph {
+      position: relative;
+      height: 200px;
+      margin-left: 50px;
+      margin-bottom: 20px;
+      background-color: white;
+      border-radius: 10px;
+    }
+    
+    .emotion-insights {
+      display: flex;
+      margin-left: 30px;
+      margin-top: 30px;
+    }
+    
+    .emotion-insight {
+      flex: 1;
+      display: flex;
+      padding: 0 10px;
+    }
+    
+    .insight-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background-color: var(--gcp-blue);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 10px;
+      flex-shrink: 0;
+    }
+    
+    .insight-content h4 {
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+    
+    .insight-content p {
+      font-size: 0.8rem;
+      color: var(--light-text);
+      line-height: 1.4;
+    }
+    
+    .success-metrics {
+      margin-bottom: 50px;
+    }
+    
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    
+    .metric-card {
+      background-color: white;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .metric-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+    
+    .metric-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: var(--gcp-blue);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 15px;
+      font-size: 1.5rem;
+    }
+    
+    .metric-card:nth-child(2) .metric-icon {
+      background-color: var(--gcp-purple);
+    }
+    
+    .metric-card:nth-child(3) .metric-icon {
+      background-color: var(--gcp-green);
+    }
+    
+    .metric-card:nth-child(4) .metric-icon {
+      background-color: var(--gcp-red);
+    }
+    
+    .metric-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--dark-text);
+    }
+    
+    .metric-label {
+      font-size: 1rem;
+      color: var(--light-text);
+      line-height: 1.4;
+    }
+    
+    .cta-container {
+      text-align: center;
+      margin-top: 40px;
+      margin-bottom: 30px;
+    }
+    
+    .cta-btns {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+    
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      background-color: var(--gcp-blue);
+      color: white;
+      font-size: 1rem;
+      font-weight: 500;
+      padding: 12px 25px;
+      border-radius: 25px;
+      text-decoration: none;
+      box-shadow: 0 4px 8px rgba(66, 133, 244, 0.3);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(66, 133, 244, 0.4);
+    }
+    
+    .cta-icon {
+      margin-right: 8px;
+    }
+    
+    .cta-secondary {
+      background-color: white;
+      color: var(--gcp-blue);
+      border: 1px solid var(--gcp-blue);
+      box-shadow: none;
+    }
+    
+    .cta-secondary:hover {
+      background-color: rgba(66, 133, 244, 0.05);
+      box-shadow: none;
+    }
+    
+    @media (max-width: 992px) {
+      .metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .emotion-insights {
+        flex-direction: column;
+      }
+      
+      .emotion-insight {
+        margin-bottom: 15px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .metrics-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .touchpoint-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .journey-phases {
+        flex-direction: column;
+        height: auto;
+      }
+      
+      .phase {
+        padding: 10px;
+      }
+      
+      .phase::after {
+        display: none;
+      }
+    }
+  </style>
+<style>
+  /* Custom chatbot positioning for this page */
+  #chatbot-toggle {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1000 !important;
+  }
+  
+  #chatbot-container {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1001 !important;
+    width: 350px !important;
+    max-height: 500px !important;
+  }
+</style>  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Phase navigation
+      const phases = document.querySelectorAll('.phase');
+      const stages = document.querySelectorAll('.stage');
+      
+      phases.forEach(phase => {
+        phase.addEventListener('click', function() {
+          // Remove active class from all phases and stages
+          phases.forEach(p => p.classList.remove('active'));
+          stages.forEach(s => s.classList.remove('active'));
+          
+          // Add active class to clicked phase
+          this.classList.add('active');
+          
+          // Show corresponding stage
+          const stageId = this.getAttribute('data-stage');
+          document.getElementById(stageId).classList.add('active');
+        });
+      });
+      
+      // Emotion insights hover effect
+      const emotionInsights = document.querySelectorAll('.emotion-insight');
+      const emotionPoints = document.querySelectorAll('.emotion-point');
+      
+      emotionInsights.forEach((insight, index) => {
+        insight.addEventListener('mouseenter', function() {
+          // Highlight corresponding point on the graph
+          emotionPoints[index].setAttribute('r', '12');
+          emotionPoints[index].style.fill = 'var(--gcp-red)';
+        });
+        
+        insight.addEventListener('mouseleave', function() {
+          // Reset point size and color
+          emotionPoints[index].setAttribute('r', '8');
+          emotionPoints[index].style.fill = 'var(--gcp-blue)';
+        });
+      });
+      
+      // Touchpoint card hover effects
+      const touchpointCards = document.querySelectorAll('.touchpoint-card');
+      
+      touchpointCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+          this.style.backgroundColor = 'white';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+          this.style.backgroundColor = 'var(--bg-light)';
+        });
+      });
+    });
+  </script>
+  
+  <!-- Navigation CSS -->
+  <style>
+    .nav-buttons {
+      position: fixed;
+      bottom: 20px;
+     
+      display: flex;
+      gap: 10px;
+    }
+    
+    .nav-button {
+      background-color: var(--gcp-blue);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+      transition: all 0.2s ease;
+    }
+    
+    .nav-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 10px rgba(0,0,0,0.3);
+    }
+    
+    .nav-button:active {
+      transform: translateY(-1px);
+      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+    }
+    
+    .home-button {
+      background-color: var(--gcp-green);
+    }
+    
+    .previous-button {
+      background-color: var(--gcp-yellow);
+    }
+  </style>
+<style>
+  /* Custom chatbot positioning for this page */
+  #chatbot-toggle {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1000 !important;
+  }
+  
+  #chatbot-container {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1001 !important;
+    width: 350px !important;
+    max-height: 500px !important;
+  }
+</style>  
+  <!-- Navigation Buttons -->
+  <div class="nav-buttons">
+    <button class="nav-button home-button" title="Home" onclick="window.location.href='client_presentations/Executive_Briefing.html'">
+      <i class="fas fa-home"></i>
+    </button>
+    <button class="nav-button previous-button" title="Previous" id="prevButton">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+    <button class="nav-button" title="Next" id="nextButton" style="visibility: hidden;">
+      <i class="fas fa-arrow-right"></i>
+    </button>
+  </div>
+  
+  <!-- Sales Journey Progress -->
+  <div style="position: fixed; bottom: 80px; left: 0; right: 0; text-align: center;">
+    <div style="display: inline-block; background-color: var(--bg-light); padding: 10px 20px; border-radius: 30px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+      <div style="font-size: 0.9rem; color: var(--light-text); margin-bottom: 5px;">GCP Sales Journey Progress</div>
+      <div style="width: 300px; height: 10px; background-color: #e0e0e0; border-radius: 5px; overflow: hidden;">
+        <div style="width: 100%; height: 100%; background: linear-gradient(90deg, var(--gcp-blue), var(--gcp-green)); border-radius: 5px;"></div>
+      </div>
+      <div style="display: flex; justify-content: space-between; margin-top: 5px; font-size: 0.8rem; color: var(--light-text);">
+        <span>Journey Complete</span>
+        <span>100%</span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Success Banner -->
+  <div style="background: linear-gradient(120deg, var(--gcp-green), #2ecc71); color: white; padding: 15px 20px; border-radius: 10px; margin: 20px auto 40px; max-width: 800px; text-align: center; box-shadow: 0 4px 15px rgba(15, 157, 88, 0.3);">
+    <i class="fas fa-trophy" style="font-size: 24px; margin-right: 10px;"></i>
+    <span style="font-size: 18px; font-weight: 500;">Congratulations! You've completed the GCP sales journey</span>
+  </div>
+  
+  <!-- Journey Phase Indicator -->
+  <div style="text-align: center; margin-top: 20px; margin-bottom: 40px;">
+    <div style="display: inline-block; background-color: rgba(15, 157, 88, 0.1); padding: 10px 20px; border-radius: 30px; color: var(--gcp-green);">
+      <i class="fas fa-flag-checkered"></i> Sales Phase: Implementation Success
+    </div>
+    <p style="color: var(--light-text); margin-top: 10px; font-size: 0.9rem;">
+      Showcasing the successful journey and ongoing partnership value
+    </p>
+  </div>
+  
+  <!-- Navigation JavaScript -->
+  <script>
+    document.getElementById('prevButton').addEventListener('click', function() {
+      window.location.href = '../client_presentations/BANT_Framework.html';
+    });
+  </script>
+<script src="../chatbot_commands.js"></script>
+<script src="0
+
+  <!-- Chatbot Container -->
+  <!-- Chatbot is dynamically created by chatbot scripts -->    <i class="fas fa-comment"></i>
+  </button>
+</body>
+</html> 

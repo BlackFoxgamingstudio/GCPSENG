@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neo AI Writers' Room | Slide 1</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --gcp-blue: #4285F4;
+      --gcp-red: #DB4437;
+      --gcp-yellow: #F4B400;
+      --gcp-green: #0F9D58;
+      --dark-text: #202124;
+      --light-text: #5f6368;
+      --bg-light: #f8f9fa;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      color: var(--dark-text);
+      background-color: white;
+      overflow-x: hidden;
+    }
+    
+    .slide-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .slide-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .slide-title {
+      color: var(--gcp-blue);
+      font-size: 2.5rem;
+      font-weight: 500;
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+    
+    .slide-subtitle {
+      color: var(--gcp-blue);
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-bottom: 20px;
+    }
+    
+    .content-wrapper {
+      display: flex;
+      margin-bottom: 40px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      overflow: hidden;
+      height: 450px;
+    }
+    
+    .panel {
+      padding: 20px;
+      position: relative;
+    }
+    
+    /* Left Panel */
+    .left-panel {
+      background-color: rgba(0,0,0,0.05);
+      width: 30%;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .panel-title {
+      text-align: center;
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      color: var(--light-text);
+      font-style: italic;
+    }
+    
+    .content-items {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .video-item {
+      width: 100px;
+      height: 70px;
+      background-color: #333;
+      margin: 8px;
+      border-radius: 5px;
+      position: relative;
+      box-shadow: 0 3px 5px rgba(0,0,0,0.2);
+    }
+    
+    .video-item::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.7));
+      border-radius: 5px;
+    }
+    
+    .task-label {
+      position: absolute;
+      bottom: 5px;
+      left: 5px;
+      background-color: rgba(0,0,0,0.6);
+      color: white;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 0.6rem;
+      z-index: 2;
+    }
+    
+    .audio-wave {
+      width: 100px;
+      height: 30px;
+      background: linear-gradient(90deg, 
+        var(--gcp-blue) 10%, 
+        transparent 10%, transparent 20%, 
+        var(--gcp-blue) 20%, var(--gcp-blue) 30%,
+        transparent 30%, transparent 40%,
+        var(--gcp-blue) 40%, var(--gcp-blue) 50%,
+        transparent 50%, transparent 60%,
+        var(--gcp-blue) 60%, var(--gcp-blue) 70%,
+        transparent 70%, transparent 80%,
+        var(--gcp-blue) 80%, var(--gcp-blue) 90%);
+      background-size: 20% 100%;
+      margin: 8px;
+      opacity: 0.7;
+      border-radius: 3px;
+    }
+    
+    /* Center Panel */
+    .center-panel {
+      width: 20%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--bg-light);
+    }
+    
+    .transform-arrow {
+      position: relative;
+      text-align: center;
+    }
+    
+    .arrow-label {
+      font-weight: 500;
+      margin-bottom: 10px;
+      color: var(--gcp-blue);
+    }
+    
+    .arrow {
+      font-size: 3rem;
+      color: var(--gcp-blue);
+      margin: 20px 0;
+    }
+    
+    .variables {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 150px;
+      margin: 0 auto;
+    }
+    
+    .variable-icon {
+      width: 35px;
+      height: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      color: white;
+      margin: 4px;
+      font-weight: 500;
+      position: relative;
+      cursor: pointer;
+    }
+    
+    .variable-icon:hover::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: calc(100% + 5px);
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(0,0,0,0.8);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.6rem;
+      white-space: nowrap;
+      z-index: 10;
+    }
+    
+    .gcp-services {
+      margin-top: 20px;
+      text-align: center;
+    }
+    
+    .service {
+      display: inline-flex;
+      align-items: center;
+      background-color: white;
+      padding: 4px 8px;
+      border-radius: 20px;
+      margin: 2px;
+      font-size: 0.7rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .service i {
+      margin-right: 4px;
+      color: var(--gcp-blue);
+    }
+    
+    /* Right Panel */
+    .right-panel {
+      width: 50%;
+      background-color: white;
+    }
+    
+    .dashboard-header {
+      background-color: var(--gcp-blue);
+      color: white;
+      padding: 10px 15px;
+      border-radius: 5px 5px 0 0;
+      font-weight: 500;
+      text-align: center;
+      margin: -20px -20px 20px -20px;
+    }
+    
+    .insight {
+      background-color: white;
+      border-radius: 5px;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border-left: 4px solid var(--gcp-blue);
+    }
+    
+    .insight-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    
+    .insight-icon {
+      color: var(--gcp-blue);
+      margin-right: 8px;
+    }
+    
+    .insight-title {
+      font-weight: 500;
+      color: var(--dark-text);
+    }
+    
+    .insight-description {
+      font-size: 0.8rem;
+      color: var(--light-text);
+      margin-bottom: 10px;
+    }
+    
+    .graph {
+      height: 30px;
+      background: linear-gradient(90deg, 
+        rgba(219,68,55,0.2) 0%, 
+        rgba(15,157,88,0.3) 20%, 
+        rgba(66,133,244,0.4) 40%, 
+        rgba(15,157,88,0.3) 70%, 
+        rgba(219,68,55,0.2) 100%);
+      border-radius: 3px;
+      position: relative;
+    }
+    
+    .marker {
+      position: absolute;
+      top: -5px;
+      bottom: -5px;
+      width: 2px;
+      background-color: var(--gcp-red);
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { opacity: 0.6; }
+      50% { opacity: 1; }
+      100% { opacity: 0.6; }
+    }
+    
+    .time-range {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.7rem;
+      color: var(--light-text);
+      margin-top: 5px;
+    }
+    
+    /* Footer */
+    .metrics-section {
+      display: flex;
+      justify-content: space-around;
+      padding: 20px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    
+    .metric {
+      text-align: center;
+      padding: 0 20px;
+      border-right: 1px solid rgba(0,0,0,0.1);
+    }
+    
+    .metric:last-child {
+      border-right: none;
+    }
+    
+    .metric-value {
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--gcp-green);
+    }
+    
+    .metric-label {
+      font-size: 0.9rem;
+      color: var(--light-text);
+      max-width: 120px;
+      margin: 0 auto;
+    }
+    
+    .footer {
+      text-align: center;
+      padding: 10px;
+      font-size: 0.8rem;
+      color: var(--light-text);
+      background-color: var(--bg-light);
+      border-radius: 30px;
+      display: inline-block;
+      margin: 0 auto;
+      padding: 8px 20px;
+    }
+    
+    .footer-container {
+      text-align: center;
+    }
+    
+    .highlight {
+      color: var(--gcp-blue);
+      font-weight: 500;
+    }
+    
+    /* Colors for variable icons */
+    .var-blue { background-color: var(--gcp-blue); }
+    .var-red { background-color: var(--gcp-red); }
+    .var-green { background-color: var(--gcp-green); }
+    .var-yellow { background-color: var(--gcp-yellow); }
+    
+    /* Animations */
+    .fade-in {
+      animation: fadeIn 0.8s forwards;
+    }
+    
+    .slide-in-right {
+      animation: slideInRight 0.8s forwards;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes slideInRight {
+      from { transform: translateX(30px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+  </style>
+<style>
+  /* Custom chatbot positioning for this page */
+  #chatbot-toggle {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1000 !important;
+  }
+  
+  #chatbot-container {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1001 !important;
+    width: 350px !important;
+    max-height: 500px !important;
+  }
+</style><link rel="stylesheet" href="../chatbot.css">
+<link rel="stylesheet" href="../navbar.css">
+<script src="../navbar.js"></script>
+</head>
+<body>
+  <div class="slide-container">
+    <div class="slide-header">
+      <h1 class="slide-title">Transform Content Creation with the Neo AI Writers' Room</h1>
+      <h2 class="slide-subtitle">From Raw Footage to AI-Powered Content Intelligence</h2>
+    </div>
+    
+    <div class="content-wrapper">
+      <!-- Left Panel -->
+      <div class="panel left-panel">
+        <h3 class="panel-title">Manual Content Production Process</h3>
+        <div class="content-items">
+          <div class="video-item">
+            <span class="task-label">transcribe</span>
+          </div>
+          <div class="video-item">
+            <span class="task-label">analyze</span>
+          </div>
+          <div class="video-item">
+            <span class="task-label">tag</span>
+          </div>
+          <div class="video-item">
+            <span class="task-label">edit</span>
+          </div>
+          
+          <div class="audio-wave"></div>
+          <div class="audio-wave"></div>
+          <div class="audio-wave"></div>
+          <div class="audio-wave"></div>
+        </div>
+      </div>
+      
+      <!-- Center Panel -->
+      <div class="panel center-panel">
+        <div class="transform-arrow">
+          <div class="arrow-label">AI Transformation</div>
+          <div class="arrow">→</div>
+          <div class="variables">
+            <div class="variable-icon var-blue" data-tooltip="Speaking Rate">S</div>
+            <div class="variable-icon var-red" data-tooltip="Visual Objects">V</div>
+            <div class="variable-icon var-green" data-tooltip="Topic Detection">T</div>
+            <div class="variable-icon var-yellow" data-tooltip="Emotional Analysis">E</div>
+            <div class="variable-icon var-blue" data-tooltip="Fact Verification">F</div>
+            <div class="variable-icon var-red" data-tooltip="Word Choice">W</div>
+            <div class="variable-icon var-green" data-tooltip="On-screen Text">O</div>
+            <div class="variable-icon var-yellow" data-tooltip="Scene Transitions">S</div>
+            <div class="variable-icon var-blue" data-tooltip="Moment Detection">M</div>
+            <div class="variable-icon var-red" data-tooltip="Context Awareness">C</div>
+          </div>
+          
+          <div class="gcp-services">
+            <div class="service">
+              <i class="fas fa-brain"></i>
+              <span>Vertex AI</span>
+            </div>
+            <div class="service">
+              <i class="fas fa-project-diagram"></i>
+              <span>Pub/Sub</span>
+            </div>
+            <div class="service">
+              <i class="fas fa-server"></i>
+              <span>Cloud Run</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Right Panel -->
+      <div class="panel right-panel">
+        <div class="dashboard-header">Neo AI Dashboard</div>
+        
+        <div class="insight slide-in-right" style="animation-delay: 0.1s">
+          <div class="insight-header">
+            <i class="fas fa-comments insight-icon"></i>
+            <div class="insight-title">Speaking Rate + Sentiment Analysis</div>
+          </div>
+          <div class="graph">
+            <div class="marker" style="left:65%"></div>
+          </div>
+          <div class="time-range">
+            <span>00:00</span>
+            <span>10:45</span>
+          </div>
+        </div>
+        
+        <div class="insight slide-in-right" style="animation-delay: 0.2s">
+          <div class="insight-header">
+            <i class="fas fa-camera insight-icon"></i>
+            <div class="insight-title">Object Detection + Filler Words</div>
+          </div>
+          <div class="graph">
+            <div class="marker" style="left:40%"></div>
+          </div>
+          <div class="time-range">
+            <span>00:00</span>
+            <span>10:45</span>
+          </div>
+        </div>
+        
+        <div class="insight slide-in-right" style="animation-delay: 0.3s">
+          <div class="insight-header">
+            <i class="fas fa-chart-line insight-icon"></i>
+            <div class="insight-title">Emotional Response During Demo</div>
+          </div>
+          <div class="insight-description">Sentiment dropped when discussing battery life while showing product demo</div>
+          <div class="graph">
+            <div class="marker" style="left:75%"></div>
+          </div>
+          <div class="time-range">
+            <span>00:00</span>
+            <span>10:45</span>
+          </div>
+        </div>
+        
+        <div class="insight slide-in-right" style="animation-delay: 0.4s">
+          <div class="insight-header">
+            <i class="fas fa-star insight-icon"></i>
+            <div class="insight-title">Key Moments</div>
+          </div>
+          <div class="insight-description">3 high-value content moments detected for social media clips</div>
+          <div class="graph">
+            <div class="marker" style="left:25%"></div>
+          </div>
+          <div class="time-range">
+            <span>00:00</span>
+            <span>10:45</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Metrics Section -->
+    <div class="metrics-section fade-in">
+      <div class="metric">
+        <div class="metric-value">95%</div>
+        <div class="metric-label">reduction in analysis time</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value">2.5×</div>
+        <div class="metric-label">content output potential</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value">6 mo.</div>
+        <div class="metric-label">typical ROI achievement</div>
+      </div>
+    </div>
+    
+    <!-- Footer -->
+    <div class="footer-container">
+      <div class="footer fade-in">
+        Built on <span class="highlight">Google Cloud</span>: Vertex AI + Pub/Sub + Cloud Run + MongoDB Atlas
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Add hover effect to variable icons to make tooltips more reliable
+    document.querySelectorAll('.variable-icon').forEach(icon => {
+      icon.addEventListener('mouseover', function() {
+        this.style.transform = 'scale(1.2)';
+        this.style.boxShadow = '0 3px 6px rgba(0,0,0,0.2)';
+      });
+      
+      icon.addEventListener('mouseout', function() {
+        this.style.transform = 'scale(1)';
+        this.style.boxShadow = 'none';
+      });
+    });
+    
+    // Add interactive effect to insights
+    document.querySelectorAll('.insight').forEach(insight => {
+      insight.addEventListener('mouseover', function() {
+        this.style.transform = 'translateX(5px)';
+      });
+      
+      insight.addEventListener('mouseout', function() {
+        this.style.transform = 'translateX(0)';
+      });
+    });
+  </script>
+  
+  <!-- Navigation CSS -->
+  <style>
+    .nav-buttons {
+      position: fixed;
+      bottom: 20px;
+     
+      display: flex;
+      gap: 10px;
+    }
+    
+    .nav-button {
+      background-color: var(--gcp-blue);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+      transition: all 0.2s ease;
+    }
+    
+    .nav-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 10px rgba(0,0,0,0.3);
+    }
+    
+    .nav-button:active {
+      transform: translateY(-1px);
+      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+    }
+    
+    .home-button {
+      background-color: var(--gcp-green);
+    }
+    
+    .previous-button {
+      background-color: var(--gcp-yellow);
+    }
+  </style>
+<style>
+  /* Custom chatbot positioning for this page */
+  #chatbot-toggle {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1000 !important;
+  }
+  
+  #chatbot-container {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1001 !important;
+    width: 350px !important;
+    max-height: 500px !important;
+  }
+</style>  
+  <!-- Navigation Buttons -->
+  
+  <!-- Navigation JavaScript -->
+  <script>
+    document.getElementById('nextButton').addEventListener('click', function() {
+      window.location.href = '02_Security_Challenges.html';
+    });
+  </script>
+<script src="../chatbot_commands.js"></script>
+<script src="0
+
+  <!-- Chatbot Container -->
+  <!-- Chatbot is dynamically created by chatbot scripts -->    <i class="fas fa-comment"></i>
+  </button>
+</body>
+</html> 

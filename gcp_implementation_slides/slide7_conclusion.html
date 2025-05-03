@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DroneAI GCP Implementation - Conclusion & Next Steps</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../favicon.ico">
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="../navbar.css">
+  <link rel="stylesheet" href="../chatbot.css">
+
+  <style>
+    :root {
+      --gcp-blue: #4285F4;
+      --gcp-red: #DB4437;
+      --gcp-yellow: #F4B400;
+      --gcp-green: #0F9D58;
+      --gcp-purple: #A142F4;
+      --dark-text: #202124;
+      --light-text: #5f6368;
+      --bg-light: #f8f9fa;
+      --border-light: #dadce0;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      color: var(--dark-text);
+      background-color: var(--bg-light);
+      line-height: 1.6;
+    }
+    
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+      color: var(--dark-text);
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+    
+    h1 {
+      font-size: 2.5rem;
+      color: var(--gcp-purple);
+      margin-bottom: 1.5rem;
+      position: relative;
+      display: inline-block;
+    }
+    
+    h1::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -10px;
+      width: 80px;
+      height: 4px;
+      background-color: var(--gcp-purple);
+      border-radius: 2px;
+    }
+    
+    h2 {
+      font-size: 1.8rem;
+      color: var(--gcp-blue);
+      margin-top: 2rem;
+      border-bottom: 1px solid var(--border-light);
+      padding-bottom: 0.5rem;
+    }
+    
+    h3 {
+      font-size: 1.4rem;
+      margin-top: 1.5rem;
+      color: var(--gcp-purple);
+    }
+    
+    p {
+      margin-bottom: 1rem;
+    }
+    
+    a {
+      color: var(--gcp-blue);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    
+    a:hover {
+      color: var(--gcp-green);
+      text-decoration: underline;
+    }
+    
+    ul, ol {
+      margin-left: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .slide-container {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 30px;
+      margin-bottom: 40px;
+    }
+    
+    .slide-navigation {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-light);
+    }
+    
+    .nav-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background-color: var(--gcp-blue);
+      color: white;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+    
+    .nav-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(66, 133, 244, 0.3);
+      text-decoration: none;
+      color: white;
+    }
+    
+    .nav-button.prev {
+      background-color: var(--light-text);
+    }
+    
+    .nav-button.next {
+      background-color: var(--gcp-green);
+    }
+    
+    /* Conclusion specific styles */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin: 2rem 0;
+    }
+    
+    .summary-card {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .summary-header {
+      padding: 15px;
+      font-weight: 500;
+      color: white;
+      background-color: var(--gcp-blue);
+    }
+    
+    .summary-content {
+      padding: 15px;
+      flex-grow: 1;
+    }
+    
+    .summary-icon {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 15px;
+      font-size: 2.5rem;
+      color: var(--gcp-blue);
+    }
+    
+    .timeline {
+      margin: 3rem 0;
+      position: relative;
+    }
+    
+    .timeline::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 20px;
+      height: 100%;
+      width: 4px;
+      background-color: var(--gcp-blue);
+      border-radius: 2px;
+    }
+    
+    .timeline-item {
+      position: relative;
+      padding-left: 45px;
+      margin-bottom: 2rem;
+    }
+    
+    .timeline-item:last-child {
+      margin-bottom: 0;
+    }
+    
+    .timeline-marker {
+      position: absolute;
+      left: 0;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: white;
+      border: 4px solid var(--gcp-blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gcp-blue);
+      font-weight: bold;
+      z-index: 2;
+    }
+    
+    .timeline-content {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      padding: 20px;
+    }
+    
+    .timeline-date {
+      font-weight: 500;
+      color: var(--gcp-purple);
+      margin-bottom: 10px;
+    }
+    
+    .timeline-title {
+      font-weight: 500;
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+    
+    .quote-container {
+      background-color: #f5f5f5;
+      border-left: 4px solid var(--gcp-green);
+      padding: 20px;
+      margin: 2rem 0;
+      border-radius: 0 8px 8px 0;
+    }
+    
+    .quote {
+      font-style: italic;
+      color: var(--dark-text);
+      font-size: 1.1rem;
+      margin-bottom: 15px;
+    }
+    
+    .quote-attribution {
+      text-align: right;
+      color: var(--light-text);
+    }
+    
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin: 2rem 0;
+    }
+    
+    .benefit-card {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    
+    .benefit-icon {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      color: var(--gcp-green);
+    }
+    
+    .benefit-title {
+      font-weight: 500;
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+    
+    .action-items {
+      margin: 2rem 0;
+    }
+    
+    .action-item {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      padding: 20px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+    }
+    
+    .action-number {
+      width: 40px;
+      height: 40px;
+      background-color: var(--gcp-red);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+    
+    .action-content {
+      flex-grow: 1;
+    }
+    
+    .action-title {
+      font-weight: 500;
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+    
+    .action-owner {
+      display: inline-block;
+      background-color: var(--bg-light);
+      padding: 5px 10px;
+      border-radius: 15px;
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: var(--light-text);
+    }
+    
+    @media (max-width: 768px) {
+      main {
+        padding: 20px 15px 60px;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      h2 {
+        font-size: 1.5rem;
+      }
+      
+      h3 {
+        font-size: 1.2rem;
+      }
+      
+      .slide-container {
+        padding: 20px;
+      }
+      
+      .summary-grid, .benefits-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .timeline::before {
+        left: 15px;
+      }
+      
+      .timeline-marker {
+        width: 30px;
+        height: 30px;
+      }
+      
+      .timeline-item {
+        padding-left: 40px;
+      }
+    }
+
+    /* Custom chatbot positioning for conclusion slide */
+    #chatbot-toggle {
+      position: fixed !important;
+      bottom: 20px !important;
+      right: 20px !important;
+      z-index: 1000 !important;
+    }
+    
+    #chatbot-container {
+      position: fixed !important;
+      bottom: 20px !important;
+      right: 20px !important;
+      z-index: 1001 !important;
+      width: 350px !important;
+      max-height: 500px !important;
+    }
+  </style>
+</head>
+<body>
+  <!-- Main content -->
+  <main>
+    <div class="slide-container">
+      <h1>Conclusion & Next Steps</h1>
+      
+      <p>The DroneAI solution implemented on Google Cloud Platform represents a transformative approach to drone operations through the innovative application of D&D-style game mechanics. This implementation delivers significant business value while optimizing technical infrastructure costs.</p>
+      
+      <h2>Key Implementation Benefits</h2>
+      
+      <div class="benefits-grid">
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <i class="fas fa-gamepad"></i>
+          </div>
+          <div class="benefit-title">Gamified Skill Development</div>
+          <p>D&D mechanics transform technical drone skills into engaging progression systems that operators naturally want to improve.</p>
+        </div>
+        
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <i class="fas fa-cloud"></i>
+          </div>
+          <div class="benefit-title">Serverless Scalability</div>
+          <p>Cloud-native architecture allows seamless scaling from small operations to enterprise-level deployments.</p>
+        </div>
+        
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <div class="benefit-title">Data-Driven Insights</div>
+          <p>Comprehensive analytics pipelines convert raw telemetry into actionable business intelligence.</p>
+        </div>
+        
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <i class="fas fa-robot"></i>
+          </div>
+          <div class="benefit-title">AI-Enhanced Operations</div>
+          <p>Machine learning models continuously improve shot quality assessments and operator recommendations.</p>
+        </div>
+      </div>
+      
+      <div class="quote-container">
+        <div class="quote">"The DroneAI implementation on GCP has transformed our operations. What was once considered technical training is now seen as an engaging game that operators actively want to excel at. The data insights have improved our business outcomes by 35%."</div>
+        <div class="quote-attribution">— Sarah Johnson, Director of Drone Operations</div>
+      </div>
+      
+      <h2>Project Summary</h2>
+      
+      <div class="summary-grid">
+        <div class="summary-card">
+          <div class="summary-header">Technical Architecture</div>
+          <div class="summary-content">
+            <div class="summary-icon">
+              <i class="fas fa-server"></i>
+            </div>
+            <ul>
+              <li>Containerized microservices on GKE</li>
+              <li>Real-time data processing with Dataflow</li>
+              <li>Structured analytics with BigQuery</li>
+              <li>ML-powered shot quality assessment</li>
+              <li>Event-driven game mechanics engine</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="summary-card">
+          <div class="summary-header">Business Outcomes</div>
+          <div class="summary-content">
+            <div class="summary-icon">
+              <i class="fas fa-chart-pie"></i>
+            </div>
+            <ul>
+              <li>32% increase in user engagement</li>
+              <li>40% reduction in training time</li>
+              <li>25% ROI in Year 1, 145% by Year 3</li>
+              <li>38% decrease in operational errors</li>
+              <li>NPS improvement from 42 to 72</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="summary-card">
+          <div class="summary-header">Game Mechanics Impact</div>
+          <div class="summary-content">
+            <div class="summary-icon">
+              <i class="fas fa-dice-d20"></i>
+            </div>
+            <ul>
+              <li>Skill-based progression incentivizes mastery</li>
+              <li>Character classes match operational roles</li>
+              <li>Mission-driven objectives align with business goals</li>
+              <li>In-game rewards translate to real-world benefits</li>
+              <li>Team-based challenges improve collaboration</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <h2>Implementation Roadmap</h2>
+      
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-marker">1</div>
+          <div class="timeline-content">
+            <div class="timeline-date">Months 1-2</div>
+            <div class="timeline-title">Infrastructure & Core Services Setup</div>
+            <ul>
+              <li>Complete GCP project configuration</li>
+              <li>Implement CI/CD pipelines</li>
+              <li>Deploy core data processing services</li>
+              <li>Set up storage and database infrastructure</li>
+              <li>Develop basic game mechanics engine</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <div class="timeline-marker">2</div>
+          <div class="timeline-content">
+            <div class="timeline-date">Months 3-4</div>
+            <div class="timeline-title">Game Mechanics & UI Development</div>
+            <ul>
+              <li>Implement character progression system</li>
+              <li>Develop mission and quest framework</li>
+              <li>Create skill check evaluation system</li>
+              <li>Build operator dashboard and interfaces</li>
+              <li>Conduct internal alpha testing</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <div class="timeline-marker">3</div>
+          <div class="timeline-content">
+            <div class="timeline-date">Months 5-6</div>
+            <div class="timeline-title">Integration & Beta Launch</div>
+            <ul>
+              <li>Integrate with drone hardware APIs</li>
+              <li>Implement video analysis for skill evaluation</li>
+              <li>Develop leaderboards and team features</li>
+              <li>Launch controlled beta with select operators</li>
+              <li>Gather feedback and refine mechanics</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <div class="timeline-marker">4</div>
+          <div class="timeline-content">
+            <div class="timeline-date">Months 7-9</div>
+            <div class="timeline-title">Full Production & Optimization</div>
+            <ul>
+              <li>Scale infrastructure for full production</li>
+              <li>Implement feedback from beta testing</li>
+              <li>Deploy advanced ML models for skill assessment</li>
+              <li>Optimize cost structure</li>
+              <li>Develop documentation and training materials</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <h2>Immediate Next Steps</h2>
+      
+      <div class="action-items">
+        <div class="action-item">
+          <div class="action-number">1</div>
+          <div class="action-content">
+            <div class="action-title">Project Kickoff & Team Formation</div>
+            <p>Assemble cross-functional implementation team with cloud engineers, ML specialists, game designers, and drone operations experts. Conduct kickoff workshop to align on objectives and timeline.</p>
+            <div class="action-owner">Owner: Project Management Office</div>
+          </div>
+        </div>
+        
+        <div class="action-item">
+          <div class="action-number">2</div>
+          <div class="action-content">
+            <div class="action-title">GCP Environment Setup</div>
+            <p>Configure GCP organization structure, establish project hierarchy, implement IAM policies, and set up initial networking architecture following the security design.</p>
+            <div class="action-owner">Owner: Cloud Infrastructure Team</div>
+          </div>
+        </div>
+        
+        <div class="action-item">
+          <div class="action-number">3</div>
+          <div class="action-content">
+            <div class="action-title">Game Mechanics Workshop</div>
+            <p>Conduct detailed game design workshop to refine the D&D-style mechanics, character classes, skill progressions, and mission structures aligned with operational goals.</p>
+            <div class="action-owner">Owner: Game Design Lead & Operations Team</div>
+          </div>
+        </div>
+        
+        <div class="action-item">
+          <div class="action-number">4</div>
+          <div class="action-content">
+            <div class="action-title">CI/CD Pipeline Development</div>
+            <p>Implement Cloud Build pipelines, configure artifact repositories, and establish deployment processes following the DevOps best practices outlined in the deployment plan.</p>
+            <div class="action-owner">Owner: DevOps Team</div>
+          </div>
+        </div>
+      </div>
+      
+      <h2>Contact Information</h2>
+      
+      <p>For more information about this implementation or to discuss next steps:</p>
+      
+      <ul>
+        <li><strong>Technical Lead</strong>: Michael Chen (michael.chen@droneai.com)</li>
+        <li><strong>GCP Architecture</strong>: Jessica Rodriguez (jessica.rodriguez@droneai.com)</li>
+        <li><strong>Game Mechanics Design</strong>: David Thompson (david.thompson@droneai.com)</li>
+        <li><strong>Project Management</strong>: Robert Patel (robert.patel@droneai.com)</li>
+      </ul>
+      
+      <!-- Navigation buttons -->
+      <div class="slide-navigation">
+        <a href="slide6_cost_optimization.html" class="nav-button prev">
+          <i class="fas fa-arrow-left"></i> Previous: Cost Optimization & ROI
+        </a>
+        <a href="index.html" class="nav-button next">
+          Return to Main Page <i class="fas fa-home"></i>
+        </a>
+      </div>
+    </div>
+  </main>
+  
+  <!-- Chatbot container -->
+  <!-- Chatbot is dynamically created by chatbot scripts -->    <i class="fas fa-comment"></i>
+  </button>
+  
+  <!-- Scripts -->
+  <script src="../chatbot_commands.js"></script>
+  <script src="../chatbot_enhanced.js"></script>
+  <script src="../chatbot.js"></script>
+  <script src="../navbar.js"></script>
+<script src="navigation.js"></script>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Call functions from navbar.js
+      addFontAwesome();
+      addNavbarCSS();
+      createNavbar();
+      addNavButtons();
+      
+      // Custom chatbot functions for the conclusion slide
+      const conclusionData = {
+        benefits: {
+          'skill development': 'D&D mechanics transform technical drone skills into engaging progression systems that operators naturally want to improve.',
+          'scalability': 'Cloud-native architecture allows seamless scaling from small operations to enterprise-level deployments.',
+          'analytics': 'Comprehensive analytics pipelines convert raw telemetry into actionable business intelligence.',
+          'ai': 'Machine learning models continuously improve shot quality assessments and operator recommendations.'
+        },
+        business_outcomes: {
+          'engagement': '32% increase in user engagement',
+          'training': '40% reduction in training time',
+          'roi': '25% ROI in Year 1, 145% by Year 3',
+          'errors': '38% decrease in operational errors',
+          'nps': 'NPS improvement from 42 to 72'
+        },
+        timeline: {
+          'phase1': 'Months 1-2: Infrastructure & Core Services Setup',
+          'phase2': 'Months 3-4: Game Mechanics & UI Development',
+          'phase3': 'Months 5-6: Integration & Beta Launch',
+          'phase4': 'Months 7-9: Full Production & Optimization'
+        },
+        next_steps: {
+          'kickoff': 'Project Kickoff & Team Formation (Owner: Project Management Office)',
+          'environment': 'GCP Environment Setup (Owner: Cloud Infrastructure Team)',
+          'workshop': 'Game Mechanics Workshop (Owner: Game Design Lead & Operations Team)',
+          'cicd': 'CI/CD Pipeline Development (Owner: DevOps Team)'
+        },
+        contacts: {
+          'technical': 'Michael Chen (michael.chen@droneai.com)',
+          'architecture': 'Jessica Rodriguez (jessica.rodriguez@droneai.com)',
+          'game design': 'David Thompson (david.thompson@droneai.com)',
+          'project': 'Robert Patel (robert.patel@droneai.com)'
+        }
+      };
+      
+      // Add custom message handling function
+      function handleConclusionChatbot(message) {
+        const lowerMsg = message.toLowerCase();
+        let response = '';
+        
+        // Check for timeline questions
+        if (lowerMsg.includes('timeline') || lowerMsg.includes('roadmap') || lowerMsg.includes('schedule')) {
+          response = 'Here\'s the implementation timeline:<br><br>';
+          for (const [phase, details] of Object.entries(conclusionData.timeline)) {
+            response += `• <strong>${details}</strong><br>`;
+          }
+        }
+        // Check for benefits questions
+        else if (lowerMsg.includes('benefit') || lowerMsg.includes('advantage') || lowerMsg.includes('value')) {
+          response = 'Key implementation benefits include:<br><br>';
+          for (const [benefit, details] of Object.entries(conclusionData.benefits)) {
+            response += `• <strong>${benefit.replace('_', ' ').charAt(0).toUpperCase() + benefit.slice(1)}:</strong> ${details}<br>`;
+          }
+        }
+        // Check for business outcome questions
+        else if (lowerMsg.includes('outcome') || lowerMsg.includes('result') || lowerMsg.includes('roi') || lowerMsg.includes('return')) {
+          response = 'Business outcomes from the implementation:<br><br>';
+          for (const [outcome, details] of Object.entries(conclusionData.business_outcomes)) {
+            response += `• <strong>${outcome.replace('_', ' ').charAt(0).toUpperCase() + outcome.slice(1)}:</strong> ${details}<br>`;
+          }
+        }
+        // Check for next steps questions
+        else if (lowerMsg.includes('next') || lowerMsg.includes('step') || lowerMsg.includes('action')) {
+          response = 'Immediate next steps for implementation:<br><br>';
+          for (const [step, details] of Object.entries(conclusionData.next_steps)) {
+            response += `• <strong>${details}</strong><br>`;
+          }
+        }
+        // Check for contact questions
+        else if (lowerMsg.includes('contact') || lowerMsg.includes('who') || lowerMsg.includes('team') || lowerMsg.includes('email')) {
+          response = 'Contact information for key team members:<br><br>';
+          for (const [role, person] of Object.entries(conclusionData.contacts)) {
+            response += `• <strong>${role.charAt(0).toUpperCase() + role.slice(1)}:</strong> ${person}<br>`;
+          }
+        }
+        // Default response for other questions
+        else {
+          response = `I can help you with information about the DroneAI GCP implementation. You can ask about:<br><br>
+          • Implementation benefits<br>
+          • Business outcomes<br>
+          • Implementation timeline<br>
+          • Next steps<br>
+          • Contact information`;
+        }
+        
+        return response;
+      }
+      
+      // Make the handler function global so it can be accessed by the chatbot system
+      window.conclusionChatbotHandler = handleConclusionChatbot;
+      
+      // Override the chatbot's message handling
+      if (typeof window.addChatbotMessageHandler === 'function') {
+        window.addChatbotMessageHandler(window.conclusionChatbotHandler);
+      } else {
+        // If the function isn't available yet, set up a MutationObserver to wait for chatbot initialization
+        const observer = new MutationObserver(function(mutations, obs) {
+          if (typeof window.addChatbotMessageHandler === 'function') {
+            window.addChatbotMessageHandler(window.conclusionChatbotHandler);
+            obs.disconnect(); // Stop observing once we've attached the handler
+          }
+        });
+        
+        // Start observing the document body for chatbot initialization
+        observer.observe(document.body, { childList: true, subtree: true });
+      }
+      
+      // Add initial welcome message once the chatbot is available
+      function tryAddInitialMessage() {
+        if (typeof window.addChatbotMessage === 'function') {
+          setTimeout(() => {
+            window.addChatbotMessage("Welcome to the DroneAI Implementation conclusion page! How can I help you understand our next steps?", false);
+          }, 1000);
+        } else {
+          setTimeout(tryAddInitialMessage, 500); // Try again in 500ms
+        }
+      }
+      
+      tryAddInitialMessage();
+    });
+  </script>
+</body>
+</html> 

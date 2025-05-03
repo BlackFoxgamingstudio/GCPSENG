@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neo AI Writers' Room | Slide 5</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+
+<link rel="stylesheet" href="../chatbot.css">
+<link rel="stylesheet" href="../navbar.css">
+
+<style>
+  /* Custom chatbot positioning for this page */
+  #chatbot-toggle {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1000 !important;
+  }
+  
+  #chatbot-container {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1001 !important;
+    width: 350px !important;
+    max-height: 500px !important;
+  }
+  
+  /* Enhanced styling for the implementation timeline */
+  .roadmap-container {
+    max-width: 1100px;
+    margin: 0 auto 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    overflow: hidden;
+  }
+  
+  .phase-timeline {
+    padding: 10px 0;
+    position: relative;
+  }
+  
+  .milestone {
+    position: relative;
+    background: white;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 6px;
+    padding: 10px;
+    margin: 5px 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  }
+  
+  .milestone:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.12);
+  }
+  
+  .milestone-title {
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: var(--dark-text);
+  }
+  
+  .milestone-desc {
+    font-size: 0.85rem;
+    color: var(--light-text);
+  }
+  
+  .time-marker {
+    text-align: center;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+  }
+  
+  .marker-day {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--gcp-blue);
+  }
+  
+  .marker-label {
+    font-size: 0.85rem;
+    color: var(--light-text);
+  }
+  
+  .timeline-line {
+    height: 6px;
+    background-color: #e0e0e0;
+    border-radius: 3px;
+    position: relative;
+    margin: 15px 0;
+  }
+  
+  .timeline-progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
+    background-color: var(--gcp-green);
+    border-radius: 3px;
+    transition: width 2s ease-in-out;
+  }
+  
+  .timeline-progress.animate-progress {
+    width: 100%;
+  }
+  
+  .stat-card {
+    background-color: white;
+    border-radius: 8px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+  }
+  
+  .stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  }
+  
+  .stat-icon {
+    font-size: 1.8rem;
+    color: var(--gcp-blue);
+    margin-bottom: 8px;
+  }
+  
+  .stat-value {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--gcp-blue);
+    margin-bottom: 5px;
+  }
+  
+  .detail-panel {
+    margin-top: 20px;
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  
+  .detail-icon {
+    font-size: 2rem;
+    color: var(--gcp-blue);
+  }
+  
+  .detail-title {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: var(--dark-text);
+  }
+  
+  .detail-desc {
+    color: var(--light-text);
+    line-height: 1.5;
+  }
+  
+  .service-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 5px;
+  }
+  
+  .service-tag {
+    background-color: rgba(66, 133, 244, 0.1);
+    color: var(--gcp-blue);
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 12px;
+    white-space: nowrap;
+  }
+</style>
+</head>
+<body>
+  <div class="slide-container">
+    <div class="slide-header">
+      <h1 class="slide-title">90-Day Implementation Path</h1>
+      <h2 class="slide-subtitle">From Foundation to Production</h2>
+    </div>
+    
+    <div class="roadmap-container">
+      <div class="roadmap-sidebar">
+        <!-- Phase labels will be positioned absolutely -->
+      </div>
+      
+      <div class="roadmap-content">
+        <div class="implementation-header">
+          Implementation Timeline
+        </div>
+        
+        <div class="timeline-container">
+          <div class="time-markers">
+            <div class="time-marker">
+              <div class="marker-day">Day 1</div>
+              <div class="marker-label">Project Start</div>
+            </div>
+            <div class="time-marker">
+              <div class="marker-day">Day 30</div>
+              <div class="marker-label">Phase 1 Complete</div>
+            </div>
+            <div class="time-marker">
+              <div class="marker-day">Day 60</div>
+              <div class="marker-label">Phase 2 Complete</div>
+            </div>
+            <div class="time-marker">
+              <div class="marker-day">Day 90</div>
+              <div class="marker-label">Production Launch</div>
+            </div>
+          </div>
+          
+          <div class="timeline-line">
+            <div class="timeline-progress"></div>
+          </div>
+          
+          <div class="phase-tracks">
+            <!-- Phase 1: Foundation -->
+            <div class="phase-track">
+              <div class="phase-label phase1">
+                <div class="phase-name">
+                  <span class="phase-dot"></span>
+                  Phase 1: Foundation
+                </div>
+                <div class="phase-desc">GCP infrastructure and core services setup</div>
+              </div>
+              
+              <div class="phase-timeline">
+                <!-- Milestone 1: Project Initialization -->
+                <div class="milestone phase1" style="left: 0%; width: 15%">
+                  <div class="milestone-inner">
+                    <div class="milestone-title">Project Initialization</div>
+                    <div class="milestone-desc">Setup project & IAM roles</div>
+                    <div class="service-tags">
+                      <span class="service-tag">Cloud IAM</span>
+                      <span class="service-tag">Cloud Shell</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Milestone 2: Terraform Setup -->
+                <div class="milestone phase1" style="left: 15%; width: 15%">
+                  <div class="milestone-inner">
+                    <div class="milestone-title">Infrastructure as Code</div>
+                    <div class="milestone-desc">Terraform modules & CI/CD</div>
+                    <div class="service-tags">
+                      <span class="service-tag">Cloud Build</span>
+                      <span class="service-tag">Terraform</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Milestone 3: Core Services -->
+                <div class="milestone phase1" style="left: 30%; width: 15%">
+                  <div class="milestone-inner">
+                    <div class="milestone-title">Core Services Deployment</div>
+                    <div class="milestone-desc">Pub/Sub, Cloud Run, Storage</div>
+                    <div class="service-tags">
+                      <span class="service-tag">Cloud Run</span>
+                      <span class="service-tag">Pub/Sub</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Phase 2: Analytics Pipeline -->
+            <div class="phase-track">
+              <div class="phase-label phase2">
+                <div class="phase-name">
+                  <span class="phase-dot"></span>
+                  Phase 2: Analytics
+                </div>
+                <div class="phase-desc">ML/AI pipeline and MongoDB integration</div>
+              </div>
+              
+              <div class="phase-timeline">
+                <!-- Milestone 1: Vertex AI Setup -->
+                <div class="milestone phase2" style="left: 33%; width: 17%">
+                  <div class="milestone-inner">
+                    <div class="milestone-title">Vertex AI Integration</div>
+                    <div class="milestone-desc">Model deployment & API config</div>
+                    <div class="service-tags">
+                      <span class="service-tag">Vertex AI</span>
+                      <span class="service-tag">Endpoints</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Milestone 2: MongoDB Atlas -->
+                <div class="milestone phase2" style="left: 50%; width: 15%">
+                  <div class="milestone-inner">
+                    <div class="milestone-title">MongoDB Atlas Setup</div>
+                    <div class="milestone-desc">Schema design & indexing</div>
+                    <div class="service-tags">
+                      <span class="service-tag">MongoDB Atlas</span>
+                      <span class="service-tag">VPC Peering</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Milestone 3: Initial Variables -->
+                <div class="milestone phase2" style="left: 65%; width: 17%">
+                  <div class="milestone-inner">
+                    <div class="milestone-title">First 10 Variables</div>
+                    <div class="milestone-desc">Implement core analytics</div>
+                    <div class="service-tags">
+                      <span class="service-tag">Microservices</span>
+                      <span class="service-tag">Event-driven</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Phase 3: Frontend & Integration -->
+            <div class="phase-track">
+              <div class="phase-label phase3">
+                <div class="phase-name">
+                  <span class="phase-dot"></span>
+                  Phase 3: Frontend
+                </div>
+                <div class="phase-desc">Dashboard, chatbot and business integration</div>
+              </div>
+              
+              <div class="phase-timeline">
+                <!-- Milestone 1: Firebase Setup -->
+                <div class="milestone phase3" style="left: 66%; width: 11%">
+                  <div class="milestone-inner">
+                    <div class="milestone-title">Firebase Dashboard</div>
+                    <div class="milestone-desc">Real-time UI & Auth</div>
+                    <div class="service-tags">
+                      <span class="service-tag">Firebase</span>
+                      <span class="service-tag">Auth</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Milestone 2: GraphQL API -->
+                <div class="milestone phase3" style="left: 77%; width: 11%">
+                  <div class="milestone-inner">
+                    <div class="milestone-title">GraphQL API Layer</div>
+                    <div class="milestone-desc">Query & subscription API</div>
+                    <div class="service-tags">
+                      <span class="service-tag">Cloud Run</span>
+                      <span class="service-tag">Apollo</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Milestone 3: Integration -->
+                <div class="milestone phase3" style="left: 88%; width: 12%">
+                  <div class="milestone-inner">
+                    <div class="milestone-title">Business Integration</div>
+                    <div class="milestone-desc">SSO, CRM & metrics</div>
+                    <div class="service-tags">
+                      <span class="service-tag">Cloud Functions</span>
+                      <span class="service-tag">Identity</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Ongoing: Expansion -->
+            <div class="phase-track">
+              <div class="phase-label ongoing">
+                <div class="phase-name">
+                  <span class="phase-dot"></span>
+                  Ongoing: Expansion
+                </div>
+                <div class="phase-desc">Continuous improvement and expansion</div>
+              </div>
+              
+              <div class="phase-timeline">
+                <div class="milestone ongoing" style="left: 85%; width: 15%">
+                  <div class="milestone-inner">
+                    <div class="milestone-title">Variables Expansion</div>
+                    <div class="milestone-desc">New analytics dimensions</div>
+                    <div class="service-tags">
+                      <span class="service-tag">CI/CD</span>
+                      <span class="service-tag">Plugin Architecture</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="implementation-stats">
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fas fa-cloud"></i>
+              </div>
+              <div class="stat-value">10</div>
+              <div class="stat-label">GCP services<br>deployed</div>
+            </div>
+            
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fas fa-brain"></i>
+              </div>
+              <div class="stat-value">5</div>
+              <div class="stat-label">Vertex AI<br>models</div>
+            </div>
+            
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fas fa-microchip"></i>
+              </div>
+              <div class="stat-value">12</div>
+              <div class="stat-label">Microservices<br>deployed</div>
+            </div>
+            
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fas fa-tachometer-alt"></i>
+              </div>
+              <div class="stat-value">3-5</div>
+              <div class="stat-label">Week ROI<br>realized</div>
+            </div>
+          </div>
+          
+          <div class="detail-panel">
+            <div class="detail-icon">
+              <i class="fas fa-rocket"></i>
+            </div>
+            <div class="detail-content">
+              <div class="detail-title">Accelerated Implementation with GCP Expertise</div>
+              <div class="detail-desc">
+                Our implementation approach leverages Google Cloud Platform's best practices and managed services to deliver a production-ready solution in 90 days. Each phase builds on the previous one, with continuous testing and integration to ensure a smooth deployment. The modular architecture allows for early value delivery while setting the foundation for future expansion.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="technical-footer">
+      Implementation uses <span class="highlight">Terraform</span> for infrastructure as code | <span class="highlight">Cloud Build</span> CI/CD pipeline | <span class="highlight">Vertex AI</span> for ML capabilities | <span class="highlight">MongoDB Atlas</span> on GCP Marketplace
+    </div>
+  </div>
+
+  <script>
+    // Animate timeline progress
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(() => {
+        const progress = document.querySelector('.timeline-progress');
+        progress.classList.add('animate-progress');
+      }, 500);
+      
+      // Make milestones interactive
+      const milestones = document.querySelectorAll('.milestone');
+      const detailPanel = document.querySelector('.detail-panel');
+      const detailIcon = document.querySelector('.detail-icon i');
+      const detailTitle = document.querySelector('.detail-title');
+      const detailDesc = document.querySelector('.detail-desc');
+      
+      milestones.forEach(milestone => {
+        milestone.addEventListener('click', function() {
+          // Get milestone data
+          const title = this.querySelector('.milestone-title').textContent;
+          const isPhase1 = this.classList.contains('phase1');
+          const isPhase2 = this.classList.contains('phase2');
+          const isPhase3 = this.classList.contains('phase3');
+          const isOngoing = this.classList.contains('ongoing');
+          
+          // Update detail panel
+          if (isPhase1) {
+            detailIcon.className = '';
+            detailIcon.classList.add('fas', 'fa-cloud');
+            detailIcon.style.color = 'var(--phase1-color)';
+          } else if (isPhase2) {
+            detailIcon.className = '';
+            detailIcon.classList.add('fas', 'fa-brain');
+            detailIcon.style.color = 'var(--phase2-color)';
+          } else if (isPhase3) {
+            detailIcon.className = '';
+            detailIcon.classList.add('fas', 'fa-desktop');
+            detailIcon.style.color = 'var(--phase3-color)';
+          } else if (isOngoing) {
+            detailIcon.className = '';
+            detailIcon.classList.add('fas', 'fa-sync');
+            detailIcon.style.color = 'var(--ongoing-color)';
+          }
+          
+          detailTitle.textContent = title + ' Details';
+          
+          // Set custom descriptions based on milestone
+          if (title === 'Project Initialization') {
+            detailDesc.textContent = 'Set up GCP project with proper IAM roles, security policies, and organizational structure. Configure network topology and initial API access.';
+          } else if (title === 'Infrastructure as Code') {
+            detailDesc.textContent = 'Implement Terraform modules for reproducible deployments across environments. Set up Cloud Build CI/CD pipelines for infrastructure deployment.';
+          } else if (title === 'Core Services Deployment') {
+            detailDesc.textContent = 'Deploy foundation services: Pub/Sub for event streaming, Cloud Run for containerized services, and Cloud Storage for media assets.';
+          } else if (title === 'Vertex AI Integration') {
+            detailDesc.textContent = 'Set up ML models with Vertex AI: speech-to-text, object detection, NLP sentiment analysis, and custom fact-checking models.';
+          } else if (title === 'MongoDB Atlas Setup') {
+            detailDesc.textContent = 'Deploy MongoDB Atlas cluster optimized for analytical workloads. Design schema, create indexes, and implement network peering with GCP VPC.';
+          } else if (title === 'First 10 Variables') {
+            detailDesc.textContent = 'Implement the core analytical variables as independent microservices. Deploy scaling policies and monitoring for each variable component.';
+          } else if (title === 'Firebase Dashboard') {
+            detailDesc.textContent = 'Build real-time dashboard with Firebase Hosting and Firestore. Implement authentication, user management, and responsive UI components.';
+          } else if (title === 'GraphQL API Layer') {
+            detailDesc.textContent = 'Create unified GraphQL API layer for frontend services. Implement subscriptions for real-time updates and caching strategies.';
+          } else if (title === 'Business Integration') {
+            detailDesc.textContent = 'Connect with existing business systems via APIs. Implement SSO with Identity Platform, CRM integration, and business metrics reporting.';
+          } else if (title === 'Variables Expansion') {
+            detailDesc.textContent = 'Develop additional analytical variables using the plugin architecture. Introduce new ML models and expand the analytical capabilities of the platform.';
+          }
+          
+          // Highlight selected milestone
+          milestones.forEach(m => {
+            m.style.opacity = 0.7;
+            m.style.transform = 'none';
+          });
+          this.style.opacity = 1;
+          this.style.transform = 'translateY(-3px)';
+        });
+      });
+      
+      // Trigger click on first milestone to show initial details
+      setTimeout(() => {
+        milestones[0].click();
+      }, 1000);
+    });
+  </script>
+  
+  
+
+
+<script src="../chatbot_commands.js"></script>
+<script src="../chatbot_enhanced.js"></script>
+<script src="../chatbot.js"></script>
+<script src="../global_nav.js"></script>
+<script src="../navbar.js"></script>
+  <!-- Chatbot is dynamically created by chatbot scripts -->
+</body>
+</html> 

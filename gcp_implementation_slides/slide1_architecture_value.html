@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DroneAI GCP Implementation - Architecture & Value Proposition</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../favicon.ico">
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="../navbar.css">
+  <link rel="stylesheet" href="../chatbot.css">
+
+  <style>
+    :root {
+      --gcp-blue: #4285F4;
+      --gcp-red: #DB4437;
+      --gcp-yellow: #F4B400;
+      --gcp-green: #0F9D58;
+      --gcp-purple: #A142F4;
+      --dark-text: #202124;
+      --light-text: #5f6368;
+      --bg-light: #f8f9fa;
+      --border-light: #dadce0;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      color: var(--dark-text);
+      background-color: var(--bg-light);
+      line-height: 1.6;
+    }
+    
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+      color: var(--dark-text);
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+    
+    h1 {
+      font-size: 2.5rem;
+      color: var(--gcp-green);
+      margin-bottom: 1.5rem;
+      position: relative;
+      display: inline-block;
+    }
+    
+    h1::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -10px;
+      width: 80px;
+      height: 4px;
+      background-color: var(--gcp-green);
+      border-radius: 2px;
+    }
+    
+    h2 {
+      font-size: 1.8rem;
+      color: var(--gcp-blue);
+      margin-top: 2rem;
+      border-bottom: 1px solid var(--border-light);
+      padding-bottom: 0.5rem;
+    }
+    
+    h3 {
+      font-size: 1.4rem;
+      margin-top: 1.5rem;
+      color: var(--gcp-purple);
+    }
+    
+    p {
+      margin-bottom: 1rem;
+    }
+    
+    a {
+      color: var(--gcp-blue);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    
+    a:hover {
+      color: var(--gcp-green);
+      text-decoration: underline;
+    }
+    
+    ul, ol {
+      margin-left: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .slide-container {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 30px;
+      margin-bottom: 40px;
+    }
+    
+    .slide-navigation {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-light);
+    }
+    
+    .nav-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background-color: var(--gcp-blue);
+      color: white;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+    
+    .nav-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(66, 133, 244, 0.3);
+      text-decoration: none;
+      color: white;
+    }
+    
+    .nav-button.prev {
+      background-color: var(--light-text);
+    }
+    
+    .nav-button.next {
+      background-color: var(--gcp-green);
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    th, td {
+      border: 1px solid var(--border-light);
+      padding: 12px 15px;
+      text-align: left;
+    }
+    
+    th {
+      background-color: var(--bg-light);
+      font-weight: 500;
+      color: var(--gcp-blue);
+    }
+    
+    tr:nth-child(even) {
+      background-color: var(--bg-light);
+    }
+    
+    code, pre {
+      font-family: 'Roboto Mono', monospace;
+      background-color: #f5f5f5;
+      border-radius: 4px;
+    }
+    
+    code {
+      padding: 2px 5px;
+      font-size: 0.9em;
+    }
+    
+    pre {
+      padding: 15px;
+      overflow-x: auto;
+      margin-bottom: 1.5rem;
+      border-left: 4px solid var(--gcp-blue);
+    }
+    
+    .architect-diagram {
+      width: 100%;
+      margin: 2rem 0;
+      padding: 1rem;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    
+    .architect-diagram img {
+      max-width: 100%;
+      height: auto;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      margin: 2rem 0;
+    }
+    
+    .stat-card {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.2s;
+    }
+    
+    .stat-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: var(--gcp-blue);
+      margin-bottom: 5px;
+    }
+    
+    .stat-description {
+      color: var(--light-text);
+      font-size: 1rem;
+    }
+    
+    .timeline {
+      margin: 2rem 0;
+      position: relative;
+    }
+    
+    .timeline::before {
+      content: '';
+      position: absolute;
+      width: 4px;
+      background-color: var(--border-light);
+      top: 0;
+      bottom: 0;
+      left: 20px;
+      margin-left: -2px;
+    }
+    
+    .timeline-item {
+      padding: 10px 40px;
+      position: relative;
+      background-color: inherit;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+    
+    .timeline-item::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      left: 12px;
+      background-color: white;
+      border: 4px solid var(--gcp-green);
+      top: 15px;
+      border-radius: 50%;
+      z-index: 1;
+    }
+    
+    .timeline-content {
+      padding: 15px 20px;
+      background-color: white;
+      position: relative;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    
+    .timeline-title {
+      font-weight: bold;
+      color: var(--gcp-blue);
+      margin-bottom: 5px;
+    }
+    
+    .value-prop {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin: 2rem 0;
+    }
+    
+    .value-item {
+      flex: 1 1 300px;
+      display: flex;
+      flex-direction: column;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+    
+    .value-header {
+      background-color: var(--gcp-blue);
+      color: white;
+      padding: 15px;
+      font-weight: 500;
+    }
+    
+    .value-content {
+      padding: 20px;
+      flex-grow: 1;
+    }
+    
+    .value-content ul {
+      margin-left: 20px;
+      margin-bottom: 0;
+    }
+    
+    @media (max-width: 768px) {
+      main {
+        padding: 20px 15px 60px;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      h2 {
+        font-size: 1.5rem;
+      }
+      
+      h3 {
+        font-size: 1.2rem;
+      }
+      
+      .slide-container {
+        padding: 20px;
+      }
+      
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+<style>
+  /* Custom chatbot positioning for this page */
+  #chatbot-toggle {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1000 !important;
+  }
+  
+  #chatbot-container {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1001 !important;
+    width: 350px !important;
+    max-height: 500px !important;
+  }
+</style></head>
+<body>
+  <!-- Main content -->
+  <main>
+    <div class="slide-container">
+      <h1>Architecture & Value Proposition</h1>
+      
+      <p>The DroneAI solution combines GCP's powerful data processing, AI capabilities, and scalable infrastructure to create a D&D-style gamified experience for drone operations. This comprehensive architecture enables real-time processing of drone telemetry, game mechanics, and AI-driven insights.</p>
+      
+      <h2>GCP Architecture Overview</h2>
+      
+      <div class="architect-diagram">
+        <pre style="text-align: left; font-family: monospace;">
+[Drone Hardware] → [IoT Core] → [Pub/Sub] → [Dataflow]
+                                               ↓
+[User Interface] ← [Cloud Run] ← [BigQuery] ← [Data Processing]
+       ↓                ↑           ↑            ↑
+[Firestore] ↔ [Cloud Functions] → [Vector AI] ← [Cloud Storage]
+                        ↑                          ↑
+                    [Vertex AI] ← [Video Intelligence API]</pre>
+      </div>
+      
+      <h3>Core Architecture Components</h3>
+      
+      <div class="value-prop">
+        <div class="value-item">
+          <div class="value-header">Data Layer</div>
+          <div class="value-content">
+            <ul>
+              <li><strong>BigQuery</strong>: Central data warehouse storing mission telemetry, performance metrics, and media metadata</li>
+              <li><strong>Cloud Storage</strong>: Raw drone footage, processed clips, mission maps and terrain models</li>
+              <li><strong>Firestore</strong>: Real-time game state, player actions, collaboration features</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="value-item">
+          <div class="value-header">AI Processing Layer</div>
+          <div class="value-content">
+            <ul>
+              <li><strong>Vector AI / Vertex AI</strong>: Vector embeddings for semantic search, custom ML models, narrative generation</li>
+              <li><strong>Video Intelligence API</strong>: Scene detection, object tracking, quality metrics extraction</li>
+              <li><strong>Custom Models</strong>: Shot quality assessment, difficulty scaling, reward systems</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="value-item">
+          <div class="value-header">Application Services</div>
+          <div class="value-content">
+            <ul>
+              <li><strong>Cloud Run</strong>: Mission control dashboard, dice roll engine, character sheet generators</li>
+              <li><strong>Cloud Functions</strong>: Event-driven processing for XP calculations, environmental monitoring</li>
+              <li><strong>Pub/Sub</strong>: Telemetry streaming, mission events, team communication</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <h2>BigQuery to Vector AI Integration</h2>
+      
+      <p>The integration between BigQuery and Vector AI/Vertex AI forms the backbone of the DroneAI solution's intelligence layer:</p>
+      
+      <ol>
+        <li><strong>Data Collection & Storage</strong>: Telemetry data streamed from drones via Pub/Sub into BigQuery tables</li>
+        <li><strong>Vector Embedding Generation</strong>: Media content and mission parameters embedded into vector space</li>
+        <li><strong>LLM Integration</strong>: Vector embeddings enable context-aware LLM generation for mission narratives</li>
+        <li><strong>Similarity Search</strong>: Find similar successful missions and recommend optimal parameters</li>
+        <li><strong>Real-time Analysis</strong>: Continuous processing enables in-mission guidance and adaptive difficulty</li>
+      </ol>
+      
+      <h2>Value Metrics & ROI</h2>
+      
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number">73%</div>
+          <div class="stat-description">Increase in operator engagement vs. traditional systems</div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-number">42%</div>
+          <div class="stat-description">Faster skill acquisition through game-based learning</div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-number">38%</div>
+          <div class="stat-description">Reduction in reshoot requirements</div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-number">89%</div>
+          <div class="stat-description">Faster insights from early analytics integration</div>
+        </div>
+      </div>
+      
+      <h2>Implementation Timeline</h2>
+      
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <div class="timeline-title">Phase 1: Days 1-30</div>
+            <p>Initial setup and infrastructure deployment</p>
+            <ul>
+              <li>GCP project setup and IAM configuration</li>
+              <li>Core services deployment (BigQuery, Cloud Storage, Cloud Run)</li>
+              <li>Basic data pipeline establishment</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <div class="timeline-title">Phase 2: Days 31-60</div>
+            <p>User training and custom mission template creation</p>
+            <ul>
+              <li>Game mechanics implementation</li>
+              <li>Role-based training program launch</li>
+              <li>Initial mission templates development</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <div class="timeline-title">Phase 3: Days 61-90</div>
+            <p>Integration with existing media workflows and analytics configuration</p>
+            <ul>
+              <li>Vector AI model training and deployment</li>
+              <li>Analytics dashboard creation</li>
+              <li>Workflow optimization and automation</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <h2>Long-term Value Roadmap</h2>
+      
+      <div class="value-prop">
+        <div class="value-item">
+          <div class="value-header">Year 1</div>
+          <div class="value-content">
+            <p><strong>Basic drone operation and mission execution</strong></p>
+            <ul>
+              <li>Core gameplay mechanics</li>
+              <li>Basic mission templates</li>
+              <li>Fundamental analytics</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="value-item">
+          <div class="value-header">Year 2</div>
+          <div class="value-content">
+            <p><strong>Advanced analytics and custom AI model training</strong></p>
+            <ul>
+              <li>Predictive mission optimization</li>
+              <li>Custom ML models for your content</li>
+              <li>Multi-drone coordinated missions</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="value-item">
+          <div class="value-header">Year 3</div>
+          <div class="value-content">
+            <p><strong>Full organization-wide implementation</strong></p>
+            <ul>
+              <li>Enterprise-wide adoption</li>
+              <li>Custom organizational templates</li>
+              <li>Integration with broader systems</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Navigation buttons -->
+      <div class="slide-navigation">
+        <a href="index.html" class="nav-button prev">
+          <i class="fas fa-arrow-left"></i> Back to Overview
+        </a>
+        <a href="slide2_project_security.html" class="nav-button next">
+          Next: Project Setup & Security <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </main>
+  
+  <!-- Chatbot container -->
+  <!-- Chatbot is dynamically created by chatbot scripts -->
+  <button id="chatbot-toggle">
+    <i class="fas fa-comment"></i>
+  </button>
+  
+  <!-- Scripts -->
+  <script src="../chatbot_commands.js"></script>
+  <script src="../chatbot_enhanced.js"></script>
+  <script src="../chatbot.js"></script>
+  <script src="../global_nav.js"></script>
+  <script src="../navbar.js"></script>
+  <script src="navigation.js"></script>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Call functions from navbar.js
+      addFontAwesome();
+      addNavbarCSS();
+      createNavbar();
+      addNavButtons();
+    });
+  </script>
+</body>
+</html> 

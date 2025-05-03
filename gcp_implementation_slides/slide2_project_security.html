@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DroneAI GCP Implementation - Project Setup & Security</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../favicon.ico">
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="../navbar.css">
+  <link rel="stylesheet" href="../chatbot.css">
+
+  <style>
+    :root {
+      --gcp-blue: #4285F4;
+      --gcp-red: #DB4437;
+      --gcp-yellow: #F4B400;
+      --gcp-green: #0F9D58;
+      --gcp-purple: #A142F4;
+      --dark-text: #202124;
+      --light-text: #5f6368;
+      --bg-light: #f8f9fa;
+      --border-light: #dadce0;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      color: var(--dark-text);
+      background-color: var(--bg-light);
+      line-height: 1.6;
+    }
+    
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+      color: var(--dark-text);
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+    
+    h1 {
+      font-size: 2.5rem;
+      color: var(--gcp-green);
+      margin-bottom: 1.5rem;
+      position: relative;
+      display: inline-block;
+    }
+    
+    h1::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -10px;
+      width: 80px;
+      height: 4px;
+      background-color: var(--gcp-green);
+      border-radius: 2px;
+    }
+    
+    h2 {
+      font-size: 1.8rem;
+      color: var(--gcp-blue);
+      margin-top: 2rem;
+      border-bottom: 1px solid var(--border-light);
+      padding-bottom: 0.5rem;
+    }
+    
+    h3 {
+      font-size: 1.4rem;
+      margin-top: 1.5rem;
+      color: var(--gcp-purple);
+    }
+    
+    p {
+      margin-bottom: 1rem;
+    }
+    
+    a {
+      color: var(--gcp-blue);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    
+    a:hover {
+      color: var(--gcp-green);
+      text-decoration: underline;
+    }
+    
+    ul, ol {
+      margin-left: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .slide-container {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 30px;
+      margin-bottom: 40px;
+    }
+    
+    .slide-navigation {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-light);
+    }
+    
+    .nav-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background-color: var(--gcp-blue);
+      color: white;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+    
+    .nav-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(66, 133, 244, 0.3);
+      text-decoration: none;
+      color: white;
+    }
+    
+    .nav-button.prev {
+      background-color: var(--light-text);
+    }
+    
+    .nav-button.next {
+      background-color: var(--gcp-green);
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    th, td {
+      border: 1px solid var(--border-light);
+      padding: 12px 15px;
+      text-align: left;
+    }
+    
+    th {
+      background-color: var(--bg-light);
+      font-weight: 500;
+      color: var(--gcp-blue);
+    }
+    
+    tr:nth-child(even) {
+      background-color: var(--bg-light);
+    }
+    
+    code, pre {
+      font-family: 'Roboto Mono', monospace;
+      background-color: #f5f5f5;
+      border-radius: 4px;
+    }
+    
+    code {
+      padding: 2px 5px;
+      font-size: 0.9em;
+    }
+    
+    pre {
+      padding: 15px;
+      overflow-x: auto;
+      margin-bottom: 1.5rem;
+      border-left: 4px solid var(--gcp-blue);
+    }
+    
+    .folder-structure {
+      width: 100%;
+      margin: 2rem 0;
+      padding: 1.5rem;
+      background-color: #f5f5f5;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.9rem;
+      overflow-x: auto;
+      white-space: pre;
+      line-height: 1.5;
+    }
+    
+    .role-card {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+    
+    .role-header {
+      background-color: var(--gcp-blue);
+      color: white;
+      padding: 15px 20px;
+      font-weight: 500;
+      font-size: 1.1rem;
+    }
+    
+    .role-content {
+      padding: 15px 20px;
+    }
+    
+    .role-footer {
+      background-color: var(--bg-light);
+      padding: 10px 20px;
+      font-style: italic;
+      color: var(--light-text);
+      font-size: 0.9rem;
+      border-top: 1px solid var(--border-light);
+    }
+    
+    .security-controls {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      margin: 2rem 0;
+    }
+    
+    .security-card {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+    
+    .security-header {
+      background-color: var(--gcp-red);
+      color: white;
+      padding: 15px;
+      font-weight: 500;
+    }
+    
+    .security-content {
+      padding: 15px;
+    }
+    
+    .security-content ul {
+      margin-left: 1.5rem;
+      margin-bottom: 0;
+    }
+    
+    .billing-tips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin: 2rem 0;
+    }
+    
+    .billing-card {
+      flex: 1 1 300px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+    
+    .billing-header {
+      background-color: var(--gcp-yellow);
+      color: var(--dark-text);
+      padding: 15px;
+      font-weight: 500;
+    }
+    
+    .billing-content {
+      padding: 15px;
+    }
+    
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    
+    .checklist-item i {
+      color: var(--gcp-green);
+      margin-top: 5px;
+    }
+    
+    @media (max-width: 768px) {
+      main {
+        padding: 20px 15px 60px;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      h2 {
+        font-size: 1.5rem;
+      }
+      
+      h3 {
+        font-size: 1.2rem;
+      }
+      
+      .slide-container {
+        padding: 20px;
+      }
+      
+      .security-controls {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+<style>
+  /* Custom chatbot positioning for this page */
+  #chatbot-toggle {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1000 !important;
+  }
+  
+  #chatbot-container {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1001 !important;
+    width: 350px !important;
+    max-height: 500px !important;
+  }
+</style></head>
+<body>
+  <!-- Main content -->
+  <main>
+    <div class="slide-container">
+      <h1>Project Setup & Security</h1>
+      
+      <p>Establishing a solid foundation for your DroneAI implementation involves proper GCP project structure, security controls, and billing configuration. This comprehensive setup ensures scalability, security, and cost management throughout your implementation journey.</p>
+      
+      <h2>GCP Project Structure</h2>
+      
+      <p>We recommend organizing your GCP resources with a hierarchical structure that separates environments and components. This approach simplifies access management, billing attribution, and operational isolation.</p>
+      
+      <div class="folder-structure">
+Organization
+├── Folder: DroneAI-Production
+│   ├── Project: drone-ai-core-prod
+│   ├── Project: drone-ai-data-prod
+│   └── Project: drone-ai-ml-prod
+├── Folder: DroneAI-Development
+│   ├── Project: drone-ai-core-dev
+│   ├── Project: drone-ai-data-dev
+│   └── Project: drone-ai-ml-dev
+└── Folder: DroneAI-Sandbox
+    └── Project: drone-ai-user-sandbox</div>
+      
+      <h3>Project Component Separation</h3>
+      
+      <p>Breaking down projects by component allows dedicated teams to work on specific aspects of the implementation while maintaining proper security boundaries:</p>
+      
+      <table>
+        <thead>
+          <tr>
+            <th>Project</th>
+            <th>Purpose</th>
+            <th>Key Services</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>drone-ai-core-*</td>
+            <td>Core application infrastructure</td>
+            <td>Cloud Run, GKE, App Engine</td>
+          </tr>
+          <tr>
+            <td>drone-ai-data-*</td>
+            <td>Data storage and management</td>
+            <td>BigQuery, Cloud Storage, Pub/Sub</td>
+          </tr>
+          <tr>
+            <td>drone-ai-ml-*</td>
+            <td>Machine learning and AI services</td>
+            <td>Vertex AI, Video Intelligence API</td>
+          </tr>
+          <tr>
+            <td>drone-ai-user-sandbox</td>
+            <td>Testing and experimentation</td>
+            <td>All services with usage quotas</td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <h2>Infrastructure as Code Deployment</h2>
+      
+      <p>We recommend using Terraform to define and deploy your GCP project structure. Here's a sample Terraform module for bootstrapping the DroneAI environment:</p>
+      
+      <pre>
+module "drone_ai_bootstrap" {
+  source  = "./modules/drone-ai-bootstrap"
+  org_id  = var.organization_id
+  billing_account = var.billing_account_id
+  
+  environment_folders = ["DroneAI-Production", "DroneAI-Development", "DroneAI-Sandbox"]
+  
+  projects = {
+    "drone-ai-core-prod" = {
+      folder = "DroneAI-Production"
+      services = ["compute.googleapis.com", "run.googleapis.com"]
+      labels = { application = "drone-ai", environment = "prod", component = "core" }
+    },
+    "drone-ai-data-prod" = {
+      folder = "DroneAI-Production"
+      services = ["bigquery.googleapis.com", "storage.googleapis.com"]
+      labels = { application = "drone-ai", environment = "prod", component = "data" }
+    }
+    # Additional projects defined similarly
+  }
+}</pre>
+      
+      <h2>IAM Role Structure</h2>
+      
+      <p>DroneAI requires a carefully designed IAM role structure to provide appropriate access to different user personas. We implement the principle of least privilege to ensure security without impeding productivity.</p>
+      
+      <div class="role-card">
+        <div class="role-header">DroneAI Mission Creator</div>
+        <div class="role-content">
+          <p><strong>Permissions:</strong> Create and edit missions, access Vector AI for creative suggestions, manage mission templates.</p>
+          <p><strong>GCP Roles:</strong></p>
+          <ul>
+            <li>roles/run.invoker</li>
+            <li>roles/aiplatform.user</li>
+            <li>roles/bigquery.dataViewer</li>
+            <li>roles/storage.objectAdmin (mission templates bucket)</li>
+          </ul>
+        </div>
+        <div class="role-footer">Assigned to: Directors, Producers</div>
+      </div>
+      
+      <div class="role-card">
+        <div class="role-header">DroneAI Operator</div>
+        <div class="role-content">
+          <p><strong>Permissions:</strong> Execute missions, upload footage, manage in-flight parameters.</p>
+          <p><strong>GCP Roles:</strong></p>
+          <ul>
+            <li>roles/run.invoker</li>
+            <li>roles/storage.objectCreator</li>
+            <li>roles/bigquery.dataViewer</li>
+            <li>roles/aiplatform.user (prediction only)</li>
+          </ul>
+        </div>
+        <div class="role-footer">Assigned to: Pilots, Camera Operators</div>
+      </div>
+      
+      <div class="role-card">
+        <div class="role-header">DroneAI Viewer</div>
+        <div class="role-content">
+          <p><strong>Permissions:</strong> View mission content, access read-only analytics dashboards.</p>
+          <p><strong>GCP Roles:</strong></p>
+          <ul>
+            <li>roles/bigquery.dataViewer</li>
+            <li>roles/storage.objectViewer</li>
+            <li>roles/monitoring.viewer</li>
+          </ul>
+        </div>
+        <div class="role-footer">Assigned to: Clients, Reviewers</div>
+      </div>
+      
+      <div class="role-card">
+        <div class="role-header">DroneAI Administrator</div>
+        <div class="role-content">
+          <p><strong>Permissions:</strong> Full system access, manage users, configure infrastructure.</p>
+          <p><strong>GCP Roles:</strong></p>
+          <ul>
+            <li>roles/owner (carefully scoped)</li>
+            <li>roles/resourcemanager.projectIamAdmin</li>
+            <li>roles/securitycenter.admin</li>
+            <li>roles/monitoring.admin</li>
+          </ul>
+        </div>
+        <div class="role-footer">Assigned to: System Administrators</div>
+      </div>
+      
+      <h3>Custom IAM Role Definition</h3>
+      
+      <p>For more fine-grained access control, we define custom IAM roles that contain only the necessary permissions for each user type:</p>
+      
+      <pre>
+title: "DroneAI Operator Role"
+description: "Permissions to execute drone missions and upload footage"
+stage: "GA"
+includedPermissions:
+- storage.objects.create
+- storage.objects.get
+- storage.objects.list
+- bigquery.tables.getData
+- run.jobs.run
+- aiplatform.endpoints.predict</pre>
+      
+      <h2>Security Controls Implementation</h2>
+      
+      <div class="security-controls">
+        <div class="security-card">
+          <div class="security-header">Data Protection</div>
+          <div class="security-content">
+            <ul>
+              <li><strong>CMEK Encryption</strong>: Client footage encrypted at rest with customer-managed encryption keys (Cloud KMS)</li>
+              <li><strong>VPC Service Controls</strong>: Prevent data exfiltration with security perimeters</li>
+              <li><strong>Access Transparency</strong>: Logs for administrator actions provide audit trail</li>
+              <li><strong>Data Classification</strong>: Automated tagging of sensitive content</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="security-card">
+          <div class="security-header">Compliance Features</div>
+          <div class="security-content">
+            <ul>
+              <li><strong>Data Residency</strong>: Regional buckets ensure data stays in desired locations</li>
+              <li><strong>Audit Logging</strong>: Comprehensive audit trail for compliance needs</li>
+              <li><strong>GDPR Controls</strong>: Tools to manage personal data and consent</li>
+              <li><strong>Assured Workloads</strong>: For customers with specific compliance requirements</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="security-card">
+          <div class="security-header">SecOps Automation</div>
+          <div class="security-content">
+            <ul>
+              <li><strong>Security Command Center</strong>: Integration with custom DroneAI findings</li>
+              <li><strong>Auto-remediation</strong>: Automated fixing of common security issues</li>
+              <li><strong>Compliance Verification</strong>: Continuous validation of security posture</li>
+              <li><strong>Event Threat Detection</strong>: Proactive security monitoring</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <h2>Billing Setup & Cost Controls</h2>
+      
+      <div class="billing-tips">
+        <div class="billing-card">
+          <div class="billing-header">Cost Allocation</div>
+          <div class="billing-content">
+            <div class="checklist-item">
+              <i class="fas fa-check-circle"></i>
+              <div>Configure labels to track costs by mission, team, and production</div>
+            </div>
+            <div class="checklist-item">
+              <i class="fas fa-check-circle"></i>
+              <div>Export billing data to BigQuery for detailed analysis</div>
+            </div>
+            <div class="checklist-item">
+              <i class="fas fa-check-circle"></i>
+              <div>Create custom billing dashboards for mission costs</div>
+            </div>
+            <div class="checklist-item">
+              <i class="fas fa-check-circle"></i>
+              <div>Implement chargeback mechanisms for different departments</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="billing-card">
+          <div class="billing-header">Budget Controls</div>
+          <div class="billing-content">
+            <div class="checklist-item">
+              <i class="fas fa-check-circle"></i>
+              <div>Set project-level budgets aligned to production schedules</div>
+            </div>
+            <div class="checklist-item">
+              <i class="fas fa-check-circle"></i>
+              <div>Configure alerts at 50%, 75%, and 90% thresholds</div>
+            </div>
+            <div class="checklist-item">
+              <i class="fas fa-check-circle"></i>
+              <div>Create Pub/Sub notifications for automated actions</div>
+            </div>
+            <div class="checklist-item">
+              <i class="fas fa-check-circle"></i>
+              <div>Implement service quotas to prevent runaway costs</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="billing-card">
+          <div class="billing-header">Optimization Opportunities</div>
+          <div class="billing-content">
+            <div class="checklist-item">
+              <i class="fas fa-check-circle"></i>
+              <div>Use Spot VMs for non-critical rendering tasks (60-80% savings)</div>
+            </div>
+            <div class="checklist-item">
+              <i class="fas fa-check-circle"></i>
+              <div>Implement storage lifecycle policies (30-50% storage cost reduction)</div>
+            </div>
+            <div class="checklist-item">
+              <i class="fas fa-check-circle"></i>
+              <div>Consider committed use discounts for predictable workloads</div>
+            </div>
+            <div class="checklist-item">
+              <i class="fas fa-check-circle"></i>
+              <div>Right-size BigQuery reservations based on typical analytics needs</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Navigation buttons -->
+      <div class="slide-navigation">
+        <a href="slide1_architecture_value.html" class="nav-button prev">
+          <i class="fas fa-arrow-left"></i> Previous: Architecture & Value
+        </a>
+        <a href="slide3_data_pipeline.html" class="nav-button next">
+          Next: Data Pipeline & Storage <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </main>
+  
+  <!-- Chatbot container -->
+  <!-- Chatbot is dynamically created by chatbot scripts -->    <i class="fas fa-comment"></i>
+  </button>
+  
+  <!-- Scripts -->
+  <script src="../chatbot_commands.js"></script>
+  <script src="../chatbot_enhanced.js"></script>
+  <script src="../chatbot.js"></script>
+  <script src="../navbar.js"></script>
+<script src="navigation.js"></script>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Call functions from navbar.js
+      addFontAwesome();
+      addNavbarCSS();
+      createNavbar();
+      addNavButtons();
+    });
+  </script>
+</body>
+</html> 
